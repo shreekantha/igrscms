@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="contactDetails">
+            <h2><span jhiTranslate="igrscmsApp.contactDetails.detail.title">Contact Details</span> {{ contactDetails.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.contactDetails.address">Address</span></dt>
+                <dd>
+                    <span>{{ contactDetails.address }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.contactDetails.email">Email</span></dt>
+                <dd>
+                    <span>{{ contactDetails.email }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.contactDetails.contact">Contact</span></dt>
+                <dd>
+                    <span>{{ contactDetails.contact }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.contactDetails.mapLink">Map Link</span></dt>
+                <dd>
+                    <span>{{ contactDetails.mapLink }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/contact-details', contactDetails.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

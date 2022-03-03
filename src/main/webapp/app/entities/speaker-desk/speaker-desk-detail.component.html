@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="speakerDesk">
+            <h2><span jhiTranslate="igrscmsApp.speakerDesk.detail.title">Speaker Desk</span> {{ speakerDesk.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.speakerDesk.name">Name</span></dt>
+                <dd>
+                    <span>{{ speakerDesk.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.speakerDesk.note">Note</span></dt>
+                <dd>
+                    <span>{{ speakerDesk.note }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.speakerDesk.imgLink">Img Link</span></dt>
+                <dd>
+                    <span>{{ speakerDesk.imgLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.speakerDesk.img">Img</span></dt>
+                <dd>
+                    <div *ngIf="speakerDesk.img">
+                        <a (click)="openFile(speakerDesk.imgContentType, speakerDesk.img)">
+                            <img [src]="'data:' + speakerDesk.imgContentType + ';base64,' + speakerDesk.img" style="max-width: 100%;" alt="speakerDesk image"/>
+                        </a>
+                        {{ speakerDesk.imgContentType }}, {{ byteSize(speakerDesk.img) }}
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/speaker-desk', speakerDesk.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

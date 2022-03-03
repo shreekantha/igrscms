@@ -1,0 +1,26 @@
+{
+  "igrscmsApp": {
+    "galleryCat": {
+      "home": {
+        "title": "Gallery Cats",
+        "createLabel": "Create a new Gallery Cat",
+        "createOrEditLabel": "Create or edit a Gallery Cat",
+        "notFound": "No Gallery Cats found"
+      },
+      "created": "A new Gallery Cat is created with identifier {{ param }}",
+      "updated": "A Gallery Cat is updated with identifier {{ param }}",
+      "deleted": "A Gallery Cat is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Gallery Cat {{ id }}?"
+      },
+      "detail": {
+        "title": "Gallery Cat"
+      },
+      "name": "Name",
+      "description": "Description",
+      "imgLink": "Img Link",
+      "img": "Img",
+      "gallery": "Gallery"
+    }
+  }
+}

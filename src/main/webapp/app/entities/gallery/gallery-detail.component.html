@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="gallery">
+            <h2><span jhiTranslate="igrscmsApp.gallery.detail.title">Gallery</span> {{ gallery.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.gallery.imgUrl">Img Url</span></dt>
+                <dd>
+                    <span>{{ gallery.imgUrl }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.gallery.img">Img</span></dt>
+                <dd>
+                    <div *ngIf="gallery.img">
+                        <a (click)="openFile(gallery.imgContentType, gallery.img)">
+                            <img [src]="'data:' + gallery.imgContentType + ';base64,' + gallery.img" style="max-width: 100%;" alt="gallery image"/>
+                        </a>
+                        {{ gallery.imgContentType }}, {{ byteSize(gallery.img) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.gallery.descritpion">Descritpion</span></dt>
+                <dd>
+                    <span>{{ gallery.descritpion }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.gallery.category">Category</span></dt>
+                <dd>
+                    <div *ngIf="gallery.categoryId">
+                        <a [routerLink]="['/gallery-cat', gallery.categoryId, 'view']">{{ gallery.categoryName }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/gallery', gallery.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

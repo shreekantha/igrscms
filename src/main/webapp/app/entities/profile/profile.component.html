@@ -1,0 +1,110 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="igrscmsApp.profile.home.title">Profiles</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-profile" [routerLink]="['/profile/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="igrscmsApp.profile.home.createLabel">
+            Create a new Profile
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="profiles?.length === 0">
+        <span jhiTranslate="igrscmsApp.profile.home.notFound">No profiles found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="profiles && profiles.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="title"><span jhiTranslate="igrscmsApp.profile.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="designation"><span jhiTranslate="igrscmsApp.profile.designation">Designation</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="userType"><span jhiTranslate="igrscmsApp.profile.userType">User Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="eduQual"><span jhiTranslate="igrscmsApp.profile.eduQual">Edu Qual</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="aboutMe"><span jhiTranslate="igrscmsApp.profile.aboutMe">About Me</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="hobbies"><span jhiTranslate="igrscmsApp.profile.hobbies">Hobbies</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="aadhaar"><span jhiTranslate="igrscmsApp.profile.aadhaar">Aadhaar</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dob"><span jhiTranslate="igrscmsApp.profile.dob">Dob</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="mobile"><span jhiTranslate="igrscmsApp.profile.mobile">Mobile</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="email"><span jhiTranslate="igrscmsApp.profile.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="imgLink"><span jhiTranslate="igrscmsApp.profile.imgLink">Img Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="img"><span jhiTranslate="igrscmsApp.profile.img">Img</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="facebookLink"><span jhiTranslate="igrscmsApp.profile.facebookLink">Facebook Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="instaLink"><span jhiTranslate="igrscmsApp.profile.instaLink">Insta Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="twitterLink"><span jhiTranslate="igrscmsApp.profile.twitterLink">Twitter Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="linkedLink"><span jhiTranslate="igrscmsApp.profile.linkedLink">Linked Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="userFirstName"><span jhiTranslate="igrscmsApp.profile.user">User</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let profile of profiles ;trackBy: trackId">
+                    <td><a [routerLink]="['/profile', profile.id, 'view']">{{ profile.id }}</a></td>
+                    <td jhiTranslate="{{ 'igrscmsApp.Title.' + profile.title }}">{{ profile.title }}</td>
+                    <td jhiTranslate="{{ 'igrscmsApp.Designation.' + profile.designation }}">{{ profile.designation }}</td>
+                    <td jhiTranslate="{{ 'igrscmsApp.UserType.' + profile.userType }}">{{ profile.userType }}</td>
+                    <td>{{ profile.eduQual }}</td>
+                    <td>{{ profile.aboutMe }}</td>
+                    <td>{{ profile.hobbies }}</td>
+                    <td>{{ profile.aadhaar }}</td>
+                    <td>{{ profile.dob | date:'mediumDate' }}</td>
+                    <td>{{ profile.mobile }}</td>
+                    <td>{{ profile.email }}</td>
+                    <td>{{ profile.imgLink }}</td>
+                    <td>
+                        <a *ngIf="profile.img" (click)="openFile(profile.imgContentType, profile.img)">
+                            <img [src]="'data:' + profile.imgContentType + ';base64,' + profile.img" style="max-height: 30px;" alt="profile image"/>
+                        </a>
+                        <span *ngIf="profile.img">{{ profile.imgContentType }}, {{ byteSize(profile.img) }}</span>
+                    </td>
+                    <td>{{ profile.facebookLink }}</td>
+                    <td>{{ profile.instaLink }}</td>
+                    <td>{{ profile.twitterLink }}</td>
+                    <td>{{ profile.linkedLink }}</td>
+                    <td>
+                        {{ profile.userFirstName }}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/profile', profile.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/profile', profile.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(profile)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="profiles && profiles.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

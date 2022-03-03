@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="term">
+            <h2><span jhiTranslate="igrscmsApp.term.detail.title">Term</span> {{ term.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.term.term">Term</span></dt>
+                <dd>
+                    <span>{{ term.term }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.term.title">Title</span></dt>
+                <dd>
+                    <span>{{ term.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.term.description">Description</span></dt>
+                <dd>
+                    <span>{{ term.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.term.imgUrl">Img Url</span></dt>
+                <dd>
+                    <span>{{ term.imgUrl }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.term.img">Img</span></dt>
+                <dd>
+                    <div *ngIf="term.img">
+                        <a (click)="openFile(term.imgContentType, term.img)">
+                            <img [src]="'data:' + term.imgContentType + ';base64,' + term.img" style="max-width: 100%;" alt="term image"/>
+                        </a>
+                        {{ term.imgContentType }}, {{ byteSize(term.img) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.term.noOfStudents">No Of Students</span></dt>
+                <dd>
+                    <span>{{ term.noOfStudents }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.term.classTeacher">Class Teacher</span></dt>
+                <dd>
+                    {{ term.classTeacherFirstName }}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/term', term.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

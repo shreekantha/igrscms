@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="institute">
+            <h2><span jhiTranslate="igrscmsApp.institute.detail.title">Institute</span> {{ institute.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.institute.name">Name</span></dt>
+                <dd>
+                    <span>{{ institute.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.institute.shortName">Short Name</span></dt>
+                <dd>
+                    <span>{{ institute.shortName }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.institute.address">Address</span></dt>
+                <dd>
+                    <span>{{ institute.address }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.institute.email">Email</span></dt>
+                <dd>
+                    <span>{{ institute.email }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.institute.contact">Contact</span></dt>
+                <dd>
+                    <span>{{ institute.contact }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.institute.logoLink">Logo Link</span></dt>
+                <dd>
+                    <span>{{ institute.logoLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.institute.logo">Logo</span></dt>
+                <dd>
+                    <div *ngIf="institute.logo">
+                        <a (click)="openFile(institute.logoContentType, institute.logo)">
+                            <img [src]="'data:' + institute.logoContentType + ';base64,' + institute.logo" style="max-width: 100%;" alt="institute image"/>
+                        </a>
+                        {{ institute.logoContentType }}, {{ byteSize(institute.logo) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.institute.tagLine">Tag Line</span></dt>
+                <dd>
+                    <span>{{ institute.tagLine }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/institute', institute.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

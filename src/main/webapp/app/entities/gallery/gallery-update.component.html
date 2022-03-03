@@ -1,0 +1,82 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-gallery-heading" jhiTranslate="igrscmsApp.gallery.home.createOrEditLabel">Create or edit a Gallery</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.gallery.imgUrl" for="field_imgUrl">Img Url</label>
+                    <input type="text" class="form-control" name="imgUrl" id="field_imgUrl"
+                           formControlName="imgUrl"/>
+                    <div *ngIf="editForm.get('imgUrl')!.invalid && (editForm.get('imgUrl')!.dirty || editForm.get('imgUrl')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('imgUrl')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.gallery.img" for="field_img">Img</label>
+                    <div>
+                        <img [src]="'data:' + editForm.get('imgContentType')!.value + ';base64,' + editForm.get('img')!.value" style="max-height: 100px;" *ngIf="editForm.get('img')!.value" alt="gallery image"/>
+                        <div *ngIf="editForm.get('img')!.value" class="form-text text-danger clearfix">
+                            <span class="pull-left">{{ editForm.get('imgContentType')!.value }}, {{ byteSize(editForm.get('img')!.value) }}</span>
+                            <button type="button" (click)="clearInputImage('img', 'imgContentType', 'file_img')" class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_img" (change)="setFileData($event, 'img', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="img" id="field_img"
+                           formControlName="img"/>
+                    <input type="hidden" class="form-control" name="imgContentType" id="field_imgContentType"
+                           formControlName="imgContentType" />
+                    <div *ngIf="editForm.get('img')!.invalid && (editForm.get('img')!.dirty || editForm.get('img')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('img')?.errors?.maxbytes" jhiTranslate="entity.validation.maxbytes" [translateValues]="{ max: 15360 }">
+                            This field cannot be more than 15360.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.gallery.descritpion" for="field_descritpion">Descritpion</label>
+                    <input type="text" class="form-control" name="descritpion" id="field_descritpion"
+                           formControlName="descritpion"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.gallery.category" for="field_category">Category</label>
+                    <select class="form-control" id="field_category" name="category" formControlName="categoryId">
+                        <option *ngIf="!editForm.get('categoryId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="galleryCatOption.id" *ngFor="let galleryCatOption of gallerycats; trackBy: trackById">{{ galleryCatOption.name }}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('categoryId')!.invalid && (editForm.get('categoryId')!.dirty || editForm.get('categoryId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('categoryId')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

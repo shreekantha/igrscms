@@ -1,0 +1,25 @@
+{
+  "igrscmsApp": {
+    "aboutUs": {
+      "home": {
+        "title": "Aboutuses",
+        "createLabel": "Create a new About Us",
+        "createOrEditLabel": "Create or edit a About Us",
+        "notFound": "No Aboutuses found"
+      },
+      "created": "A new About Us is created with identifier {{ param }}",
+      "updated": "A About Us is updated with identifier {{ param }}",
+      "deleted": "A About Us is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete About Us {{ id }}?"
+      },
+      "detail": {
+        "title": "About Us"
+      },
+      "title": "Title",
+      "description": "Description",
+      "imgLink": "Img Link",
+      "img": "Img"
+    }
+  }
+}

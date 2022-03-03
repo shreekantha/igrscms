@@ -1,0 +1,99 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="profile">
+            <h2><span jhiTranslate="igrscmsApp.profile.detail.title">Profile</span> {{ profile.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.profile.title">Title</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'igrscmsApp.Title.' + profile.title }}">{{ profile.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.designation">Designation</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'igrscmsApp.Designation.' + profile.designation }}">{{ profile.designation }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.userType">User Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'igrscmsApp.UserType.' + profile.userType }}">{{ profile.userType }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.eduQual">Edu Qual</span></dt>
+                <dd>
+                    <span>{{ profile.eduQual }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.aboutMe">About Me</span></dt>
+                <dd>
+                    <span>{{ profile.aboutMe }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.hobbies">Hobbies</span></dt>
+                <dd>
+                    <span>{{ profile.hobbies }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.aadhaar">Aadhaar</span></dt>
+                <dd>
+                    <span>{{ profile.aadhaar }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.dob">Dob</span></dt>
+                <dd>
+                    <span>{{ profile.dob }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.mobile">Mobile</span></dt>
+                <dd>
+                    <span>{{ profile.mobile }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.email">Email</span></dt>
+                <dd>
+                    <span>{{ profile.email }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.imgLink">Img Link</span></dt>
+                <dd>
+                    <span>{{ profile.imgLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.img">Img</span></dt>
+                <dd>
+                    <div *ngIf="profile.img">
+                        <a (click)="openFile(profile.imgContentType, profile.img)">
+                            <img [src]="'data:' + profile.imgContentType + ';base64,' + profile.img" style="max-width: 100%;" alt="profile image"/>
+                        </a>
+                        {{ profile.imgContentType }}, {{ byteSize(profile.img) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.facebookLink">Facebook Link</span></dt>
+                <dd>
+                    <span>{{ profile.facebookLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.instaLink">Insta Link</span></dt>
+                <dd>
+                    <span>{{ profile.instaLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.twitterLink">Twitter Link</span></dt>
+                <dd>
+                    <span>{{ profile.twitterLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.linkedLink">Linked Link</span></dt>
+                <dd>
+                    <span>{{ profile.linkedLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.profile.user">User</span></dt>
+                <dd>
+                    {{ profile.userFirstName }}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/profile', profile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

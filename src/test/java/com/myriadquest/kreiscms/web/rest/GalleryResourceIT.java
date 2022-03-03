@@ -1,0 +1,292 @@
+package com.myriadquest.kreiscms.web.rest;
+
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.domain.Gallery;
+import com.myriadquest.kreiscms.domain.GalleryCat;
+import com.myriadquest.kreiscms.repository.GalleryRepository;
+import com.myriadquest.kreiscms.service.GalleryService;
+import com.myriadquest.kreiscms.service.dto.GalleryDTO;
+import com.myriadquest.kreiscms.service.mapper.GalleryMapper;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
+import javax.persistence.EntityManager;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+/**
+ * Integration tests for the {@link GalleryResource} REST controller.
+ */
+@SpringBootTest(classes = IgrscmsApp.class)
+@AutoConfigureMockMvc
+@WithMockUser
+public class GalleryResourceIT {
+
+    private static final String DEFAULT_IMG_URL = "AAAAAAAAAA";
+    private static final String UPDATED_IMG_URL = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_IMG = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMG = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMG_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMG_CONTENT_TYPE = "image/png";
+
+    private static final String DEFAULT_DESCRITPION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRITPION = "BBBBBBBBBB";
+
+    @Autowired
+    private GalleryRepository galleryRepository;
+
+    @Autowired
+    private GalleryMapper galleryMapper;
+
+    @Autowired
+    private GalleryService galleryService;
+
+    @Autowired
+    private EntityManager em;
+
+    @Autowired
+    private MockMvc restGalleryMockMvc;
+
+    private Gallery gallery;
+
+    /**
+     * Create an entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Gallery createEntity(EntityManager em) {
+        Gallery gallery = new Gallery()
+            .imgUrl(DEFAULT_IMG_URL)
+            .img(DEFAULT_IMG)
+            .imgContentType(DEFAULT_IMG_CONTENT_TYPE)
+            .descritpion(DEFAULT_DESCRITPION);
+        // Add required entity
+        GalleryCat galleryCat;
+        if (TestUtil.findAll(em, GalleryCat.class).isEmpty()) {
+            galleryCat = GalleryCatResourceIT.createEntity(em);
+            em.persist(galleryCat);
+            em.flush();
+        } else {
+            galleryCat = TestUtil.findAll(em, GalleryCat.class).get(0);
+        }
+        gallery.setCategory(galleryCat);
+        return gallery;
+    }
+    /**
+     * Create an updated entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Gallery createUpdatedEntity(EntityManager em) {
+        Gallery gallery = new Gallery()
+            .imgUrl(UPDATED_IMG_URL)
+            .img(UPDATED_IMG)
+            .imgContentType(UPDATED_IMG_CONTENT_TYPE)
+            .descritpion(UPDATED_DESCRITPION);
+        // Add required entity
+        GalleryCat galleryCat;
+        if (TestUtil.findAll(em, GalleryCat.class).isEmpty()) {
+            galleryCat = GalleryCatResourceIT.createUpdatedEntity(em);
+            em.persist(galleryCat);
+            em.flush();
+        } else {
+            galleryCat = TestUtil.findAll(em, GalleryCat.class).get(0);
+        }
+        gallery.setCategory(galleryCat);
+        return gallery;
+    }
+
+    @BeforeEach
+    public void initTest() {
+        gallery = createEntity(em);
+    }
+
+    @Test
+    @Transactional
+    public void createGallery() throws Exception {
+        int databaseSizeBeforeCreate = galleryRepository.findAll().size();
+        // Create the Gallery
+        GalleryDTO galleryDTO = galleryMapper.toDto(gallery);
+        restGalleryMockMvc.perform(post("/api/galleries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(galleryDTO)))
+            .andExpect(status().isCreated());
+
+        // Validate the Gallery in the database
+        List<Gallery> galleryList = galleryRepository.findAll();
+        assertThat(galleryList).hasSize(databaseSizeBeforeCreate + 1);
+        Gallery testGallery = galleryList.get(galleryList.size() - 1);
+        assertThat(testGallery.getImgUrl()).isEqualTo(DEFAULT_IMG_URL);
+        assertThat(testGallery.getImg()).isEqualTo(DEFAULT_IMG);
+        assertThat(testGallery.getImgContentType()).isEqualTo(DEFAULT_IMG_CONTENT_TYPE);
+        assertThat(testGallery.getDescritpion()).isEqualTo(DEFAULT_DESCRITPION);
+    }
+
+    @Test
+    @Transactional
+    public void createGalleryWithExistingId() throws Exception {
+        int databaseSizeBeforeCreate = galleryRepository.findAll().size();
+
+        // Create the Gallery with an existing ID
+        gallery.setId(1L);
+        GalleryDTO galleryDTO = galleryMapper.toDto(gallery);
+
+        // An entity with an existing ID cannot be created, so this API call must fail
+        restGalleryMockMvc.perform(post("/api/galleries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(galleryDTO)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Gallery in the database
+        List<Gallery> galleryList = galleryRepository.findAll();
+        assertThat(galleryList).hasSize(databaseSizeBeforeCreate);
+    }
+
+
+    @Test
+    @Transactional
+    public void checkImgUrlIsRequired() throws Exception {
+        int databaseSizeBeforeTest = galleryRepository.findAll().size();
+        // set the field null
+        gallery.setImgUrl(null);
+
+        // Create the Gallery, which fails.
+        GalleryDTO galleryDTO = galleryMapper.toDto(gallery);
+
+
+        restGalleryMockMvc.perform(post("/api/galleries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(galleryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Gallery> galleryList = galleryRepository.findAll();
+        assertThat(galleryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGalleries() throws Exception {
+        // Initialize the database
+        galleryRepository.saveAndFlush(gallery);
+
+        // Get all the galleryList
+        restGalleryMockMvc.perform(get("/api/galleries?sort=id,desc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(gallery.getId().intValue())))
+            .andExpect(jsonPath("$.[*].imgUrl").value(hasItem(DEFAULT_IMG_URL)))
+            .andExpect(jsonPath("$.[*].imgContentType").value(hasItem(DEFAULT_IMG_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))))
+            .andExpect(jsonPath("$.[*].descritpion").value(hasItem(DEFAULT_DESCRITPION)));
+    }
+    
+    @Test
+    @Transactional
+    public void getGallery() throws Exception {
+        // Initialize the database
+        galleryRepository.saveAndFlush(gallery);
+
+        // Get the gallery
+        restGalleryMockMvc.perform(get("/api/galleries/{id}", gallery.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.id").value(gallery.getId().intValue()))
+            .andExpect(jsonPath("$.imgUrl").value(DEFAULT_IMG_URL))
+            .andExpect(jsonPath("$.imgContentType").value(DEFAULT_IMG_CONTENT_TYPE))
+            .andExpect(jsonPath("$.img").value(Base64Utils.encodeToString(DEFAULT_IMG)))
+            .andExpect(jsonPath("$.descritpion").value(DEFAULT_DESCRITPION));
+    }
+    @Test
+    @Transactional
+    public void getNonExistingGallery() throws Exception {
+        // Get the gallery
+        restGalleryMockMvc.perform(get("/api/galleries/{id}", Long.MAX_VALUE))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void updateGallery() throws Exception {
+        // Initialize the database
+        galleryRepository.saveAndFlush(gallery);
+
+        int databaseSizeBeforeUpdate = galleryRepository.findAll().size();
+
+        // Update the gallery
+        Gallery updatedGallery = galleryRepository.findById(gallery.getId()).get();
+        // Disconnect from session so that the updates on updatedGallery are not directly saved in db
+        em.detach(updatedGallery);
+        updatedGallery
+            .imgUrl(UPDATED_IMG_URL)
+            .img(UPDATED_IMG)
+            .imgContentType(UPDATED_IMG_CONTENT_TYPE)
+            .descritpion(UPDATED_DESCRITPION);
+        GalleryDTO galleryDTO = galleryMapper.toDto(updatedGallery);
+
+        restGalleryMockMvc.perform(put("/api/galleries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(galleryDTO)))
+            .andExpect(status().isOk());
+
+        // Validate the Gallery in the database
+        List<Gallery> galleryList = galleryRepository.findAll();
+        assertThat(galleryList).hasSize(databaseSizeBeforeUpdate);
+        Gallery testGallery = galleryList.get(galleryList.size() - 1);
+        assertThat(testGallery.getImgUrl()).isEqualTo(UPDATED_IMG_URL);
+        assertThat(testGallery.getImg()).isEqualTo(UPDATED_IMG);
+        assertThat(testGallery.getImgContentType()).isEqualTo(UPDATED_IMG_CONTENT_TYPE);
+        assertThat(testGallery.getDescritpion()).isEqualTo(UPDATED_DESCRITPION);
+    }
+
+    @Test
+    @Transactional
+    public void updateNonExistingGallery() throws Exception {
+        int databaseSizeBeforeUpdate = galleryRepository.findAll().size();
+
+        // Create the Gallery
+        GalleryDTO galleryDTO = galleryMapper.toDto(gallery);
+
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        restGalleryMockMvc.perform(put("/api/galleries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(galleryDTO)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Gallery in the database
+        List<Gallery> galleryList = galleryRepository.findAll();
+        assertThat(galleryList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    public void deleteGallery() throws Exception {
+        // Initialize the database
+        galleryRepository.saveAndFlush(gallery);
+
+        int databaseSizeBeforeDelete = galleryRepository.findAll().size();
+
+        // Delete the gallery
+        restGalleryMockMvc.perform(delete("/api/galleries/{id}", gallery.getId())
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNoContent());
+
+        // Validate the database contains one less item
+        List<Gallery> galleryList = galleryRepository.findAll();
+        assertThat(galleryList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+}

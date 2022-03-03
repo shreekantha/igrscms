@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="news">
+            <h2><span jhiTranslate="igrscmsApp.news.detail.title">News</span> {{ news.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.news.title">Title</span></dt>
+                <dd>
+                    <span>{{ news.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.news.description">Description</span></dt>
+                <dd>
+                    <span>{{ news.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.news.imgUrl">Img Url</span></dt>
+                <dd>
+                    <span>{{ news.imgUrl }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.news.img">Img</span></dt>
+                <dd>
+                    <div *ngIf="news.img">
+                        <a (click)="openFile(news.imgContentType, news.img)">
+                            <img [src]="'data:' + news.imgContentType + ';base64,' + news.img" style="max-width: 100%;" alt="news image"/>
+                        </a>
+                        {{ news.imgContentType }}, {{ byteSize(news.img) }}
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/news', news.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

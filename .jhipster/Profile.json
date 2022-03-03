@@ -1,0 +1,113 @@
+{
+  "name": "Profile",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "Title",
+      "fieldValues": "Dr,Mr,Ms",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "designation",
+      "fieldType": "Designation",
+      "fieldValues": "ASST_TEACHER_KANNADA (Asst Teacher Kannada),ASST_TEACHER_ENGLISH (Asst Teacher English),ASST_TEACHER_HINDI (Asst Teacher Physical Education),ASST_TEACHER_MATHS (Asst Teacher Maths),ASST_TEACHER_SCIENCE (Asst Teacher Science),ASST_TEACHER_SOCIAL_SCIENCE (Asst Teacher Social Science),ASST_TEACHER_COMPUTER (Asst Teacher Computer),STAFF_NURSE (Staff Nurse),WARDEN (Warden)",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "userType",
+      "fieldType": "UserType",
+      "fieldValues": "Teaching,Non_Teaching,Principal,Group_D",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eduQual",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aboutMe",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "hobbies",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadhaar",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "minlength"],
+      "fieldValidateRulesMaxlength": "12",
+      "fieldValidateRulesMinlength": "12"
+    },
+    {
+      "fieldName": "dob",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "mobile",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "minlength"],
+      "fieldValidateRulesMaxlength": "10",
+      "fieldValidateRulesMinlength": "10"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "imgLink",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "img",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image",
+      "fieldValidateRules": ["maxbytes"],
+      "fieldValidateRulesMaxbytes": "15360"
+    },
+    {
+      "fieldName": "facebookLink",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "instaLink",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "twitterLink",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "linkedLink",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "profile",
+      "relationshipValidateRules": "required",
+      "relationshipName": "user",
+      "otherEntityField": "firstName",
+      "ownerSide": true
+    }
+  ],
+  "changelogDate": "20220303052948",
+  "entityTableName": "profile",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -1,0 +1,25 @@
+{
+  "igrscmsApp": {
+    "speakerDesk": {
+      "home": {
+        "title": "Speaker Desks",
+        "createLabel": "Create a new Speaker Desk",
+        "createOrEditLabel": "Create or edit a Speaker Desk",
+        "notFound": "No Speaker Desks found"
+      },
+      "created": "A new Speaker Desk is created with identifier {{ param }}",
+      "updated": "A Speaker Desk is updated with identifier {{ param }}",
+      "deleted": "A Speaker Desk is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Speaker Desk {{ id }}?"
+      },
+      "detail": {
+        "title": "Speaker Desk"
+      },
+      "name": "Name",
+      "note": "Note",
+      "imgLink": "Img Link",
+      "img": "Img"
+    }
+  }
+}

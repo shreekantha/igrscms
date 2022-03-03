@@ -1,0 +1,90 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="igrscmsApp.term.home.title">Terms</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-term" [routerLink]="['/term/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="igrscmsApp.term.home.createLabel">
+            Create a new Term
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="terms?.length === 0">
+        <span jhiTranslate="igrscmsApp.term.home.notFound">No terms found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="terms && terms.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="term"><span jhiTranslate="igrscmsApp.term.term">Term</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="title"><span jhiTranslate="igrscmsApp.term.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span jhiTranslate="igrscmsApp.term.description">Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="imgUrl"><span jhiTranslate="igrscmsApp.term.imgUrl">Img Url</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="img"><span jhiTranslate="igrscmsApp.term.img">Img</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="noOfStudents"><span jhiTranslate="igrscmsApp.term.noOfStudents">No Of Students</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="classTeacherFirstName"><span jhiTranslate="igrscmsApp.term.classTeacher">Class Teacher</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let term of terms ;trackBy: trackId">
+                    <td><a [routerLink]="['/term', term.id, 'view']">{{ term.id }}</a></td>
+                    <td>{{ term.term }}</td>
+                    <td>{{ term.title }}</td>
+                    <td>{{ term.description }}</td>
+                    <td>{{ term.imgUrl }}</td>
+                    <td>
+                        <a *ngIf="term.img" (click)="openFile(term.imgContentType, term.img)">
+                            <img [src]="'data:' + term.imgContentType + ';base64,' + term.img" style="max-height: 30px;" alt="term image"/>
+                        </a>
+                        <span *ngIf="term.img">{{ term.imgContentType }}, {{ byteSize(term.img) }}</span>
+                    </td>
+                    <td>{{ term.noOfStudents }}</td>
+                    <td>
+                        {{ term.classTeacherFirstName }}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/term', term.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/term', term.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(term)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="terms && terms.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>
