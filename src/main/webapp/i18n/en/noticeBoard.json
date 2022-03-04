@@ -1,0 +1,23 @@
+{
+  "igrscmsApp": {
+    "noticeBoard": {
+      "home": {
+        "title": "Notice Boards",
+        "createLabel": "Create a new Notice Board",
+        "createOrEditLabel": "Create or edit a Notice Board",
+        "notFound": "No Notice Boards found"
+      },
+      "created": "A new Notice Board is created with identifier {{ param }}",
+      "updated": "A Notice Board is updated with identifier {{ param }}",
+      "deleted": "A Notice Board is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Notice Board {{ id }}?"
+      },
+      "detail": {
+        "title": "Notice Board"
+      },
+      "details": "Details",
+      "active": "Active"
+    }
+  }
+}

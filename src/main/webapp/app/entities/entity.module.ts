@@ -48,6 +48,14 @@ import { RouterModule } from '@angular/router';
         path: 'profile',
         loadChildren: () => import('./profile/profile.module').then(m => m.IgrscmsProfileModule),
       },
+      {
+        path: 'notice-board',
+        loadChildren: () => import('./notice-board/notice-board.module').then(m => m.IgrscmsNoticeBoardModule),
+      },
+      {
+        path: 'home-img',
+        loadChildren: () => import('./home-img/home-img.module').then(m => m.IgrscmsHomeImgModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

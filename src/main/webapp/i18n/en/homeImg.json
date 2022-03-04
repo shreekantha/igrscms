@@ -1,0 +1,25 @@
+{
+  "igrscmsApp": {
+    "homeImg": {
+      "home": {
+        "title": "Home Imgs",
+        "createLabel": "Create a new Home Img",
+        "createOrEditLabel": "Create or edit a Home Img",
+        "notFound": "No Home Imgs found"
+      },
+      "created": "A new Home Img is created with identifier {{ param }}",
+      "updated": "A Home Img is updated with identifier {{ param }}",
+      "deleted": "A Home Img is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Home Img {{ id }}?"
+      },
+      "detail": {
+        "title": "Home Img"
+      },
+      "img": "Img",
+      "title": "Title",
+      "description": "Description",
+      "active": "Active"
+    }
+  }
+}

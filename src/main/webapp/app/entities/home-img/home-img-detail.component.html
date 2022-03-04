@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="homeImg">
+            <h2><span jhiTranslate="igrscmsApp.homeImg.detail.title">Home Img</span> {{ homeImg.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.homeImg.img">Img</span></dt>
+                <dd>
+                    <div *ngIf="homeImg.img">
+                        <a (click)="openFile(homeImg.imgContentType, homeImg.img)">
+                            <img [src]="'data:' + homeImg.imgContentType + ';base64,' + homeImg.img" style="max-width: 100%;" alt="homeImg image"/>
+                        </a>
+                        {{ homeImg.imgContentType }}, {{ byteSize(homeImg.img) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.homeImg.title">Title</span></dt>
+                <dd>
+                    <span>{{ homeImg.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.homeImg.description">Description</span></dt>
+                <dd>
+                    <span>{{ homeImg.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.homeImg.active">Active</span></dt>
+                <dd>
+                    <span>{{ homeImg.active }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/home-img', homeImg.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

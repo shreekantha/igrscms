@@ -93,6 +93,18 @@
                             <span jhiTranslate="global.menu.entities.profile">Profile</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="notice-board" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.noticeBoard">Notice Board</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="home-img" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.homeImg">Home Img</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>
