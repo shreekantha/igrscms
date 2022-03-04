@@ -1,135 +1,18 @@
 
-entity Institute {
-  name String required,
-  shortName String required,
-  address String required,
-  email String required,
-  contact String required,
-  logoLink String required,
-  logo ImageBlob maxbytes(15360)
-  tagLine String required
+
+entity NoticeBoard{
+	details TextBlob required
+    active Boolean required 
 }
 
-
-entity ContactDetails{
-  address String required,
-  email String,
-  contact String required,
-  mapLink String 
-}
-
-entity News{
-  title String required,
-  description String,
-  imgUrl String required,
-  img ImageBlob maxbytes(15360)
-}
-
-entity Term{
-  term Integer required,
-  title String required,
-  description String,
-  imgUrl String required,
-  img ImageBlob maxbytes(15360)
-  noOfStudents Integer required
-}
-
-
-entity GalleryCat{
-  name String required,
-  description String,
-  imgLink String required
-  img ImageBlob maxbytes(15360)
-}
-
-entity Gallery{
-  imgUrl String required,
-  img ImageBlob maxbytes(15360)
-  descritpion String,
-}
-
-entity AboutUs {
-	title String required,
-	description String required,
-	imgLink String
-    img ImageBlob maxbytes(15360)
-}
-
-entity SpeakerDesk{
-name String required,
-note String required,
-imgLink String required
-img ImageBlob maxbytes(15360)
-}
-
-entity Vision{
-	detail String required
-}
-
-entity Mission{
-	details String required
-}
-
-
-entity Profile {
-  title Title required,
-  designation Designation required,
-  userType UserType required,
-  eduQual String,
-  aboutMe String required,
-  hobbies String,
-  aadhaar String required maxlength(12) minlength(12),
-  dob LocalDate required,
-  mobile String required maxlength(10) minlength(10),
-  email String required,
-  imgLink String,
-  img ImageBlob maxbytes(15360),
-  facebookLink String required,
-  instaLink String required,
-  twitterLink String required,
-  linkedLink String required,
-}
-
-enum UserType{
-	Teaching, Non_Teaching, Principal, Group_D
-}
-
-enum Title{
- Dr,Mr,Ms
-}
-
-enum Designation {
-  ASST_TEACHER_KANNADA("Asst Teacher Kannada")
-  ASST_TEACHER_ENGLISH("Asst Teacher English")
-  ASST_TEACHER_HINDI("Asst Teacher Hindi")
-  ASST_TEACHER_MATHS("Asst Teacher Maths")
-  ASST_TEACHER_SCIENCE("Asst Teacher Science")
-  ASST_TEACHER_SOCIAL_SCIENCE("Asst Teacher Social Science"),
-  ASST_TEACHER_HINDI("Asst Teacher Physical Education")
-  ASST_TEACHER_COMPUTER("Asst Teacher Computer")
-  STAFF_NURSE("Staff Nurse"),
-  WARDEN("Warden")
-}
-
-
-// defining multiple OneToMany relationships with comments
-relationship OneToMany {
-    GalleryCat to Gallery{category(name) required}
-}
-
-//relationship ManyToOne {
- //EmployeeSkill{user(firstName) required} to User 
- //EmployeeCertificate{user(firstName) required} to  User 
-//}
-
-
-relationship OneToOne {
-	Profile{user(firstName) required} to User
-    Term{classTeacher(firstName) required} to User
+entity HomeImg{
+  img ImageBlob required
+  title String required
+  description TextBlob required
 }
 
 // Set pagination options
-paginate AboutUs, SpeakerDesk, Vision, Mission, GalleryCat, Gallery, Term, Profile, News, ContactDetails, Institute with pagination
+//paginate AboutUs, SpeakerDesk, Vision, Mission, GalleryCat, Gallery, Term, Profile, News, ContactDetails, Institute with pagination
 
 // Use Data Transfer Objects (DTO)
 dto * with mapstruct
