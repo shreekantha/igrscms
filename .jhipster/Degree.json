@@ -1,0 +1,73 @@
+{
+  "name": "Degree",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "alias",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "graduationType",
+      "fieldType": "GraduationType",
+      "fieldValues": "SCHOOLING,PU,DIPLOMA,UG,PG,NA",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "DegreeOrDeptType",
+      "fieldValues": "ACADEMIC,NON_ACADEMIC,NA",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "numOfYears",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "multiBatch",
+      "fieldType": "Boolean"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "department",
+      "otherEntityRelationshipName": "degree",
+      "relationshipName": "department"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "academicCalendar",
+      "otherEntityRelationshipName": "degree",
+      "relationshipName": "academicCalendar"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "classTimeTable",
+      "otherEntityRelationshipName": "degree",
+      "relationshipName": "classTimeTable"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "examTimeTable",
+      "otherEntityRelationshipName": "degree",
+      "relationshipName": "examTimeTable"
+    }
+  ],
+  "changelogDate": "20220305105549",
+  "entityTableName": "degree",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

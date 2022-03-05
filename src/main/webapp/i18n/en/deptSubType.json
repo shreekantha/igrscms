@@ -1,0 +1,10 @@
+{
+  "igrscmsApp": {
+    "DeptSubType": {
+      "null": "",
+      "PROGRAM": "PROGRAM",
+      "OPTIONAL": "OPTIONAL",
+      "NA": "NA"
+    }
+  }
+}

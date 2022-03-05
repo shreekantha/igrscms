@@ -1,0 +1,101 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="igrscmsApp.classTimeTable.home.title">Class Time Tables</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-class-time-table" [routerLink]="['/class-time-table/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="igrscmsApp.classTimeTable.home.createLabel">
+            Create a new Class Time Table
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="classTimeTables?.length === 0">
+        <span jhiTranslate="igrscmsApp.classTimeTable.home.notFound">No classTimeTables found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="classTimeTables && classTimeTables.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.day">Day</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.faculty">Faculty</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.academicCalendar">Academic Calendar</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.degree">Degree</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.department">Department</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.term">Term</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.course">Course</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.period">Period</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let classTimeTable of classTimeTables ;trackBy: trackId">
+                    <td><a [routerLink]="['/class-time-table', classTimeTable.id, 'view']">{{ classTimeTable.id }}</a></td>
+                    <td jhiTranslate="{{ 'igrscmsApp.Day.' + classTimeTable.day }}">{{ classTimeTable.day }}</td>
+                    <td>
+                        {{ classTimeTable.facultyFirstName }}
+                    </td>
+                    <td>
+                        <div *ngIf="classTimeTable.academicCalendarId">
+                            <a [routerLink]="['/academic-calendar', classTimeTable.academicCalendarId , 'view']" >{{ classTimeTable.academicCalendarAcademicYear }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="classTimeTable.degreeId">
+                            <a [routerLink]="['/degree', classTimeTable.degreeId , 'view']" >{{ classTimeTable.degreeName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="classTimeTable.departmentId">
+                            <a [routerLink]="['/department', classTimeTable.departmentId , 'view']" >{{ classTimeTable.departmentName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="classTimeTable.termId">
+                            <a [routerLink]="['/term', classTimeTable.termId , 'view']" >{{ classTimeTable.termTitle }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="classTimeTable.courseId">
+                            <a [routerLink]="['/course', classTimeTable.courseId , 'view']" >{{ classTimeTable.courseName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="classTimeTable.periodId">
+                            <a [routerLink]="['/period', classTimeTable.periodId , 'view']" >{{ classTimeTable.periodLabel }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/class-time-table', classTimeTable.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/class-time-table', classTimeTable.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(classTimeTable)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

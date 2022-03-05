@@ -1,5 +1,6 @@
 package com.myriadquest.kreiscms.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Term.
@@ -50,9 +53,16 @@ public class Term implements Serializable {
     @Column(name = "no_of_students", nullable = false)
     private Integer noOfStudents;
 
-    @OneToOne(optional = false)
-    @NotNull
-    @JoinColumn(unique = true)
+    @OneToMany(mappedBy = "term")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<ClassTimeTable> classTimeTables = new HashSet<>();
+
+    @OneToMany(mappedBy = "term")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<ExamTimeTable> examTimeTables = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "terms", allowSetters = true)
     private User classTeacher;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -153,6 +163,56 @@ public class Term implements Serializable {
 
     public void setNoOfStudents(Integer noOfStudents) {
         this.noOfStudents = noOfStudents;
+    }
+
+    public Set<ClassTimeTable> getClassTimeTables() {
+        return classTimeTables;
+    }
+
+    public Term classTimeTables(Set<ClassTimeTable> classTimeTables) {
+        this.classTimeTables = classTimeTables;
+        return this;
+    }
+
+    public Term addClassTimeTable(ClassTimeTable classTimeTable) {
+        this.classTimeTables.add(classTimeTable);
+        classTimeTable.setTerm(this);
+        return this;
+    }
+
+    public Term removeClassTimeTable(ClassTimeTable classTimeTable) {
+        this.classTimeTables.remove(classTimeTable);
+        classTimeTable.setTerm(null);
+        return this;
+    }
+
+    public void setClassTimeTables(Set<ClassTimeTable> classTimeTables) {
+        this.classTimeTables = classTimeTables;
+    }
+
+    public Set<ExamTimeTable> getExamTimeTables() {
+        return examTimeTables;
+    }
+
+    public Term examTimeTables(Set<ExamTimeTable> examTimeTables) {
+        this.examTimeTables = examTimeTables;
+        return this;
+    }
+
+    public Term addExamTimeTable(ExamTimeTable examTimeTable) {
+        this.examTimeTables.add(examTimeTable);
+        examTimeTable.setTerm(this);
+        return this;
+    }
+
+    public Term removeExamTimeTable(ExamTimeTable examTimeTable) {
+        this.examTimeTables.remove(examTimeTable);
+        examTimeTable.setTerm(null);
+        return this;
+    }
+
+    public void setExamTimeTables(Set<ExamTimeTable> examTimeTables) {
+        this.examTimeTables = examTimeTables;
     }
 
     public User getClassTeacher() {

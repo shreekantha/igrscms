@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="classTimeTable">
+            <h2><span jhiTranslate="igrscmsApp.classTimeTable.detail.title">Class Time Table</span> {{ classTimeTable.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.classTimeTable.day">Day</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'igrscmsApp.Day.' + classTimeTable.day }}">{{ classTimeTable.day }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.classTimeTable.faculty">Faculty</span></dt>
+                <dd>
+                    {{ classTimeTable.facultyFirstName }}
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.classTimeTable.academicCalendar">Academic Calendar</span></dt>
+                <dd>
+                    <div *ngIf="classTimeTable.academicCalendarId">
+                        <a [routerLink]="['/academic-calendar', classTimeTable.academicCalendarId, 'view']">{{ classTimeTable.academicCalendarAcademicYear }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.classTimeTable.degree">Degree</span></dt>
+                <dd>
+                    <div *ngIf="classTimeTable.degreeId">
+                        <a [routerLink]="['/degree', classTimeTable.degreeId, 'view']">{{ classTimeTable.degreeName }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.classTimeTable.department">Department</span></dt>
+                <dd>
+                    <div *ngIf="classTimeTable.departmentId">
+                        <a [routerLink]="['/department', classTimeTable.departmentId, 'view']">{{ classTimeTable.departmentName }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.classTimeTable.term">Term</span></dt>
+                <dd>
+                    <div *ngIf="classTimeTable.termId">
+                        <a [routerLink]="['/term', classTimeTable.termId, 'view']">{{ classTimeTable.termTitle }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.classTimeTable.course">Course</span></dt>
+                <dd>
+                    <div *ngIf="classTimeTable.courseId">
+                        <a [routerLink]="['/course', classTimeTable.courseId, 'view']">{{ classTimeTable.courseName }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.classTimeTable.period">Period</span></dt>
+                <dd>
+                    <div *ngIf="classTimeTable.periodId">
+                        <a [routerLink]="['/period', classTimeTable.periodId, 'view']">{{ classTimeTable.periodLabel }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/class-time-table', classTimeTable.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,6 @@
+import { IClassTimeTable } from 'app/shared/model/class-time-table.model';
+import { IExamTimeTable } from 'app/shared/model/exam-time-table.model';
+
 export interface ITerm {
   id?: number;
   term?: number;
@@ -7,6 +10,8 @@ export interface ITerm {
   imgContentType?: string;
   img?: any;
   noOfStudents?: number;
+  classTimeTables?: IClassTimeTable[];
+  examTimeTables?: IExamTimeTable[];
   classTeacherFirstName?: string;
   classTeacherId?: number;
 }
@@ -21,6 +26,8 @@ export class Term implements ITerm {
     public imgContentType?: string,
     public img?: any,
     public noOfStudents?: number,
+    public classTimeTables?: IClassTimeTable[],
+    public examTimeTables?: IExamTimeTable[],
     public classTeacherFirstName?: string,
     public classTeacherId?: number
   ) {}

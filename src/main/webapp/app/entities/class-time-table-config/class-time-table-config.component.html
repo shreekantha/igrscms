@@ -1,0 +1,61 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="igrscmsApp.classTimeTableConfig.home.title">Class Time Table Configs</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-class-time-table-config" [routerLink]="['/class-time-table-config/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="igrscmsApp.classTimeTableConfig.home.createLabel">
+            Create a new Class Time Table Config
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="classTimeTableConfigs?.length === 0">
+        <span jhiTranslate="igrscmsApp.classTimeTableConfig.home.notFound">No classTimeTableConfigs found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="classTimeTableConfigs && classTimeTableConfigs.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTableConfig.timeTableGenType">Time Table Gen Type</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let classTimeTableConfig of classTimeTableConfigs ;trackBy: trackId">
+                    <td><a [routerLink]="['/class-time-table-config', classTimeTableConfig.id, 'view']">{{ classTimeTableConfig.id }}</a></td>
+                    <td jhiTranslate="{{ 'igrscmsApp.TimeTableGenType.' + classTimeTableConfig.timeTableGenType }}">{{ classTimeTableConfig.timeTableGenType }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/class-time-table-config', classTimeTableConfig.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/class-time-table-config', classTimeTableConfig.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(classTimeTableConfig)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

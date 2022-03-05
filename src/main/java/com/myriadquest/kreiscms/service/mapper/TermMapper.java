@@ -16,6 +16,10 @@ public interface TermMapper extends EntityMapper<TermDTO, Term> {
     @Mapping(source = "classTeacher.firstName", target = "classTeacherFirstName")
     TermDTO toDto(Term term);
 
+    @Mapping(target = "classTimeTables", ignore = true)
+    @Mapping(target = "removeClassTimeTable", ignore = true)
+    @Mapping(target = "examTimeTables", ignore = true)
+    @Mapping(target = "removeExamTimeTable", ignore = true)
     @Mapping(source = "classTeacherId", target = "classTeacher")
     Term toEntity(TermDTO termDTO);
 

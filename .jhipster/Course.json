@@ -1,0 +1,45 @@
+{
+  "name": "Course",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "alias",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "classTimeTable",
+      "otherEntityRelationshipName": "course",
+      "relationshipName": "classTimeTable"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "examTimeTable",
+      "otherEntityRelationshipName": "course",
+      "relationshipName": "examTimeTable"
+    }
+  ],
+  "changelogDate": "20220305110049",
+  "entityTableName": "course",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

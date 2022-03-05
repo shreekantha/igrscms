@@ -29,7 +29,7 @@ export class TermUpdateComponent implements OnInit {
     img: [null, []],
     imgContentType: [],
     noOfStudents: [null, [Validators.required]],
-    classTeacherId: [null, Validators.required],
+    classTeacherId: [],
   });
 
   constructor(

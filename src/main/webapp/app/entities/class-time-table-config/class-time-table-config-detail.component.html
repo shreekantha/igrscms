@@ -1,0 +1,30 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="classTimeTableConfig">
+            <h2><span jhiTranslate="igrscmsApp.classTimeTableConfig.detail.title">Class Time Table Config</span> {{ classTimeTableConfig.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.classTimeTableConfig.timeTableGenType">Time Table Gen Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'igrscmsApp.TimeTableGenType.' + classTimeTableConfig.timeTableGenType }}">{{ classTimeTableConfig.timeTableGenType }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/class-time-table-config', classTimeTableConfig.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

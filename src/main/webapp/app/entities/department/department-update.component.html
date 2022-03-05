@@ -1,0 +1,100 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-department-heading" jhiTranslate="igrscmsApp.department.home.createOrEditLabel">Create or edit a Department</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.department.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.department.code" for="field_code">Code</label>
+                    <input type="text" class="form-control" name="code" id="field_code"
+                           formControlName="code"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.department.alias" for="field_alias">Alias</label>
+                    <input type="text" class="form-control" name="alias" id="field_alias"
+                           formControlName="alias"/>
+                    <div *ngIf="editForm.get('alias')!.invalid && (editForm.get('alias')!.dirty || editForm.get('alias')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('alias')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.department.intake" for="field_intake">Intake</label>
+                    <input type="number" class="form-control" name="intake" id="field_intake"
+                           formControlName="intake"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.department.type" for="field_type">Type</label>
+                    <select class="form-control" name="type" formControlName="type" id="field_type">
+                        <option value="ACADEMIC">{{ 'igrscmsApp.DegreeOrDeptType.ACADEMIC' | translate }}</option>
+                        <option value="NON_ACADEMIC">{{ 'igrscmsApp.DegreeOrDeptType.NON_ACADEMIC' | translate }}</option>
+                        <option value="NA">{{ 'igrscmsApp.DegreeOrDeptType.NA' | translate }}</option>
+                    </select>
+                    <div *ngIf="editForm.get('type')!.invalid && (editForm.get('type')!.dirty || editForm.get('type')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('type')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.department.subType" for="field_subType">Sub Type</label>
+                    <select class="form-control" name="subType" formControlName="subType" id="field_subType">
+                        <option value="PROGRAM">{{ 'igrscmsApp.DeptSubType.PROGRAM' | translate }}</option>
+                        <option value="OPTIONAL">{{ 'igrscmsApp.DeptSubType.OPTIONAL' | translate }}</option>
+                        <option value="NA">{{ 'igrscmsApp.DeptSubType.NA' | translate }}</option>
+                    </select>
+                    <div *ngIf="editForm.get('subType')!.invalid && (editForm.get('subType')!.dirty || editForm.get('subType')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('subType')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.department.degree" for="field_degree">Degree</label>
+                    <select class="form-control" id="field_degree" name="degree" formControlName="degreeId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="degreeOption.id" *ngFor="let degreeOption of degrees; trackBy: trackById">{{ degreeOption.name }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

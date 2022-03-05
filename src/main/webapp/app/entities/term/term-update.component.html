@@ -100,15 +100,9 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="igrscmsApp.term.classTeacher" for="field_classTeacher">Class Teacher</label>
                     <select class="form-control" id="field_classTeacher" name="classTeacher" formControlName="classTeacherId">
-                        <option *ngIf="!editForm.get('classTeacherId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="null"></option>
                         <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackById">{{ userOption.firstName }}</option>
                     </select>
-                </div>
-                <div *ngIf="editForm.get('classTeacherId')!.invalid && (editForm.get('classTeacherId')!.dirty || editForm.get('classTeacherId')!.touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('classTeacherId')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
                 </div>
             </div>
 

@@ -1,0 +1,10 @@
+{
+  "igrscmsApp": {
+    "DegreeOrDeptType": {
+      "null": "",
+      "ACADEMIC": "ACADEMIC",
+      "NON_ACADEMIC": "NON_ACADEMIC",
+      "NA": "NA"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="period">
+            <h2><span jhiTranslate="igrscmsApp.period.detail.title">Period</span> {{ period.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.period.number">Number</span></dt>
+                <dd>
+                    <span>{{ period.number }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.period.label">Label</span></dt>
+                <dd>
+                    <span>{{ period.label }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.period.startTime">Start Time</span></dt>
+                <dd>
+                    <span>{{ period.startTime }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.period.endTime">End Time</span></dt>
+                <dd>
+                    <span>{{ period.endTime }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/period', period.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

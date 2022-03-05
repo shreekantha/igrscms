@@ -1,0 +1,23 @@
+{
+  "name": "ClassTimeTableConfig",
+  "fields": [
+    {
+      "fieldName": "timeTableGenType",
+      "fieldType": "TimeTableGenType",
+      "fieldValues": "ALL_DAYS_EXCEPT_SAT (sameForAllDaysExceptSaturday),ALL_DAYS (sameForAllDays)",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20220305110249",
+  "entityTableName": "class_time_table_config",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

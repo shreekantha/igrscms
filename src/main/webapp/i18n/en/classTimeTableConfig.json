@@ -1,0 +1,22 @@
+{
+  "igrscmsApp": {
+    "classTimeTableConfig": {
+      "home": {
+        "title": "Class Time Table Configs",
+        "createLabel": "Create a new Class Time Table Config",
+        "createOrEditLabel": "Create or edit a Class Time Table Config",
+        "notFound": "No Class Time Table Configs found"
+      },
+      "created": "A new Class Time Table Config is created with identifier {{ param }}",
+      "updated": "A Class Time Table Config is updated with identifier {{ param }}",
+      "deleted": "A Class Time Table Config is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Class Time Table Config {{ id }}?"
+      },
+      "detail": {
+        "title": "Class Time Table Config"
+      },
+      "timeTableGenType": "Time Table Gen Type"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "AcademicCalendar",
+  "fields": [
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "academicYear",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "classTimeTable",
+      "otherEntityRelationshipName": "academicCalendar",
+      "relationshipName": "classTimeTable"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "examTimeTable",
+      "otherEntityRelationshipName": "academicCalendar",
+      "relationshipName": "examTimeTable"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "degree",
+      "otherEntityRelationshipName": "academicCalendar",
+      "relationshipName": "degree",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20220305105949",
+  "entityTableName": "academic_calendar",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

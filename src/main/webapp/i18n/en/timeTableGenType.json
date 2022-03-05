@@ -1,0 +1,9 @@
+{
+  "igrscmsApp": {
+    "TimeTableGenType": {
+      "null": "",
+      "ALL_DAYS_EXCEPT_SAT": "sameForAllDaysExceptSaturday",
+      "ALL_DAYS": "sameForAllDays"
+    }
+  }
+}

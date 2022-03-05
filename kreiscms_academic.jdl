@@ -1,0 +1,146 @@
+
+
+  entity Degree{
+    name String unique required,
+    alias String unique required,
+    graduationType GraduationType required,
+    type DegreeOrDeptType required,
+    numOfYears Integer required,
+    multiBatch Boolean
+  }
+
+  entity Scheme{
+	name String required,
+    startedAcademicYear String required,
+    year Integer required
+  }
+
+  enum GraduationType{
+  	SCHOOLING, PU, DIPLOMA, UG, PG, NA
+  }
+
+
+
+
+  entity Department{
+    name String unique required,
+    code String,
+    alias String required,
+    intake Integer,
+    type DegreeOrDeptType required,
+    subType DeptSubType required
+  }
+  enum DeptSubType{
+  	PROGRAM, OPTIONAL,NA
+  }
+  enum DegreeOrDeptType{
+  	ACADEMIC, NON_ACADEMIC,NA
+  }
+  
+   entity Term{
+    term Integer required,
+    title String required,
+    description String,
+    imgUrl String required,
+    img ImageBlob maxbytes(15360)
+    noOfStudents Integer required
+  }
+  
+  entity AcademicCalendar{
+    startDate LocalDate required,
+    endDate LocalDate required,
+    academicYear String required
+    active Boolean required
+    
+  }
+  entity Course{
+    name String  required,
+    alias String  required,
+    code String required
+  }
+  
+  entity Period{
+  	number Integer required,
+    label String required,
+    startTime String required,
+    endTime String required,
+  }
+  
+  entity ClassTimeTableConfig{
+	timeTableGenType TimeTableGenType required
+  }
+  enum TimeTableGenType{
+	ALL_DAYS_EXCEPT_SAT("sameForAllDaysExceptSaturday"),
+	ALL_DAYS("sameForAllDays")
+  }
+  
+  entity ClassTimeTable {
+	day Day required
+	
+  }
+  
+  enum Day{
+  	MON("Mon"), TUE("Tue"), WED("Wed"), THU("Thu"), FRI("Fri"), SAT("Sat"), SUN("Sun")
+  }
+  
+  entity ExamTimeTable {
+	examType ExamType required
+    date LocalDate required,
+    startTime Instant required,
+    endTime Instant required
+  }
+  
+  enum ExamType{
+  	FA, SA
+  }
+  
+  
+  
+  
+ 
+//Users and Profile Details entities
+  
+//defining the OneToOne relationships
+  
+
+// defining multiple OneToMany relationships with comments
+  relationship OneToMany {
+ 
+   Degree to Department{degree(name)} 
+   Degree to AcademicCalendar{degree(name)} 
+   
+   AcademicCalendar to ClassTimeTable{academicCalendar(academicYear)}
+   Degree to ClassTimeTable{degree(name)} 
+   Department to ClassTimeTable{department(name)} 
+   Term to ClassTimeTable{term(title)}
+   Course to ClassTimeTable{course(name)}
+   Period to ClassTimeTable{period(label)}
+    
+   AcademicCalendar to ExamTimeTable{academicCalendar(academicYear)}
+   Degree to ExamTimeTable{degree(name)} 
+   Department to ExamTimeTable{department(name)} 
+   Term to ExamTimeTable{term(title)}
+   Course to ExamTimeTable{course(name)}
+   
+  }
+  
+  relationship ManyToOne {
+	ClassTimeTable{faculty(firstName)} to User
+    Term{classTeacher(firstName)} to User
+}
+
+// Set pagination options
+
+paginate Degree, Department, AcademicCalendar, Term, ExamTimeTable with pagination
+
+//Filter entity
+//filter AdmissionApplicationForm, AdmissionEnquiry, PreAdmissionCalendar, AdmissionCalendar
+
+// Use Data Transfert Objects (DTO)
+ dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

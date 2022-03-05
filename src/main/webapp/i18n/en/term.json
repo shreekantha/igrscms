@@ -22,6 +22,8 @@
       "imgUrl": "Img Url",
       "img": "Img",
       "noOfStudents": "No Of Students",
+      "classTimeTable": "Class Time Table",
+      "examTimeTable": "Exam Time Table",
       "classTeacher": "Class Teacher"
     }
   }

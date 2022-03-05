@@ -1,0 +1,74 @@
+{
+  "name": "ExamTimeTable",
+  "fields": [
+    {
+      "fieldName": "examType",
+      "fieldType": "ExamType",
+      "fieldValues": "FA,SA",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "academicCalendar",
+      "otherEntityRelationshipName": "examTimeTable",
+      "relationshipName": "academicCalendar",
+      "otherEntityField": "academicYear"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "degree",
+      "otherEntityRelationshipName": "examTimeTable",
+      "relationshipName": "degree",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "department",
+      "otherEntityRelationshipName": "examTimeTable",
+      "relationshipName": "department",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "term",
+      "otherEntityRelationshipName": "examTimeTable",
+      "relationshipName": "term",
+      "otherEntityField": "title"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "course",
+      "otherEntityRelationshipName": "examTimeTable",
+      "relationshipName": "course",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20220305110449",
+  "entityTableName": "exam_time_table",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

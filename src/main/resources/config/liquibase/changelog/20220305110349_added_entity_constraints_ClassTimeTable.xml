@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity ClassTimeTable.
+    -->
+    <changeSet id="20220305110349-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="faculty_id"
+                                 baseTableName="class_time_table"
+                                 constraintName="fk_class_time_table_faculty_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="academic_calendar_id"
+                                 baseTableName="class_time_table"
+                                 constraintName="fk_class_time_table_academic_calendar_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="academic_calendar"/>
+
+        <addForeignKeyConstraint baseColumnNames="degree_id"
+                                 baseTableName="class_time_table"
+                                 constraintName="fk_class_time_table_degree_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="degree"/>
+
+        <addForeignKeyConstraint baseColumnNames="department_id"
+                                 baseTableName="class_time_table"
+                                 constraintName="fk_class_time_table_department_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="department"/>
+
+        <addForeignKeyConstraint baseColumnNames="term_id"
+                                 baseTableName="class_time_table"
+                                 constraintName="fk_class_time_table_term_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="term"/>
+
+        <addForeignKeyConstraint baseColumnNames="course_id"
+                                 baseTableName="class_time_table"
+                                 constraintName="fk_class_time_table_course_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="course"/>
+
+        <addForeignKeyConstraint baseColumnNames="period_id"
+                                 baseTableName="class_time_table"
+                                 constraintName="fk_class_time_table_period_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="period"/>
+
+    </changeSet>
+</databaseChangeLog>

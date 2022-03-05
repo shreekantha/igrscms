@@ -38,9 +38,9 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
    # url: jdbc:postgresql://localhost:5432/igrscms
-    url: jdbc:postgresql://ec2-54-158-26-89.compute-1.amazonaws.com/d19mkvfr3apb3d
-    username: xlzfksegstcqru
-    password: ddf15b907f2e01576974b2859136c71b75347d8ef65e7aae5acfe0a48cb96e69
+    url: jdbc:postgresql://ec2-35-153-35-94.compute-1.amazonaws.com/d4k3sp61ue549c
+    username: kaacfjvsiloiib
+    password: 6a835e206f468795c19d3ed696887a8540e48f18c114cc24c6035004fc6ee6f8
     hikari:
       poolName: Hikari
       auto-commit: false

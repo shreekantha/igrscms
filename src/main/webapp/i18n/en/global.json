@@ -20,6 +20,15 @@
         "profile": "Profile",
         "noticeBoard": "Notice Board",
         "homeImg": "Home Img",
+        "degree": "Degree",
+        "scheme": "Scheme",
+        "department": "Department",
+        "academicCalendar": "Academic Calendar",
+        "course": "Course",
+        "period": "Period",
+        "classTimeTableConfig": "Class Time Table Config",
+        "classTimeTable": "Class Time Table",
+        "examTimeTable": "Exam Time Table",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

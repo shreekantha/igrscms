@@ -56,6 +56,43 @@ import { RouterModule } from '@angular/router';
         path: 'home-img',
         loadChildren: () => import('./home-img/home-img.module').then(m => m.IgrscmsHomeImgModule),
       },
+      {
+        path: 'degree',
+        loadChildren: () => import('./degree/degree.module').then(m => m.IgrscmsDegreeModule),
+      },
+      {
+        path: 'scheme',
+        loadChildren: () => import('./scheme/scheme.module').then(m => m.IgrscmsSchemeModule),
+      },
+      {
+        path: 'department',
+        loadChildren: () => import('./department/department.module').then(m => m.IgrscmsDepartmentModule),
+      },
+      {
+        path: 'academic-calendar',
+        loadChildren: () => import('./academic-calendar/academic-calendar.module').then(m => m.IgrscmsAcademicCalendarModule),
+      },
+      {
+        path: 'course',
+        loadChildren: () => import('./course/course.module').then(m => m.IgrscmsCourseModule),
+      },
+      {
+        path: 'period',
+        loadChildren: () => import('./period/period.module').then(m => m.IgrscmsPeriodModule),
+      },
+      {
+        path: 'class-time-table-config',
+        loadChildren: () =>
+          import('./class-time-table-config/class-time-table-config.module').then(m => m.IgrscmsClassTimeTableConfigModule),
+      },
+      {
+        path: 'class-time-table',
+        loadChildren: () => import('./class-time-table/class-time-table.module').then(m => m.IgrscmsClassTimeTableModule),
+      },
+      {
+        path: 'exam-time-table',
+        loadChildren: () => import('./exam-time-table/exam-time-table.module').then(m => m.IgrscmsExamTimeTableModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

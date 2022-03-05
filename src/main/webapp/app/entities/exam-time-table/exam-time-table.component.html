@@ -1,0 +1,107 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="igrscmsApp.examTimeTable.home.title">Exam Time Tables</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-exam-time-table" [routerLink]="['/exam-time-table/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="igrscmsApp.examTimeTable.home.createLabel">
+            Create a new Exam Time Table
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="examTimeTables?.length === 0">
+        <span jhiTranslate="igrscmsApp.examTimeTable.home.notFound">No examTimeTables found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="examTimeTables && examTimeTables.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="examType"><span jhiTranslate="igrscmsApp.examTimeTable.examType">Exam Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="date"><span jhiTranslate="igrscmsApp.examTimeTable.date">Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="startTime"><span jhiTranslate="igrscmsApp.examTimeTable.startTime">Start Time</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="endTime"><span jhiTranslate="igrscmsApp.examTimeTable.endTime">End Time</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="academicCalendarAcademicYear"><span jhiTranslate="igrscmsApp.examTimeTable.academicCalendar">Academic Calendar</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="degreeName"><span jhiTranslate="igrscmsApp.examTimeTable.degree">Degree</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="departmentName"><span jhiTranslate="igrscmsApp.examTimeTable.department">Department</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="termTitle"><span jhiTranslate="igrscmsApp.examTimeTable.term">Term</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="courseName"><span jhiTranslate="igrscmsApp.examTimeTable.course">Course</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let examTimeTable of examTimeTables ;trackBy: trackId">
+                    <td><a [routerLink]="['/exam-time-table', examTimeTable.id, 'view']">{{ examTimeTable.id }}</a></td>
+                    <td jhiTranslate="{{ 'igrscmsApp.ExamType.' + examTimeTable.examType }}">{{ examTimeTable.examType }}</td>
+                    <td>{{ examTimeTable.date | date:'mediumDate' }}</td>
+                    <td>{{ examTimeTable.startTime | date:'medium' }}</td>
+                    <td>{{ examTimeTable.endTime | date:'medium' }}</td>
+                    <td>
+                        <div *ngIf="examTimeTable.academicCalendarId">
+                            <a [routerLink]="['/academic-calendar', examTimeTable.academicCalendarId , 'view']" >{{ examTimeTable.academicCalendarAcademicYear }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="examTimeTable.degreeId">
+                            <a [routerLink]="['/degree', examTimeTable.degreeId , 'view']" >{{ examTimeTable.degreeName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="examTimeTable.departmentId">
+                            <a [routerLink]="['/department', examTimeTable.departmentId , 'view']" >{{ examTimeTable.departmentName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="examTimeTable.termId">
+                            <a [routerLink]="['/term', examTimeTable.termId , 'view']" >{{ examTimeTable.termTitle }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="examTimeTable.courseId">
+                            <a [routerLink]="['/course', examTimeTable.courseId , 'view']" >{{ examTimeTable.courseName }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/exam-time-table', examTimeTable.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/exam-time-table', examTimeTable.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(examTimeTable)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="examTimeTables && examTimeTables.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

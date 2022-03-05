@@ -1,0 +1,101 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-class-time-table-heading" jhiTranslate="igrscmsApp.classTimeTable.home.createOrEditLabel">Create or edit a Class Time Table</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.classTimeTable.day" for="field_day">Day</label>
+                    <select class="form-control" name="day" formControlName="day" id="field_day">
+                        <option value="MON">{{ 'igrscmsApp.Day.MON' | translate }}</option>
+                        <option value="TUE">{{ 'igrscmsApp.Day.TUE' | translate }}</option>
+                        <option value="WED">{{ 'igrscmsApp.Day.WED' | translate }}</option>
+                        <option value="THU">{{ 'igrscmsApp.Day.THU' | translate }}</option>
+                        <option value="FRI">{{ 'igrscmsApp.Day.FRI' | translate }}</option>
+                        <option value="SAT">{{ 'igrscmsApp.Day.SAT' | translate }}</option>
+                        <option value="SUN">{{ 'igrscmsApp.Day.SUN' | translate }}</option>
+                    </select>
+                    <div *ngIf="editForm.get('day')!.invalid && (editForm.get('day')!.dirty || editForm.get('day')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('day')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.classTimeTable.faculty" for="field_faculty">Faculty</label>
+                    <select class="form-control" id="field_faculty" name="faculty" formControlName="facultyId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackById">{{ userOption.firstName }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.classTimeTable.academicCalendar" for="field_academicCalendar">Academic Calendar</label>
+                    <select class="form-control" id="field_academicCalendar" name="academicCalendar" formControlName="academicCalendarId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="academicCalendarOption.id" *ngFor="let academicCalendarOption of academiccalendars; trackBy: trackById">{{ academicCalendarOption.academicYear }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.classTimeTable.degree" for="field_degree">Degree</label>
+                    <select class="form-control" id="field_degree" name="degree" formControlName="degreeId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="degreeOption.id" *ngFor="let degreeOption of degrees; trackBy: trackById">{{ degreeOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.classTimeTable.department" for="field_department">Department</label>
+                    <select class="form-control" id="field_department" name="department" formControlName="departmentId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackById">{{ departmentOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.classTimeTable.term" for="field_term">Term</label>
+                    <select class="form-control" id="field_term" name="term" formControlName="termId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="termOption.id" *ngFor="let termOption of terms; trackBy: trackById">{{ termOption.title }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.classTimeTable.course" for="field_course">Course</label>
+                    <select class="form-control" id="field_course" name="course" formControlName="courseId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="courseOption.id" *ngFor="let courseOption of courses; trackBy: trackById">{{ courseOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.classTimeTable.period" for="field_period">Period</label>
+                    <select class="form-control" id="field_period" name="period" formControlName="periodId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="periodOption.id" *ngFor="let periodOption of periods; trackBy: trackById">{{ periodOption.label }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+{
+  "igrscmsApp": {
+    "academicCalendar": {
+      "home": {
+        "title": "Academic Calendars",
+        "createLabel": "Create a new Academic Calendar",
+        "createOrEditLabel": "Create or edit a Academic Calendar",
+        "notFound": "No Academic Calendars found"
+      },
+      "created": "A new Academic Calendar is created with identifier {{ param }}",
+      "updated": "A Academic Calendar is updated with identifier {{ param }}",
+      "deleted": "A Academic Calendar is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Academic Calendar {{ id }}?"
+      },
+      "detail": {
+        "title": "Academic Calendar"
+      },
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "academicYear": "Academic Year",
+      "active": "Active",
+      "classTimeTable": "Class Time Table",
+      "examTimeTable": "Exam Time Table",
+      "degree": "Degree"
+    }
+  }
+}

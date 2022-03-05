@@ -1,0 +1,72 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="examTimeTable">
+            <h2><span jhiTranslate="igrscmsApp.examTimeTable.detail.title">Exam Time Table</span> {{ examTimeTable.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.examTimeTable.examType">Exam Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'igrscmsApp.ExamType.' + examTimeTable.examType }}">{{ examTimeTable.examType }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.examTimeTable.date">Date</span></dt>
+                <dd>
+                    <span>{{ examTimeTable.date }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.examTimeTable.startTime">Start Time</span></dt>
+                <dd>
+                    <span>{{ examTimeTable.startTime }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.examTimeTable.endTime">End Time</span></dt>
+                <dd>
+                    <span>{{ examTimeTable.endTime }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.examTimeTable.academicCalendar">Academic Calendar</span></dt>
+                <dd>
+                    <div *ngIf="examTimeTable.academicCalendarId">
+                        <a [routerLink]="['/academic-calendar', examTimeTable.academicCalendarId, 'view']">{{ examTimeTable.academicCalendarAcademicYear }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.examTimeTable.degree">Degree</span></dt>
+                <dd>
+                    <div *ngIf="examTimeTable.degreeId">
+                        <a [routerLink]="['/degree', examTimeTable.degreeId, 'view']">{{ examTimeTable.degreeName }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.examTimeTable.department">Department</span></dt>
+                <dd>
+                    <div *ngIf="examTimeTable.departmentId">
+                        <a [routerLink]="['/department', examTimeTable.departmentId, 'view']">{{ examTimeTable.departmentName }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.examTimeTable.term">Term</span></dt>
+                <dd>
+                    <div *ngIf="examTimeTable.termId">
+                        <a [routerLink]="['/term', examTimeTable.termId, 'view']">{{ examTimeTable.termTitle }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.examTimeTable.course">Course</span></dt>
+                <dd>
+                    <div *ngIf="examTimeTable.courseId">
+                        <a [routerLink]="['/course', examTimeTable.courseId, 'view']">{{ examTimeTable.courseName }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/exam-time-table', examTimeTable.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+id;start_date;end_date;academic_year;active
+1;2022-03-05;2022-03-04;regional;false
+2;2022-03-04;2022-03-04;Technician Product invoice;true
+3;2022-03-04;2022-03-05;Distributed invoice;false
+4;2022-03-05;2022-03-05;Ergonomic Soft Computer Texas;true
+5;2022-03-04;2022-03-04;GB;true
+6;2022-03-05;2022-03-05;withdrawal;false
+7;2022-03-04;2022-03-04;engineer digital;true
+8;2022-03-05;2022-03-05;firmware;true
+9;2022-03-04;2022-03-05;schemas 24 hour;false
+10;2022-03-05;2022-03-05;Orchard backing up invoice;true

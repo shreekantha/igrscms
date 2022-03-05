@@ -1,0 +1,67 @@
+{
+  "name": "Department",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "alias",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "intake",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "DegreeOrDeptType",
+      "fieldValues": "ACADEMIC,NON_ACADEMIC,NA",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "subType",
+      "fieldType": "DeptSubType",
+      "fieldValues": "PROGRAM,OPTIONAL,NA",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "classTimeTable",
+      "otherEntityRelationshipName": "department",
+      "relationshipName": "classTimeTable"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "examTimeTable",
+      "otherEntityRelationshipName": "department",
+      "relationshipName": "examTimeTable"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "degree",
+      "otherEntityRelationshipName": "department",
+      "relationshipName": "degree",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20220305105749",
+  "entityTableName": "department",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

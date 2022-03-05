@@ -1,0 +1,73 @@
+{
+  "name": "ClassTimeTable",
+  "fields": [
+    {
+      "fieldName": "day",
+      "fieldType": "Day",
+      "fieldValues": "MON (Mon),TUE (Tue),WED (Wed),THU (Thu),FRI (Fri),SAT (Sat),SUN (Sun)",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "classTimeTable",
+      "relationshipName": "faculty",
+      "otherEntityField": "firstName"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "academicCalendar",
+      "otherEntityRelationshipName": "classTimeTable",
+      "relationshipName": "academicCalendar",
+      "otherEntityField": "academicYear"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "degree",
+      "otherEntityRelationshipName": "classTimeTable",
+      "relationshipName": "degree",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "department",
+      "otherEntityRelationshipName": "classTimeTable",
+      "relationshipName": "department",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "term",
+      "otherEntityRelationshipName": "classTimeTable",
+      "relationshipName": "term",
+      "otherEntityField": "title"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "course",
+      "otherEntityRelationshipName": "classTimeTable",
+      "relationshipName": "course",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "period",
+      "otherEntityRelationshipName": "classTimeTable",
+      "relationshipName": "period",
+      "otherEntityField": "label"
+    }
+  ],
+  "changelogDate": "20220305110349",
+  "entityTableName": "class_time_table",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

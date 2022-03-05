@@ -2,7 +2,6 @@ package com.myriadquest.kreiscms.web.rest;
 
 import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.domain.Term;
-import com.myriadquest.kreiscms.domain.User;
 import com.myriadquest.kreiscms.repository.TermRepository;
 import com.myriadquest.kreiscms.service.TermService;
 import com.myriadquest.kreiscms.service.dto.TermDTO;
@@ -86,11 +85,6 @@ public class TermResourceIT {
             .img(DEFAULT_IMG)
             .imgContentType(DEFAULT_IMG_CONTENT_TYPE)
             .noOfStudents(DEFAULT_NO_OF_STUDENTS);
-        // Add required entity
-        User user = UserResourceIT.createEntity(em);
-        em.persist(user);
-        em.flush();
-        term.setClassTeacher(user);
         return term;
     }
     /**
@@ -108,11 +102,6 @@ public class TermResourceIT {
             .img(UPDATED_IMG)
             .imgContentType(UPDATED_IMG_CONTENT_TYPE)
             .noOfStudents(UPDATED_NO_OF_STUDENTS);
-        // Add required entity
-        User user = UserResourceIT.createEntity(em);
-        em.persist(user);
-        em.flush();
-        term.setClassTeacher(user);
         return term;
     }
 

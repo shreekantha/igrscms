@@ -1,0 +1,83 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="igrscmsApp.academicCalendar.home.title">Academic Calendars</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-academic-calendar" [routerLink]="['/academic-calendar/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="igrscmsApp.academicCalendar.home.createLabel">
+            Create a new Academic Calendar
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="academicCalendars?.length === 0">
+        <span jhiTranslate="igrscmsApp.academicCalendar.home.notFound">No academicCalendars found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="academicCalendars && academicCalendars.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="startDate"><span jhiTranslate="igrscmsApp.academicCalendar.startDate">Start Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="endDate"><span jhiTranslate="igrscmsApp.academicCalendar.endDate">End Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="academicYear"><span jhiTranslate="igrscmsApp.academicCalendar.academicYear">Academic Year</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span jhiTranslate="igrscmsApp.academicCalendar.active">Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="degreeName"><span jhiTranslate="igrscmsApp.academicCalendar.degree">Degree</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let academicCalendar of academicCalendars ;trackBy: trackId">
+                    <td><a [routerLink]="['/academic-calendar', academicCalendar.id, 'view']">{{ academicCalendar.id }}</a></td>
+                    <td>{{ academicCalendar.startDate | date:'mediumDate' }}</td>
+                    <td>{{ academicCalendar.endDate | date:'mediumDate' }}</td>
+                    <td>{{ academicCalendar.academicYear }}</td>
+                    <td>{{ academicCalendar.active }}</td>
+                    <td>
+                        <div *ngIf="academicCalendar.degreeId">
+                            <a [routerLink]="['/degree', academicCalendar.degreeId , 'view']" >{{ academicCalendar.degreeName }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/academic-calendar', academicCalendar.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/academic-calendar', academicCalendar.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(academicCalendar)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="academicCalendars && academicCalendars.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>
