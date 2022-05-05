@@ -31,10 +31,10 @@
     subType DeptSubType required
   }
   enum DeptSubType{
-  	PROGRAM, OPTIONAL,NA
+  	PROGRAM, OPTIONAL, NA
   }
   enum DegreeOrDeptType{
-  	ACADEMIC, NON_ACADEMIC,NA
+  	ACADEMIC, NON_ACADEMIC, NA
   }
   
    entity Term{
@@ -43,20 +43,23 @@
     description String,
     imgUrl String required,
     img ImageBlob maxbytes(15360)
-    noOfStudents Integer required
+    noOfStudents Integer required,
+    tenantId String 
   }
   
   entity AcademicCalendar{
     startDate LocalDate required,
     endDate LocalDate required,
     academicYear String required
-    active Boolean required
+    active Boolean required,
+    tenantId String 
     
   }
   entity Course{
     name String  required,
     alias String  required,
-    code String required
+    code String required,
+    tenantId String 
   }
   
   entity Period{
@@ -64,10 +67,12 @@
     label String required,
     startTime String required,
     endTime String required,
+    tenantId String 
   }
   
   entity ClassTimeTableConfig{
-	timeTableGenType TimeTableGenType required
+	timeTableGenType TimeTableGenType required,
+    tenantId String 
   }
   enum TimeTableGenType{
 	ALL_DAYS_EXCEPT_SAT("sameForAllDaysExceptSaturday"),
@@ -75,7 +80,8 @@
   }
   
   entity ClassTimeTable {
-	day Day required
+	day Day required,
+    tenantId String 
 	
   }
   
@@ -87,7 +93,8 @@
 	examType ExamType required
     date LocalDate required,
     startTime Instant required,
-    endTime Instant required
+    endTime Instant required,
+    tenantId String 
   }
   
   enum ExamType{
@@ -131,10 +138,10 @@
 
 // Set pagination options
 
-paginate Degree, Department, AcademicCalendar, Term, ExamTimeTable with pagination
+paginate Degree, Department, AcademicCalendar, Term, ExamTimeTable, ClassTimeTable, Course with pagination
 
 //Filter entity
-//filter AdmissionApplicationForm, AdmissionEnquiry, PreAdmissionCalendar, AdmissionCalendar
+filter AcademicCalendar, Term, ExamTimeTable, Course,  Period, ClassTimeTable, ClassTimeTableConfig
 
 // Use Data Transfert Objects (DTO)
  dto * with mapstruct

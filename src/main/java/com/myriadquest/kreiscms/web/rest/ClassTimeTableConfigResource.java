@@ -3,7 +3,11 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.ClassTimeTableConfigService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.ClassTimeTableConfigDTO;
+import com.myriadquest.kreiscms.service.dto.ClassTimeTableConfigCriteria;
+import com.myriadquest.kreiscms.config.TenantContext;
+import com.myriadquest.kreiscms.service.ClassTimeTableConfigQueryService;
 
+import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -34,8 +38,11 @@ public class ClassTimeTableConfigResource {
 
     private final ClassTimeTableConfigService classTimeTableConfigService;
 
-    public ClassTimeTableConfigResource(ClassTimeTableConfigService classTimeTableConfigService) {
+    private final ClassTimeTableConfigQueryService classTimeTableConfigQueryService;
+
+    public ClassTimeTableConfigResource(ClassTimeTableConfigService classTimeTableConfigService, ClassTimeTableConfigQueryService classTimeTableConfigQueryService) {
         this.classTimeTableConfigService = classTimeTableConfigService;
+        this.classTimeTableConfigQueryService = classTimeTableConfigQueryService;
     }
 
     /**
@@ -81,12 +88,29 @@ public class ClassTimeTableConfigResource {
     /**
      * {@code GET  /class-time-table-configs} : get all the classTimeTableConfigs.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of classTimeTableConfigs in body.
      */
     @GetMapping("/class-time-table-configs")
-    public List<ClassTimeTableConfigDTO> getAllClassTimeTableConfigs() {
-        log.debug("REST request to get all ClassTimeTableConfigs");
-        return classTimeTableConfigService.findAll();
+    public ResponseEntity<List<ClassTimeTableConfigDTO>> getAllClassTimeTableConfigs(ClassTimeTableConfigCriteria criteria) {
+    	 StringFilter filter=new StringFilter();
+         filter.setEquals(TenantContext.getCurrentTenant());
+     	criteria.setTenantId(filter);
+    	log.debug("REST request to get ClassTimeTableConfigs by criteria: {}", criteria);
+        List<ClassTimeTableConfigDTO> entityList = classTimeTableConfigQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /class-time-table-configs/count} : count all the classTimeTableConfigs.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/class-time-table-configs/count")
+    public ResponseEntity<Long> countClassTimeTableConfigs(ClassTimeTableConfigCriteria criteria) {
+        log.debug("REST request to count ClassTimeTableConfigs by criteria: {}", criteria);
+        return ResponseEntity.ok().body(classTimeTableConfigQueryService.countByCriteria(criteria));
     }
 
     /**

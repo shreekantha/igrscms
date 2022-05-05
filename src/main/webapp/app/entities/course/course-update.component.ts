@@ -20,6 +20,7 @@ export class CourseUpdateComponent implements OnInit {
     name: [null, [Validators.required]],
     alias: [null, [Validators.required]],
     code: [null, [Validators.required]],
+    tenantId: [],
   });
 
   constructor(protected courseService: CourseService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -36,6 +37,7 @@ export class CourseUpdateComponent implements OnInit {
       name: course.name,
       alias: course.alias,
       code: course.code,
+      tenantId: course.tenantId,
     });
   }
 
@@ -60,6 +62,7 @@ export class CourseUpdateComponent implements OnInit {
       name: this.editForm.get(['name'])!.value,
       alias: this.editForm.get(['alias'])!.value,
       code: this.editForm.get(['code'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

@@ -25,6 +25,8 @@ public class ExamTimeTableDTO implements Serializable {
     @NotNull
     private Instant endTime;
 
+    private String tenantId;
+
 
     private Long academicCalendarId;
 
@@ -84,6 +86,14 @@ public class ExamTimeTableDTO implements Serializable {
 
     public void setEndTime(Instant endTime) {
         this.endTime = endTime;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     public Long getAcademicCalendarId() {
@@ -192,6 +202,7 @@ public class ExamTimeTableDTO implements Serializable {
             ", date='" + getDate() + "'" +
             ", startTime='" + getStartTime() + "'" +
             ", endTime='" + getEndTime() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             ", academicCalendarId=" + getAcademicCalendarId() +
             ", academicCalendarAcademicYear='" + getAcademicCalendarAcademicYear() + "'" +
             ", degreeId=" + getDegreeId() +

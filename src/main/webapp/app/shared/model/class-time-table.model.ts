@@ -3,6 +3,7 @@ import { Day } from 'app/shared/model/enumerations/day.model';
 export interface IClassTimeTable {
   id?: number;
   day?: Day;
+  tenantId?: string;
   facultyFirstName?: string;
   facultyId?: number;
   academicCalendarAcademicYear?: string;
@@ -23,6 +24,7 @@ export class ClassTimeTable implements IClassTimeTable {
   constructor(
     public id?: number,
     public day?: Day,
+    public tenantId?: string,
     public facultyFirstName?: string,
     public facultyId?: number,
     public academicCalendarAcademicYear?: string,

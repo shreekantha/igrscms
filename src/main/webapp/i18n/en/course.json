@@ -19,6 +19,7 @@
       "name": "Name",
       "alias": "Alias",
       "code": "Code",
+      "tenantId": "Tenant Id",
       "classTimeTable": "Class Time Table",
       "examTimeTable": "Exam Time Table"
     }

@@ -3,12 +3,22 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.ClassTimeTableService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.ClassTimeTableDTO;
+import com.myriadquest.kreiscms.service.dto.ClassTimeTableCriteria;
+import com.myriadquest.kreiscms.config.TenantContext;
+import com.myriadquest.kreiscms.service.ClassTimeTableQueryService;
 
+import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +44,11 @@ public class ClassTimeTableResource {
 
     private final ClassTimeTableService classTimeTableService;
 
-    public ClassTimeTableResource(ClassTimeTableService classTimeTableService) {
+    private final ClassTimeTableQueryService classTimeTableQueryService;
+
+    public ClassTimeTableResource(ClassTimeTableService classTimeTableService, ClassTimeTableQueryService classTimeTableQueryService) {
         this.classTimeTableService = classTimeTableService;
+        this.classTimeTableQueryService = classTimeTableQueryService;
     }
 
     /**
@@ -81,12 +94,31 @@ public class ClassTimeTableResource {
     /**
      * {@code GET  /class-time-tables} : get all the classTimeTables.
      *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of classTimeTables in body.
      */
     @GetMapping("/class-time-tables")
-    public List<ClassTimeTableDTO> getAllClassTimeTables() {
-        log.debug("REST request to get all ClassTimeTables");
-        return classTimeTableService.findAll();
+    public ResponseEntity<List<ClassTimeTableDTO>> getAllClassTimeTables(ClassTimeTableCriteria criteria, Pageable pageable) {
+    	 StringFilter filter=new StringFilter();
+         filter.setEquals(TenantContext.getCurrentTenant());
+     	criteria.setTenantId(filter);
+    	log.debug("REST request to get ClassTimeTables by criteria: {}", criteria);
+        Page<ClassTimeTableDTO> page = classTimeTableQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /class-time-tables/count} : count all the classTimeTables.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/class-time-tables/count")
+    public ResponseEntity<Long> countClassTimeTables(ClassTimeTableCriteria criteria) {
+        log.debug("REST request to count ClassTimeTables by criteria: {}", criteria);
+        return ResponseEntity.ok().body(classTimeTableQueryService.countByCriteria(criteria));
     }
 
     /**

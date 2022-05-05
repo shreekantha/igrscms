@@ -1,0 +1,40 @@
+{
+  "igrscmsApp": {
+    "userProfile": {
+      "home": {
+        "title": "User Profiles",
+        "createLabel": "Create a new User Profile",
+        "createOrEditLabel": "Create or edit a User Profile",
+        "notFound": "No User Profiles found"
+      },
+      "created": "A new User Profile is created with identifier {{ param }}",
+      "updated": "A User Profile is updated with identifier {{ param }}",
+      "deleted": "A User Profile is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete User Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "User Profile"
+      },
+      "title": "Title",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "mobile": "Mobile",
+      "email": "Email",
+      "designation": "Designation",
+      "userType": "User Type",
+      "eduQual": "Edu Qual",
+      "aboutMe": "About Me",
+      "hobbies": "Hobbies",
+      "aadhaar": "Aadhaar",
+      "dob": "Dob",
+      "imgLink": "Img Link",
+      "img": "Img",
+      "facebookLink": "Facebook Link",
+      "instaLink": "Insta Link",
+      "twitterLink": "Twitter Link",
+      "linkedLink": "Linked Link",
+      "tenantId": "Tenant Id"
+    }
+  }
+}

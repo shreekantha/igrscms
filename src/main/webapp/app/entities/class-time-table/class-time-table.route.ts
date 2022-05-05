@@ -40,6 +40,7 @@ export const classTimeTableRoute: Routes = [
     component: ClassTimeTableComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'igrscmsApp.classTimeTable.home.title',
     },
     canActivate: [UserRouteAccessService],

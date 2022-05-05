@@ -16,7 +16,8 @@
       "detail": {
         "title": "Class Time Table Config"
       },
-      "timeTableGenType": "Time Table Gen Type"
+      "timeTableGenType": "Time Table Gen Type",
+      "tenantId": "Tenant Id"
     }
   }
 }

@@ -29,6 +29,7 @@
                     <th scope="col"  jhiSortBy="imgUrl"><span jhiTranslate="igrscmsApp.term.imgUrl">Img Url</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="img"><span jhiTranslate="igrscmsApp.term.img">Img</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="noOfStudents"><span jhiTranslate="igrscmsApp.term.noOfStudents">No Of Students</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.term.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="classTeacherFirstName"><span jhiTranslate="igrscmsApp.term.classTeacher">Class Teacher</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -47,6 +48,7 @@
                         <span *ngIf="term.img">{{ term.imgContentType }}, {{ byteSize(term.img) }}</span>
                     </td>
                     <td>{{ term.noOfStudents }}</td>
+                    <td>{{ term.tenantId }}</td>
                     <td>
                         {{ term.classTeacherFirstName }}
                     </td>

@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(ClassTimeTableService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new ClassTimeTable(0, Day.MON);
+      elemDefault = new ClassTimeTable(0, Day.MON, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -56,6 +56,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             day: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -73,6 +74,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             day: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

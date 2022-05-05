@@ -27,6 +27,7 @@
                     <th scope="col"  jhiSortBy="endDate"><span jhiTranslate="igrscmsApp.academicCalendar.endDate">End Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="academicYear"><span jhiTranslate="igrscmsApp.academicCalendar.academicYear">Academic Year</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="active"><span jhiTranslate="igrscmsApp.academicCalendar.active">Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.academicCalendar.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="degreeName"><span jhiTranslate="igrscmsApp.academicCalendar.degree">Degree</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -38,6 +39,7 @@
                     <td>{{ academicCalendar.endDate | date:'mediumDate' }}</td>
                     <td>{{ academicCalendar.academicYear }}</td>
                     <td>{{ academicCalendar.active }}</td>
+                    <td>{{ academicCalendar.tenantId }}</td>
                     <td>
                         <div *ngIf="academicCalendar.degreeId">
                             <a [routerLink]="['/degree', academicCalendar.degreeId , 'view']" >{{ academicCalendar.degreeName }}</a>

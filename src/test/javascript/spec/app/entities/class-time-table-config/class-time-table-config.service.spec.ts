@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(ClassTimeTableConfigService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new ClassTimeTableConfig(0, TimeTableGenType.ALL_DAYS_EXCEPT_SAT);
+      elemDefault = new ClassTimeTableConfig(0, TimeTableGenType.ALL_DAYS_EXCEPT_SAT, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -56,6 +56,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             timeTableGenType: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -73,6 +74,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             timeTableGenType: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

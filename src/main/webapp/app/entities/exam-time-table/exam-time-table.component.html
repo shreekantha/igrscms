@@ -27,6 +27,7 @@
                     <th scope="col"  jhiSortBy="date"><span jhiTranslate="igrscmsApp.examTimeTable.date">Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="startTime"><span jhiTranslate="igrscmsApp.examTimeTable.startTime">Start Time</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="endTime"><span jhiTranslate="igrscmsApp.examTimeTable.endTime">End Time</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.examTimeTable.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="academicCalendarAcademicYear"><span jhiTranslate="igrscmsApp.examTimeTable.academicCalendar">Academic Calendar</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="degreeName"><span jhiTranslate="igrscmsApp.examTimeTable.degree">Degree</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="departmentName"><span jhiTranslate="igrscmsApp.examTimeTable.department">Department</span> <fa-icon icon="sort"></fa-icon></th>
@@ -42,6 +43,7 @@
                     <td>{{ examTimeTable.date | date:'mediumDate' }}</td>
                     <td>{{ examTimeTable.startTime | date:'medium' }}</td>
                     <td>{{ examTimeTable.endTime | date:'medium' }}</td>
+                    <td>{{ examTimeTable.tenantId }}</td>
                     <td>
                         <div *ngIf="examTimeTable.academicCalendarId">
                             <a [routerLink]="['/academic-calendar', examTimeTable.academicCalendarId , 'view']" >{{ examTimeTable.academicCalendarAcademicYear }}</a>

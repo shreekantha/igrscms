@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface PeriodRepository extends JpaRepository<Period, Long> {
+public interface PeriodRepository extends JpaRepository<Period, Long>, JpaSpecificationExecutor<Period> {
 }

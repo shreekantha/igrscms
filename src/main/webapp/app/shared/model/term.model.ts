@@ -10,6 +10,7 @@ export interface ITerm {
   imgContentType?: string;
   img?: any;
   noOfStudents?: number;
+  tenantId?: string;
   classTimeTables?: IClassTimeTable[];
   examTimeTables?: IExamTimeTable[];
   classTeacherFirstName?: string;
@@ -26,6 +27,7 @@ export class Term implements ITerm {
     public imgContentType?: string,
     public img?: any,
     public noOfStudents?: number,
+    public tenantId?: string,
     public classTimeTables?: IClassTimeTable[],
     public examTimeTables?: IExamTimeTable[],
     public classTeacherFirstName?: string,

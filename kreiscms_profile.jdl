@@ -1,0 +1,74 @@
+entity UserProfile {
+  title Title required,
+  firstName String required,
+  lastName String,
+  mobile String required maxlength(10) minlength(10),
+  email String required,
+  designation Designation required,
+  userType UserType required,
+  eduQual String,
+  aboutMe String,
+  hobbies String,
+  aadhaar String  maxlength(12) minlength(12),
+  dob LocalDate required,
+  
+  imgLink String,
+  img ImageBlob maxbytes(15360),
+  facebookLink String ,
+  instaLink String ,
+  twitterLink String ,
+  linkedLink String ,
+  tenantId String
+}
+
+enum UserType{
+	Principal, Teaching, Non_Teaching,  Group_D
+}
+
+enum Title{
+ Dr, Mr, Ms
+}
+
+enum Designation {
+  PRINCIPAL("Principal")
+  ASST_TEACHER_KANNADA("Asst Teacher Kannada")
+  ASST_TEACHER_ENGLISH("Asst Teacher English")
+  ASST_TEACHER_HINDI("Asst Teacher Hindi")
+  ASST_TEACHER_MATHS("Asst Teacher Maths")
+  ASST_TEACHER_SCIENCE("Asst Teacher Science")
+  ASST_TEACHER_SOCIAL_SCIENCE("Asst Teacher Social Science")
+  ASST_TEACHER_PE("Asst Teacher Physical Education")
+  ASST_TEACHER_COMPUTER("Asst Teacher Computer")
+  ASST_TEACHER_MUSIC("Asst Teacher Music"),
+  ASST_TEACHER_DRAWING("Asst Teacher Drawing")
+  STAFF_NURSE("Staff Nurse")
+  WARDEN("Warden")
+  FDA("FDA"),
+  SDA("SDA")
+}
+
+
+// defining multiple OneToMany relationships with comments
+
+
+//relationship ManyToOne {
+ //EmployeeSkill{user(firstName) required} to User 
+ //EmployeeCertificate{user(firstName) required} to  User 
+//}
+
+
+
+
+// Set pagination options
+paginate  UserProfile with pagination
+
+// Use Data Transfer Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl 
+filter UserProfile
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
+

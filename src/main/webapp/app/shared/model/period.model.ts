@@ -6,6 +6,7 @@ export interface IPeriod {
   label?: string;
   startTime?: string;
   endTime?: string;
+  tenantId?: string;
   classTimeTables?: IClassTimeTable[];
 }
 
@@ -16,6 +17,7 @@ export class Period implements IPeriod {
     public label?: string,
     public startTime?: string,
     public endTime?: string,
+    public tenantId?: string,
     public classTimeTables?: IClassTimeTable[]
   ) {}
 }

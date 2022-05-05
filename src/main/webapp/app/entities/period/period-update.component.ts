@@ -21,6 +21,7 @@ export class PeriodUpdateComponent implements OnInit {
     label: [null, [Validators.required]],
     startTime: [null, [Validators.required]],
     endTime: [null, [Validators.required]],
+    tenantId: [],
   });
 
   constructor(protected periodService: PeriodService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -38,6 +39,7 @@ export class PeriodUpdateComponent implements OnInit {
       label: period.label,
       startTime: period.startTime,
       endTime: period.endTime,
+      tenantId: period.tenantId,
     });
   }
 
@@ -63,6 +65,7 @@ export class PeriodUpdateComponent implements OnInit {
       label: this.editForm.get(['label'])!.value,
       startTime: this.editForm.get(['startTime'])!.value,
       endTime: this.editForm.get(['endTime'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(CourseService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Course(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Course(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -57,6 +57,7 @@ describe('Service Tests', () => {
             name: 'BBBBBB',
             alias: 'BBBBBB',
             code: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -76,6 +77,7 @@ describe('Service Tests', () => {
             name: 'BBBBBB',
             alias: 'BBBBBB',
             code: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

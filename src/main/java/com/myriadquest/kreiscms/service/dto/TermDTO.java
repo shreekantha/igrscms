@@ -30,6 +30,8 @@ public class TermDTO implements Serializable {
     @NotNull
     private Integer noOfStudents;
 
+    private String tenantId;
+
 
     private Long classTeacherId;
 
@@ -99,6 +101,14 @@ public class TermDTO implements Serializable {
         this.noOfStudents = noOfStudents;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     public Long getClassTeacherId() {
         return classTeacherId;
     }
@@ -143,6 +153,7 @@ public class TermDTO implements Serializable {
             ", imgUrl='" + getImgUrl() + "'" +
             ", img='" + getImg() + "'" +
             ", noOfStudents=" + getNoOfStudents() +
+            ", tenantId='" + getTenantId() + "'" +
             ", classTeacherId=" + getClassTeacherId() +
             ", classTeacherFirstName='" + getClassTeacherFirstName() + "'" +
             "}";

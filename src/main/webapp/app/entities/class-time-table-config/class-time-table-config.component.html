@@ -24,6 +24,7 @@
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
                     <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTableConfig.timeTableGenType">Time Table Gen Type</span></th>
+                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTableConfig.tenantId">Tenant Id</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -31,6 +32,7 @@
                 <tr *ngFor="let classTimeTableConfig of classTimeTableConfigs ;trackBy: trackId">
                     <td><a [routerLink]="['/class-time-table-config', classTimeTableConfig.id, 'view']">{{ classTimeTableConfig.id }}</a></td>
                     <td jhiTranslate="{{ 'igrscmsApp.TimeTableGenType.' + classTimeTableConfig.timeTableGenType }}">{{ classTimeTableConfig.timeTableGenType }}</td>
+                    <td>{{ classTimeTableConfig.tenantId }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

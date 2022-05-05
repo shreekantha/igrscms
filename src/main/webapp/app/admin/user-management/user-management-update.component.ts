@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
 import { LANGUAGES } from 'app/core/language/language.constants';
 import { User } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
@@ -32,6 +31,7 @@ export class UserManagementUpdateComponent implements OnInit {
     email: ['', [Validators.minLength(5), Validators.maxLength(254), Validators.email]],
     activated: [],
     langKey: [],
+    tenantId: [],
     authorities: [],
   });
 
@@ -81,6 +81,7 @@ export class UserManagementUpdateComponent implements OnInit {
       email: user.email,
       activated: user.activated,
       langKey: user.langKey,
+      tenantId: user.tenantId,
       authorities: user.authorities,
     });
   }
@@ -92,6 +93,7 @@ export class UserManagementUpdateComponent implements OnInit {
     user.email = this.editForm.get(['email'])!.value;
     user.activated = this.editForm.get(['activated'])!.value;
     user.langKey = this.editForm.get(['langKey'])!.value;
+    user.tenantId = this.editForm.get(['tenantId'])!.value;
     user.authorities = this.editForm.get(['authorities'])!.value;
   }
 

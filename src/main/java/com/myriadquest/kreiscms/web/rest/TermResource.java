@@ -3,7 +3,11 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.TermService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.TermDTO;
+import com.myriadquest.kreiscms.service.dto.TermCriteria;
+import com.myriadquest.kreiscms.config.TenantContext;
+import com.myriadquest.kreiscms.service.TermQueryService;
 
+import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -40,8 +44,11 @@ public class TermResource {
 
     private final TermService termService;
 
-    public TermResource(TermService termService) {
+    private final TermQueryService termQueryService;
+
+    public TermResource(TermService termService, TermQueryService termQueryService) {
         this.termService = termService;
+        this.termQueryService = termQueryService;
     }
 
     /**
@@ -88,14 +95,30 @@ public class TermResource {
      * {@code GET  /terms} : get all the terms.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of terms in body.
      */
     @GetMapping("/terms")
-    public ResponseEntity<List<TermDTO>> getAllTerms(Pageable pageable) {
-        log.debug("REST request to get a page of Terms");
-        Page<TermDTO> page = termService.findAll(pageable);
+    public ResponseEntity<List<TermDTO>> getAllTerms(TermCriteria criteria, Pageable pageable) {
+    	 StringFilter filter=new StringFilter();
+         filter.setEquals(TenantContext.getCurrentTenant());
+     	criteria.setTenantId(filter);
+        log.debug("REST request to get Terms by criteria: {}", criteria);
+        Page<TermDTO> page = termQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /terms/count} : count all the terms.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/terms/count")
+    public ResponseEntity<Long> countTerms(TermCriteria criteria) {
+        log.debug("REST request to count Terms by criteria: {}", criteria);
+        return ResponseEntity.ok().body(termQueryService.countByCriteria(criteria));
     }
 
     /**

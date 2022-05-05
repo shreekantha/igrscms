@@ -18,6 +18,9 @@
             <column name="day" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="tenant_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="faculty_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -63,6 +66,7 @@
                   tableName="class_time_table">
             <column name="id" type="numeric"/>
             <column name="day" type="string"/>
+            <column name="tenant_id" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

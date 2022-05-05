@@ -26,6 +26,7 @@ export class AcademicCalendarUpdateComponent implements OnInit {
     endDate: [null, [Validators.required]],
     academicYear: [null, [Validators.required]],
     active: [null, [Validators.required]],
+    tenantId: [],
     degreeId: [],
   });
 
@@ -51,6 +52,7 @@ export class AcademicCalendarUpdateComponent implements OnInit {
       endDate: academicCalendar.endDate,
       academicYear: academicCalendar.academicYear,
       active: academicCalendar.active,
+      tenantId: academicCalendar.tenantId,
       degreeId: academicCalendar.degreeId,
     });
   }
@@ -77,6 +79,7 @@ export class AcademicCalendarUpdateComponent implements OnInit {
       endDate: this.editForm.get(['endDate'])!.value,
       academicYear: this.editForm.get(['academicYear'])!.value,
       active: this.editForm.get(['active'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
       degreeId: this.editForm.get(['degreeId'])!.value,
     };
   }

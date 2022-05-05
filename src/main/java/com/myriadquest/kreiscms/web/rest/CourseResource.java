@@ -3,12 +3,22 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.CourseService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.CourseDTO;
+import com.myriadquest.kreiscms.service.dto.CourseCriteria;
+import com.myriadquest.kreiscms.config.TenantContext;
+import com.myriadquest.kreiscms.service.CourseQueryService;
 
+import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +44,11 @@ public class CourseResource {
 
     private final CourseService courseService;
 
-    public CourseResource(CourseService courseService) {
+    private final CourseQueryService courseQueryService;
+
+    public CourseResource(CourseService courseService, CourseQueryService courseQueryService) {
         this.courseService = courseService;
+        this.courseQueryService = courseQueryService;
     }
 
     /**
@@ -81,12 +94,31 @@ public class CourseResource {
     /**
      * {@code GET  /courses} : get all the courses.
      *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of courses in body.
      */
     @GetMapping("/courses")
-    public List<CourseDTO> getAllCourses() {
-        log.debug("REST request to get all Courses");
-        return courseService.findAll();
+    public ResponseEntity<List<CourseDTO>> getAllCourses(CourseCriteria criteria, Pageable pageable) {
+    	 StringFilter filter=new StringFilter();
+         filter.setEquals(TenantContext.getCurrentTenant());
+     	criteria.setTenantId(filter);
+    	log.debug("REST request to get Courses by criteria: {}", criteria);
+        Page<CourseDTO> page = courseQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /courses/count} : count all the courses.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/courses/count")
+    public ResponseEntity<Long> countCourses(CourseCriteria criteria) {
+        log.debug("REST request to count Courses by criteria: {}", criteria);
+        return ResponseEntity.ok().body(courseQueryService.countByCriteria(criteria));
     }
 
     /**

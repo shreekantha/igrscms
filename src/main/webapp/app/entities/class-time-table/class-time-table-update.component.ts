@@ -41,6 +41,7 @@ export class ClassTimeTableUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     day: [null, [Validators.required]],
+    tenantId: [],
     facultyId: [],
     academicCalendarId: [],
     degreeId: [],
@@ -87,6 +88,7 @@ export class ClassTimeTableUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: classTimeTable.id,
       day: classTimeTable.day,
+      tenantId: classTimeTable.tenantId,
       facultyId: classTimeTable.facultyId,
       academicCalendarId: classTimeTable.academicCalendarId,
       degreeId: classTimeTable.degreeId,
@@ -116,6 +118,7 @@ export class ClassTimeTableUpdateComponent implements OnInit {
       ...new ClassTimeTable(),
       id: this.editForm.get(['id'])!.value,
       day: this.editForm.get(['day'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
       facultyId: this.editForm.get(['facultyId'])!.value,
       academicCalendarId: this.editForm.get(['academicCalendarId'])!.value,
       degreeId: this.editForm.get(['degreeId'])!.value,

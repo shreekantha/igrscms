@@ -68,6 +68,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.academicCalendar.tenantId" for="field_tenantId">Tenant Id</label>
+                    <input type="text" class="form-control" name="tenantId" id="field_tenantId"
+                           formControlName="tenantId"/>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="igrscmsApp.academicCalendar.degree" for="field_degree">Degree</label>
                     <select class="form-control" id="field_degree" name="degree" formControlName="degreeId">
                         <option [ngValue]="null"></option>

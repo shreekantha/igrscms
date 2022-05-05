@@ -40,6 +40,7 @@ export const courseRoute: Routes = [
     component: CourseComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'igrscmsApp.course.home.title',
     },
     canActivate: [UserRouteAccessService],

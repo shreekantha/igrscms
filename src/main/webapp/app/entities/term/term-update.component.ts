@@ -29,6 +29,7 @@ export class TermUpdateComponent implements OnInit {
     img: [null, []],
     imgContentType: [],
     noOfStudents: [null, [Validators.required]],
+    tenantId: [],
     classTeacherId: [],
   });
 
@@ -60,6 +61,7 @@ export class TermUpdateComponent implements OnInit {
       img: term.img,
       imgContentType: term.imgContentType,
       noOfStudents: term.noOfStudents,
+      tenantId: term.tenantId,
       classTeacherId: term.classTeacherId,
     });
   }
@@ -115,6 +117,7 @@ export class TermUpdateComponent implements OnInit {
       imgContentType: this.editForm.get(['imgContentType'])!.value,
       img: this.editForm.get(['img'])!.value,
       noOfStudents: this.editForm.get(['noOfStudents'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
       classTeacherId: this.editForm.get(['classTeacherId'])!.value,
     };
   }

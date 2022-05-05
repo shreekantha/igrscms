@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(TermService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Term(0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'image/png', 'AAAAAAA', 0);
+      elemDefault = new Term(0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'image/png', 'AAAAAAA', 0, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -60,6 +60,7 @@ describe('Service Tests', () => {
             imgUrl: 'BBBBBB',
             img: 'BBBBBB',
             noOfStudents: 1,
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -82,6 +83,7 @@ describe('Service Tests', () => {
             imgUrl: 'BBBBBB',
             img: 'BBBBBB',
             noOfStudents: 1,
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

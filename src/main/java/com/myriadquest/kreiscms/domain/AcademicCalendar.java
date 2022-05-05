@@ -43,6 +43,9 @@ public class AcademicCalendar implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
     @OneToMany(mappedBy = "academicCalendar")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<ClassTimeTable> classTimeTables = new HashSet<>();
@@ -114,6 +117,19 @@ public class AcademicCalendar implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public AcademicCalendar tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     public Set<ClassTimeTable> getClassTimeTables() {
@@ -205,6 +221,7 @@ public class AcademicCalendar implements Serializable {
             ", endDate='" + getEndDate() + "'" +
             ", academicYear='" + getAcademicYear() + "'" +
             ", active='" + isActive() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

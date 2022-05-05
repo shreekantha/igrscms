@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(PeriodService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Period(0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Period(0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -58,6 +58,7 @@ describe('Service Tests', () => {
             label: 'BBBBBB',
             startTime: 'BBBBBB',
             endTime: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -78,6 +79,7 @@ describe('Service Tests', () => {
             label: 'BBBBBB',
             startTime: 'BBBBBB',
             endTime: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

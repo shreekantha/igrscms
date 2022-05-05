@@ -25,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new ExamTimeTable(0, ExamType.FA, currentDate, currentDate, currentDate);
+      elemDefault = new ExamTimeTable(0, ExamType.FA, currentDate, currentDate, currentDate, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -80,6 +80,7 @@ describe('Service Tests', () => {
             date: currentDate.format(DATE_FORMAT),
             startTime: currentDate.format(DATE_TIME_FORMAT),
             endTime: currentDate.format(DATE_TIME_FORMAT),
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -107,6 +108,7 @@ describe('Service Tests', () => {
             date: currentDate.format(DATE_FORMAT),
             startTime: currentDate.format(DATE_TIME_FORMAT),
             endTime: currentDate.format(DATE_TIME_FORMAT),
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

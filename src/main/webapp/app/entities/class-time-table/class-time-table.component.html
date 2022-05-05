@@ -21,16 +21,17 @@
     <div class="table-responsive" id="entities" *ngIf="classTimeTables && classTimeTables.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.day">Day</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.faculty">Faculty</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.academicCalendar">Academic Calendar</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.degree">Degree</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.department">Department</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.term">Term</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.course">Course</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.classTimeTable.period">Period</span></th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="day"><span jhiTranslate="igrscmsApp.classTimeTable.day">Day</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.classTimeTable.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="facultyFirstName"><span jhiTranslate="igrscmsApp.classTimeTable.faculty">Faculty</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="academicCalendarAcademicYear"><span jhiTranslate="igrscmsApp.classTimeTable.academicCalendar">Academic Calendar</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="degreeName"><span jhiTranslate="igrscmsApp.classTimeTable.degree">Degree</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="departmentName"><span jhiTranslate="igrscmsApp.classTimeTable.department">Department</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="termTitle"><span jhiTranslate="igrscmsApp.classTimeTable.term">Term</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="courseName"><span jhiTranslate="igrscmsApp.classTimeTable.course">Course</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="periodLabel"><span jhiTranslate="igrscmsApp.classTimeTable.period">Period</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -38,6 +39,7 @@
                 <tr *ngFor="let classTimeTable of classTimeTables ;trackBy: trackId">
                     <td><a [routerLink]="['/class-time-table', classTimeTable.id, 'view']">{{ classTimeTable.id }}</a></td>
                     <td jhiTranslate="{{ 'igrscmsApp.Day.' + classTimeTable.day }}">{{ classTimeTable.day }}</td>
+                    <td>{{ classTimeTable.tenantId }}</td>
                     <td>
                         {{ classTimeTable.facultyFirstName }}
                     </td>
@@ -97,5 +99,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="classTimeTables && classTimeTables.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
     </div>
 </div>

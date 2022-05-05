@@ -84,6 +84,7 @@ public class CacheConfiguration {
             createCache(cm, com.myriadquest.kreiscms.domain.ClassTimeTableConfig.class.getName());
             createCache(cm, com.myriadquest.kreiscms.domain.ClassTimeTable.class.getName());
             createCache(cm, com.myriadquest.kreiscms.domain.ExamTimeTable.class.getName());
+            createCache(cm, com.myriadquest.kreiscms.domain.UserProfile.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

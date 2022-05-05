@@ -22,6 +22,8 @@ public class PeriodDTO implements Serializable {
     @NotNull
     private String endTime;
 
+    private String tenantId;
+
     
     public Long getId() {
         return id;
@@ -63,6 +65,14 @@ public class PeriodDTO implements Serializable {
         this.endTime = endTime;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -89,6 +99,7 @@ public class PeriodDTO implements Serializable {
             ", label='" + getLabel() + "'" +
             ", startTime='" + getStartTime() + "'" +
             ", endTime='" + getEndTime() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

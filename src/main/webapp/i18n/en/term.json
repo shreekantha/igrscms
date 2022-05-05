@@ -22,6 +22,7 @@
       "imgUrl": "Img Url",
       "img": "Img",
       "noOfStudents": "No Of Students",
+      "tenantId": "Tenant Id",
       "classTimeTable": "Class Time Table",
       "examTimeTable": "Exam Time Table",
       "classTeacher": "Class Teacher"

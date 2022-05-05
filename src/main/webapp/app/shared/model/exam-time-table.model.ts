@@ -7,6 +7,7 @@ export interface IExamTimeTable {
   date?: Moment;
   startTime?: Moment;
   endTime?: Moment;
+  tenantId?: string;
   academicCalendarAcademicYear?: string;
   academicCalendarId?: number;
   degreeName?: string;
@@ -26,6 +27,7 @@ export class ExamTimeTable implements IExamTimeTable {
     public date?: Moment,
     public startTime?: Moment,
     public endTime?: Moment,
+    public tenantId?: string,
     public academicCalendarAcademicYear?: string,
     public academicCalendarId?: number,
     public degreeName?: string,

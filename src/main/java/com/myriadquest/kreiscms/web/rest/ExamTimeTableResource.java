@@ -3,7 +3,11 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.ExamTimeTableService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.ExamTimeTableDTO;
+import com.myriadquest.kreiscms.service.dto.ExamTimeTableCriteria;
+import com.myriadquest.kreiscms.config.TenantContext;
+import com.myriadquest.kreiscms.service.ExamTimeTableQueryService;
 
+import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -40,8 +44,11 @@ public class ExamTimeTableResource {
 
     private final ExamTimeTableService examTimeTableService;
 
-    public ExamTimeTableResource(ExamTimeTableService examTimeTableService) {
+    private final ExamTimeTableQueryService examTimeTableQueryService;
+
+    public ExamTimeTableResource(ExamTimeTableService examTimeTableService, ExamTimeTableQueryService examTimeTableQueryService) {
         this.examTimeTableService = examTimeTableService;
+        this.examTimeTableQueryService = examTimeTableQueryService;
     }
 
     /**
@@ -88,14 +95,30 @@ public class ExamTimeTableResource {
      * {@code GET  /exam-time-tables} : get all the examTimeTables.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of examTimeTables in body.
      */
     @GetMapping("/exam-time-tables")
-    public ResponseEntity<List<ExamTimeTableDTO>> getAllExamTimeTables(Pageable pageable) {
-        log.debug("REST request to get a page of ExamTimeTables");
-        Page<ExamTimeTableDTO> page = examTimeTableService.findAll(pageable);
+    public ResponseEntity<List<ExamTimeTableDTO>> getAllExamTimeTables(ExamTimeTableCriteria criteria, Pageable pageable) {
+    	 StringFilter filter=new StringFilter();
+         filter.setEquals(TenantContext.getCurrentTenant());
+     	criteria.setTenantId(filter);
+    	log.debug("REST request to get ExamTimeTables by criteria: {}", criteria);
+        Page<ExamTimeTableDTO> page = examTimeTableQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /exam-time-tables/count} : count all the examTimeTables.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/exam-time-tables/count")
+    public ResponseEntity<Long> countExamTimeTables(ExamTimeTableCriteria criteria) {
+        log.debug("REST request to count ExamTimeTables by criteria: {}", criteria);
+        return ResponseEntity.ok().body(examTimeTableQueryService.countByCriteria(criteria));
     }
 
     /**

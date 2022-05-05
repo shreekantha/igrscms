@@ -14,6 +14,8 @@ public class ClassTimeTableConfigDTO implements Serializable {
     @NotNull
     private TimeTableGenType timeTableGenType;
 
+    private String tenantId;
+
     
     public Long getId() {
         return id;
@@ -29,6 +31,14 @@ public class ClassTimeTableConfigDTO implements Serializable {
 
     public void setTimeTableGenType(TimeTableGenType timeTableGenType) {
         this.timeTableGenType = timeTableGenType;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     @Override
@@ -54,6 +64,7 @@ public class ClassTimeTableConfigDTO implements Serializable {
         return "ClassTimeTableConfigDTO{" +
             "id=" + getId() +
             ", timeTableGenType='" + getTimeTableGenType() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

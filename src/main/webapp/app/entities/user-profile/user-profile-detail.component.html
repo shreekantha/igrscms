@@ -1,0 +1,107 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="userProfile">
+            <h2><span jhiTranslate="igrscmsApp.userProfile.detail.title">User Profile</span> {{ userProfile.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.userProfile.title">Title</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'igrscmsApp.Title.' + userProfile.title }}">{{ userProfile.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.firstName">First Name</span></dt>
+                <dd>
+                    <span>{{ userProfile.firstName }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.lastName">Last Name</span></dt>
+                <dd>
+                    <span>{{ userProfile.lastName }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.mobile">Mobile</span></dt>
+                <dd>
+                    <span>{{ userProfile.mobile }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.email">Email</span></dt>
+                <dd>
+                    <span>{{ userProfile.email }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.designation">Designation</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'igrscmsApp.Designation.' + userProfile.designation }}">{{ userProfile.designation }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.userType">User Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'igrscmsApp.UserType.' + userProfile.userType }}">{{ userProfile.userType }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.eduQual">Edu Qual</span></dt>
+                <dd>
+                    <span>{{ userProfile.eduQual }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.aboutMe">About Me</span></dt>
+                <dd>
+                    <span>{{ userProfile.aboutMe }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.hobbies">Hobbies</span></dt>
+                <dd>
+                    <span>{{ userProfile.hobbies }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.aadhaar">Aadhaar</span></dt>
+                <dd>
+                    <span>{{ userProfile.aadhaar }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.dob">Dob</span></dt>
+                <dd>
+                    <span>{{ userProfile.dob }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.imgLink">Img Link</span></dt>
+                <dd>
+                    <span>{{ userProfile.imgLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.img">Img</span></dt>
+                <dd>
+                    <div *ngIf="userProfile.img">
+                        <a (click)="openFile(userProfile.imgContentType, userProfile.img)">
+                            <img [src]="'data:' + userProfile.imgContentType + ';base64,' + userProfile.img" style="max-width: 100%;" alt="userProfile image"/>
+                        </a>
+                        {{ userProfile.imgContentType }}, {{ byteSize(userProfile.img) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.facebookLink">Facebook Link</span></dt>
+                <dd>
+                    <span>{{ userProfile.facebookLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.instaLink">Insta Link</span></dt>
+                <dd>
+                    <span>{{ userProfile.instaLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.twitterLink">Twitter Link</span></dt>
+                <dd>
+                    <span>{{ userProfile.twitterLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.linkedLink">Linked Link</span></dt>
+                <dd>
+                    <span>{{ userProfile.linkedLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.userProfile.tenantId">Tenant Id</span></dt>
+                <dd>
+                    <span>{{ userProfile.tenantId }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/user-profile', userProfile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

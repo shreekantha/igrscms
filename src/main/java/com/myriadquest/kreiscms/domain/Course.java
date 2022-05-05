@@ -3,6 +3,8 @@ package com.myriadquest.kreiscms.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.myriadquest.kreiscms.config.TenantContext;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -36,6 +38,9 @@ public class Course implements Serializable {
     @NotNull
     @Column(name = "code", nullable = false)
     private String code;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     @OneToMany(mappedBy = "course")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -91,6 +96,19 @@ public class Course implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public Course tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
     }
 
     public Set<ClassTimeTable> getClassTimeTables() {
@@ -168,6 +186,7 @@ public class Course implements Serializable {
             ", name='" + getName() + "'" +
             ", alias='" + getAlias() + "'" +
             ", code='" + getCode() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

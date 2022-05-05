@@ -14,6 +14,8 @@ public class ClassTimeTableDTO implements Serializable {
     @NotNull
     private Day day;
 
+    private String tenantId;
+
 
     private Long facultyId;
 
@@ -57,6 +59,14 @@ public class ClassTimeTableDTO implements Serializable {
 
     public void setDay(Day day) {
         this.day = day;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     public Long getFacultyId() {
@@ -194,6 +204,7 @@ public class ClassTimeTableDTO implements Serializable {
         return "ClassTimeTableDTO{" +
             "id=" + getId() +
             ", day='" + getDay() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             ", facultyId=" + getFacultyId() +
             ", facultyFirstName='" + getFacultyFirstName() + "'" +
             ", academicCalendarId=" + getAcademicCalendarId() +

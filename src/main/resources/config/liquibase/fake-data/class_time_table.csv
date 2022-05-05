@@ -1,11 +1,11 @@
-id;day
-1;SUN
-2;MON
-3;THU
-4;SUN
-5;SAT
-6;SAT
-7;SUN
-8;TUE
-9;SAT
-10;TUE
+id;day;tenant_id
+1;SUN;aggregate
+2;THU;Rhode Island
+3;MON;IB Bedfordshire
+4;WED;Fresh leverage Chief
+5;TUE;United Kingdom payment infrastructure
+6;MON;strategize Consultant
+7;SAT;Factors bus
+8;THU;Tactics Architect
+9;SUN;Netherlands Antilles West Virginia transmitter
+10;TUE;Producer

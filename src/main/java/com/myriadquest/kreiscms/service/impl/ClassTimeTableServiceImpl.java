@@ -8,13 +8,12 @@ import com.myriadquest.kreiscms.service.mapper.ClassTimeTableMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link ClassTimeTable}.
@@ -44,11 +43,10 @@ public class ClassTimeTableServiceImpl implements ClassTimeTableService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ClassTimeTableDTO> findAll() {
+    public Page<ClassTimeTableDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ClassTimeTables");
-        return classTimeTableRepository.findAll().stream()
-            .map(classTimeTableMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return classTimeTableRepository.findAll(pageable)
+            .map(classTimeTableMapper::toDto);
     }
 
 

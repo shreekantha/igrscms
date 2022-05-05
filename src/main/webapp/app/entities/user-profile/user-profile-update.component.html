@@ -1,0 +1,244 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-user-profile-heading" jhiTranslate="igrscmsApp.userProfile.home.createOrEditLabel">Create or edit a User Profile</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.title" for="field_title">Title</label>
+                    <select class="form-control" name="title" formControlName="title" id="field_title">
+                        <option value="Dr">{{ 'igrscmsApp.Title.Dr' | translate }}</option>
+                        <option value="Mr">{{ 'igrscmsApp.Title.Mr' | translate }}</option>
+                        <option value="Ms">{{ 'igrscmsApp.Title.Ms' | translate }}</option>
+                    </select>
+                    <div *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.firstName" for="field_firstName">First Name</label>
+                    <input type="text" class="form-control" name="firstName" id="field_firstName"
+                           formControlName="firstName"/>
+                    <div *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('firstName')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.lastName" for="field_lastName">Last Name</label>
+                    <input type="text" class="form-control" name="lastName" id="field_lastName"
+                           formControlName="lastName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.mobile" for="field_mobile">Mobile</label>
+                    <input type="text" class="form-control" name="mobile" id="field_mobile"
+                           formControlName="mobile"/>
+                    <div *ngIf="editForm.get('mobile')!.invalid && (editForm.get('mobile')!.dirty || editForm.get('mobile')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('mobile')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('mobile')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 10 }">
+                        This field is required to be at least 10 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('mobile')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 10 }">
+                        This field cannot be longer than 10 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.email" for="field_email">Email</label>
+                    <input type="text" class="form-control" name="email" id="field_email"
+                           formControlName="email"/>
+                    <div *ngIf="editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('email')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.designation" for="field_designation">Designation</label>
+                    <select class="form-control" name="designation" formControlName="designation" id="field_designation">
+                        <option value="PRINCIPAL">{{ 'igrscmsApp.Designation.PRINCIPAL' | translate }}</option>
+                        <option value="ASST_TEACHER_KANNADA">{{ 'igrscmsApp.Designation.ASST_TEACHER_KANNADA' | translate }}</option>
+                        <option value="ASST_TEACHER_ENGLISH">{{ 'igrscmsApp.Designation.ASST_TEACHER_ENGLISH' | translate }}</option>
+                        <option value="ASST_TEACHER_HINDI">{{ 'igrscmsApp.Designation.ASST_TEACHER_HINDI' | translate }}</option>
+                        <option value="ASST_TEACHER_MATHS">{{ 'igrscmsApp.Designation.ASST_TEACHER_MATHS' | translate }}</option>
+                        <option value="ASST_TEACHER_SCIENCE">{{ 'igrscmsApp.Designation.ASST_TEACHER_SCIENCE' | translate }}</option>
+                        <option value="ASST_TEACHER_SOCIAL_SCIENCE">{{ 'igrscmsApp.Designation.ASST_TEACHER_SOCIAL_SCIENCE' | translate }}</option>
+                        <option value="ASST_TEACHER_PE">{{ 'igrscmsApp.Designation.ASST_TEACHER_PE' | translate }}</option>
+                        <option value="ASST_TEACHER_COMPUTER">{{ 'igrscmsApp.Designation.ASST_TEACHER_COMPUTER' | translate }}</option>
+                        <option value="ASST_TEACHER_MUSIC">{{ 'igrscmsApp.Designation.ASST_TEACHER_MUSIC' | translate }}</option>
+                        <option value="ASST_TEACHER_DRAWING">{{ 'igrscmsApp.Designation.ASST_TEACHER_DRAWING' | translate }}</option>
+                        <option value="STAFF_NURSE">{{ 'igrscmsApp.Designation.STAFF_NURSE' | translate }}</option>
+                        <option value="WARDEN">{{ 'igrscmsApp.Designation.WARDEN' | translate }}</option>
+                        <option value="FDA">{{ 'igrscmsApp.Designation.FDA' | translate }}</option>
+                        <option value="SDA">{{ 'igrscmsApp.Designation.SDA' | translate }}</option>
+                    </select>
+                    <div *ngIf="editForm.get('designation')!.invalid && (editForm.get('designation')!.dirty || editForm.get('designation')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('designation')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.userType" for="field_userType">User Type</label>
+                    <select class="form-control" name="userType" formControlName="userType" id="field_userType">
+                        <option value="Principal">{{ 'igrscmsApp.UserType.Principal' | translate }}</option>
+                        <option value="Teaching">{{ 'igrscmsApp.UserType.Teaching' | translate }}</option>
+                        <option value="Non_Teaching">{{ 'igrscmsApp.UserType.Non_Teaching' | translate }}</option>
+                        <option value="Group_D">{{ 'igrscmsApp.UserType.Group_D' | translate }}</option>
+                    </select>
+                    <div *ngIf="editForm.get('userType')!.invalid && (editForm.get('userType')!.dirty || editForm.get('userType')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('userType')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.eduQual" for="field_eduQual">Edu Qual</label>
+                    <input type="text" class="form-control" name="eduQual" id="field_eduQual"
+                           formControlName="eduQual"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.aboutMe" for="field_aboutMe">About Me</label>
+                    <input type="text" class="form-control" name="aboutMe" id="field_aboutMe"
+                           formControlName="aboutMe"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.hobbies" for="field_hobbies">Hobbies</label>
+                    <input type="text" class="form-control" name="hobbies" id="field_hobbies"
+                           formControlName="hobbies"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.aadhaar" for="field_aadhaar">Aadhaar</label>
+                    <input type="text" class="form-control" name="aadhaar" id="field_aadhaar"
+                           formControlName="aadhaar"/>
+                    <div *ngIf="editForm.get('aadhaar')!.invalid && (editForm.get('aadhaar')!.dirty || editForm.get('aadhaar')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('aadhaar')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 12 }">
+                        This field is required to be at least 12 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('aadhaar')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 12 }">
+                        This field cannot be longer than 12 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.dob" for="field_dob">Dob</label>
+                    <div class="input-group">
+                        <input id="field_dob" type="text" class="form-control" name="dob" ngbDatepicker #dobDp="ngbDatepicker" formControlName="dob"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dobDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('dob')!.invalid && (editForm.get('dob')!.dirty || editForm.get('dob')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dob')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.imgLink" for="field_imgLink">Img Link</label>
+                    <input type="text" class="form-control" name="imgLink" id="field_imgLink"
+                           formControlName="imgLink"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.img" for="field_img">Img</label>
+                    <div>
+                        <img [src]="'data:' + editForm.get('imgContentType')!.value + ';base64,' + editForm.get('img')!.value" style="max-height: 100px;" *ngIf="editForm.get('img')!.value" alt="userProfile image"/>
+                        <div *ngIf="editForm.get('img')!.value" class="form-text text-danger clearfix">
+                            <span class="pull-left">{{ editForm.get('imgContentType')!.value }}, {{ byteSize(editForm.get('img')!.value) }}</span>
+                            <button type="button" (click)="clearInputImage('img', 'imgContentType', 'file_img')" class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_img" (change)="setFileData($event, 'img', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="img" id="field_img"
+                           formControlName="img"/>
+                    <input type="hidden" class="form-control" name="imgContentType" id="field_imgContentType"
+                           formControlName="imgContentType" />
+                    <div *ngIf="editForm.get('img')!.invalid && (editForm.get('img')!.dirty || editForm.get('img')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('img')?.errors?.maxbytes" jhiTranslate="entity.validation.maxbytes" [translateValues]="{ max: 15360 }">
+                            This field cannot be more than 15360.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.facebookLink" for="field_facebookLink">Facebook Link</label>
+                    <input type="text" class="form-control" name="facebookLink" id="field_facebookLink"
+                           formControlName="facebookLink"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.instaLink" for="field_instaLink">Insta Link</label>
+                    <input type="text" class="form-control" name="instaLink" id="field_instaLink"
+                           formControlName="instaLink"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.twitterLink" for="field_twitterLink">Twitter Link</label>
+                    <input type="text" class="form-control" name="twitterLink" id="field_twitterLink"
+                           formControlName="twitterLink"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.linkedLink" for="field_linkedLink">Linked Link</label>
+                    <input type="text" class="form-control" name="linkedLink" id="field_linkedLink"
+                           formControlName="linkedLink"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.userProfile.tenantId" for="field_tenantId">Tenant Id</label>
+                    <input type="text" class="form-control" name="tenantId" id="field_tenantId"
+                           formControlName="tenantId"/>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

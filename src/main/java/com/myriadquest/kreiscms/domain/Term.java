@@ -1,6 +1,8 @@
 package com.myriadquest.kreiscms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.myriadquest.kreiscms.config.TenantContext;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -52,6 +54,9 @@ public class Term implements Serializable {
     @NotNull
     @Column(name = "no_of_students", nullable = false)
     private Integer noOfStudents;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     @OneToMany(mappedBy = "term")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -165,6 +170,19 @@ public class Term implements Serializable {
         this.noOfStudents = noOfStudents;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public Term tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
+    }
+
     public Set<ClassTimeTable> getClassTimeTables() {
         return classTimeTables;
     }
@@ -257,6 +275,7 @@ public class Term implements Serializable {
             ", img='" + getImg() + "'" +
             ", imgContentType='" + getImgContentType() + "'" +
             ", noOfStudents=" + getNoOfStudents() +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

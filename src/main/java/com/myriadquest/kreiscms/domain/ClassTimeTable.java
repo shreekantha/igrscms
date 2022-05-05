@@ -9,6 +9,7 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 
+import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.domain.enumeration.Day;
 
 /**
@@ -30,6 +31,9 @@ public class ClassTimeTable implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "day", nullable = false)
     private Day day;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "classTimeTables", allowSetters = true)
@@ -79,6 +83,19 @@ public class ClassTimeTable implements Serializable {
 
     public void setDay(Day day) {
         this.day = day;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public ClassTimeTable tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
     }
 
     public User getFaculty() {
@@ -195,6 +212,7 @@ public class ClassTimeTable implements Serializable {
         return "ClassTimeTable{" +
             "id=" + getId() +
             ", day='" + getDay() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

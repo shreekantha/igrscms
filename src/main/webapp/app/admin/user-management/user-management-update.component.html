@@ -102,6 +102,22 @@
                         </small>
                     </div>
                 </div>
+                
+                 <div class="form-group">
+                    <label jhiTranslate="userManagement.tenantId">Tenant Id</label>
+                    <input type="text" class="form-control" name="tenantId"
+                           formControlName="tenantId">
+
+              <!-- 
+                  <div *ngIf="editForm.get('tenantId')!.invalid && (editForm.get('tenantId')!.dirty || editForm.get('tenantId')!.touched)">
+                         <small class="form-text text-danger"
+                               *ngIf="editForm.get('tenantId')?.errors?.required"
+                               jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
+                      --> 
+                </div>
 
                 <div class="form-check">
                     <label class="form-check-label" for="activated">

@@ -2,7 +2,9 @@ package com.myriadquest.kreiscms.service;
 
 import com.myriadquest.kreiscms.service.dto.ClassTimeTableDTO;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.Optional;
 
 /**
@@ -21,9 +23,10 @@ public interface ClassTimeTableService {
     /**
      * Get all the classTimeTables.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    List<ClassTimeTableDTO> findAll();
+    Page<ClassTimeTableDTO> findAll(Pageable pageable);
 
 
     /**

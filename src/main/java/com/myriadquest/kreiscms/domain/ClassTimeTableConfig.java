@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 
+import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.domain.enumeration.TimeTableGenType;
 
 /**
@@ -30,6 +31,9 @@ public class ClassTimeTableConfig implements Serializable {
     @Column(name = "time_table_gen_type", nullable = false)
     private TimeTableGenType timeTableGenType;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -50,6 +54,19 @@ public class ClassTimeTableConfig implements Serializable {
 
     public void setTimeTableGenType(TimeTableGenType timeTableGenType) {
         this.timeTableGenType = timeTableGenType;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public ClassTimeTableConfig tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -75,6 +92,7 @@ public class ClassTimeTableConfig implements Serializable {
         return "ClassTimeTableConfig{" +
             "id=" + getId() +
             ", timeTableGenType='" + getTimeTableGenType() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

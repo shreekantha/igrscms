@@ -18,6 +18,7 @@ export class ClassTimeTableConfigUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     timeTableGenType: [null, [Validators.required]],
+    tenantId: [],
   });
 
   constructor(
@@ -36,6 +37,7 @@ export class ClassTimeTableConfigUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: classTimeTableConfig.id,
       timeTableGenType: classTimeTableConfig.timeTableGenType,
+      tenantId: classTimeTableConfig.tenantId,
     });
   }
 
@@ -58,6 +60,7 @@ export class ClassTimeTableConfigUpdateComponent implements OnInit {
       ...new ClassTimeTableConfig(),
       id: this.editForm.get(['id'])!.value,
       timeTableGenType: this.editForm.get(['timeTableGenType'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

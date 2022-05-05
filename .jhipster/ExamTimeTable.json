@@ -21,6 +21,10 @@
       "fieldName": "endTime",
       "fieldType": "Instant",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "tenantId",
+      "fieldType": "String"
     }
   ],
   "relationships": [
@@ -65,7 +69,7 @@
   "dto": "mapstruct",
   "pagination": "pagination",
   "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,

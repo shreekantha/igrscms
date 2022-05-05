@@ -3,7 +3,11 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.PeriodService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.PeriodDTO;
+import com.myriadquest.kreiscms.service.dto.PeriodCriteria;
+import com.myriadquest.kreiscms.config.TenantContext;
+import com.myriadquest.kreiscms.service.PeriodQueryService;
 
+import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -34,8 +38,11 @@ public class PeriodResource {
 
     private final PeriodService periodService;
 
-    public PeriodResource(PeriodService periodService) {
+    private final PeriodQueryService periodQueryService;
+
+    public PeriodResource(PeriodService periodService, PeriodQueryService periodQueryService) {
         this.periodService = periodService;
+        this.periodQueryService = periodQueryService;
     }
 
     /**
@@ -81,12 +88,29 @@ public class PeriodResource {
     /**
      * {@code GET  /periods} : get all the periods.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of periods in body.
      */
     @GetMapping("/periods")
-    public List<PeriodDTO> getAllPeriods() {
-        log.debug("REST request to get all Periods");
-        return periodService.findAll();
+    public ResponseEntity<List<PeriodDTO>> getAllPeriods(PeriodCriteria criteria) {
+    	 StringFilter filter=new StringFilter();
+         filter.setEquals(TenantContext.getCurrentTenant());
+     	criteria.setTenantId(filter);
+        log.debug("REST request to get Periods by criteria: {}", criteria);
+        List<PeriodDTO> entityList = periodQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /periods/count} : count all the periods.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/periods/count")
+    public ResponseEntity<Long> countPeriods(PeriodCriteria criteria) {
+        log.debug("REST request to count Periods by criteria: {}", criteria);
+        return ResponseEntity.ok().body(periodQueryService.countByCriteria(criteria));
     }
 
     /**

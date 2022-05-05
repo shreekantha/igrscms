@@ -12,7 +12,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ClassTimeTableRepository extends JpaRepository<ClassTimeTable, Long> {
+public interface ClassTimeTableRepository extends JpaRepository<ClassTimeTable, Long>, JpaSpecificationExecutor<ClassTimeTable> {
 
     @Query("select classTimeTable from ClassTimeTable classTimeTable where classTimeTable.faculty.login = ?#{principal.username}")
     List<ClassTimeTable> findByFacultyIsCurrentUser();

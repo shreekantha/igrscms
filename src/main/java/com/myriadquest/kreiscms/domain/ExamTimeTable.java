@@ -45,6 +45,9 @@ public class ExamTimeTable implements Serializable {
     @Column(name = "end_time", nullable = false)
     private Instant endTime;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "examTimeTables", allowSetters = true)
     private AcademicCalendar academicCalendar;
@@ -124,6 +127,19 @@ public class ExamTimeTable implements Serializable {
 
     public void setEndTime(Instant endTime) {
         this.endTime = endTime;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public ExamTimeTable tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     public AcademicCalendar getAcademicCalendar() {
@@ -217,6 +233,7 @@ public class ExamTimeTable implements Serializable {
             ", date='" + getDate() + "'" +
             ", startTime='" + getStartTime() + "'" +
             ", endTime='" + getEndTime() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

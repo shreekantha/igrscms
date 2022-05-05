@@ -29,6 +29,7 @@
         "classTimeTableConfig": "Class Time Table Config",
         "classTimeTable": "Class Time Table",
         "examTimeTable": "Exam Time Table",
+        "userProfile": "User Profile",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

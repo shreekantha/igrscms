@@ -17,6 +17,7 @@
         "title": "Class Time Table"
       },
       "day": "Day",
+      "tenantId": "Tenant Id",
       "faculty": "Faculty",
       "academicCalendar": "Academic Calendar",
       "degree": "Degree",

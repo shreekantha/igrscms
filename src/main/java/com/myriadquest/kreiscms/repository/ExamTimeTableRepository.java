@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ExamTimeTableRepository extends JpaRepository<ExamTimeTable, Long> {
+public interface ExamTimeTableRepository extends JpaRepository<ExamTimeTable, Long>, JpaSpecificationExecutor<ExamTimeTable> {
 }

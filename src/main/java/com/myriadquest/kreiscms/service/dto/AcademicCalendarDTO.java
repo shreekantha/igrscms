@@ -23,6 +23,8 @@ public class AcademicCalendarDTO implements Serializable {
     @NotNull
     private Boolean active;
 
+    private String tenantId;
+
 
     private Long degreeId;
 
@@ -68,6 +70,14 @@ public class AcademicCalendarDTO implements Serializable {
         this.active = active;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     public Long getDegreeId() {
         return degreeId;
     }
@@ -110,6 +120,7 @@ public class AcademicCalendarDTO implements Serializable {
             ", endDate='" + getEndDate() + "'" +
             ", academicYear='" + getAcademicYear() + "'" +
             ", active='" + isActive() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             ", degreeId=" + getDegreeId() +
             ", degreeName='" + getDegreeName() + "'" +
             "}";

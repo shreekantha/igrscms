@@ -8,6 +8,7 @@ export interface IAcademicCalendar {
   endDate?: Moment;
   academicYear?: string;
   active?: boolean;
+  tenantId?: string;
   classTimeTables?: IClassTimeTable[];
   examTimeTables?: IExamTimeTable[];
   degreeName?: string;
@@ -21,6 +22,7 @@ export class AcademicCalendar implements IAcademicCalendar {
     public endDate?: Moment,
     public academicYear?: string,
     public active?: boolean,
+    public tenantId?: string,
     public classTimeTables?: IClassTimeTable[],
     public examTimeTables?: IExamTimeTable[],
     public degreeName?: string,

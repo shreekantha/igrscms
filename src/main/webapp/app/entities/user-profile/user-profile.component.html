@@ -1,0 +1,112 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="igrscmsApp.userProfile.home.title">User Profiles</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-user-profile" [routerLink]="['/user-profile/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="igrscmsApp.userProfile.home.createLabel">
+            Create a new User Profile
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="userProfiles?.length === 0">
+        <span jhiTranslate="igrscmsApp.userProfile.home.notFound">No userProfiles found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="userProfiles && userProfiles.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="title"><span jhiTranslate="igrscmsApp.userProfile.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="firstName"><span jhiTranslate="igrscmsApp.userProfile.firstName">First Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastName"><span jhiTranslate="igrscmsApp.userProfile.lastName">Last Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="mobile"><span jhiTranslate="igrscmsApp.userProfile.mobile">Mobile</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="email"><span jhiTranslate="igrscmsApp.userProfile.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="designation"><span jhiTranslate="igrscmsApp.userProfile.designation">Designation</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="userType"><span jhiTranslate="igrscmsApp.userProfile.userType">User Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="eduQual"><span jhiTranslate="igrscmsApp.userProfile.eduQual">Edu Qual</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="aboutMe"><span jhiTranslate="igrscmsApp.userProfile.aboutMe">About Me</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="hobbies"><span jhiTranslate="igrscmsApp.userProfile.hobbies">Hobbies</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="aadhaar"><span jhiTranslate="igrscmsApp.userProfile.aadhaar">Aadhaar</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dob"><span jhiTranslate="igrscmsApp.userProfile.dob">Dob</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="imgLink"><span jhiTranslate="igrscmsApp.userProfile.imgLink">Img Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="img"><span jhiTranslate="igrscmsApp.userProfile.img">Img</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="facebookLink"><span jhiTranslate="igrscmsApp.userProfile.facebookLink">Facebook Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="instaLink"><span jhiTranslate="igrscmsApp.userProfile.instaLink">Insta Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="twitterLink"><span jhiTranslate="igrscmsApp.userProfile.twitterLink">Twitter Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="linkedLink"><span jhiTranslate="igrscmsApp.userProfile.linkedLink">Linked Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.userProfile.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let userProfile of userProfiles ;trackBy: trackId">
+                    <td><a [routerLink]="['/user-profile', userProfile.id, 'view']">{{ userProfile.id }}</a></td>
+                    <td jhiTranslate="{{ 'igrscmsApp.Title.' + userProfile.title }}">{{ userProfile.title }}</td>
+                    <td>{{ userProfile.firstName }}</td>
+                    <td>{{ userProfile.lastName }}</td>
+                    <td>{{ userProfile.mobile }}</td>
+                    <td>{{ userProfile.email }}</td>
+                    <td jhiTranslate="{{ 'igrscmsApp.Designation.' + userProfile.designation }}">{{ userProfile.designation }}</td>
+                    <td jhiTranslate="{{ 'igrscmsApp.UserType.' + userProfile.userType }}">{{ userProfile.userType }}</td>
+                    <td>{{ userProfile.eduQual }}</td>
+                    <td>{{ userProfile.aboutMe }}</td>
+                    <td>{{ userProfile.hobbies }}</td>
+                    <td>{{ userProfile.aadhaar }}</td>
+                    <td>{{ userProfile.dob | date:'mediumDate' }}</td>
+                    <td>{{ userProfile.imgLink }}</td>
+                    <td>
+                        <a *ngIf="userProfile.img" (click)="openFile(userProfile.imgContentType, userProfile.img)">
+                            <img [src]="'data:' + userProfile.imgContentType + ';base64,' + userProfile.img" style="max-height: 30px;" alt="userProfile image"/>
+                        </a>
+                        <span *ngIf="userProfile.img">{{ userProfile.imgContentType }}, {{ byteSize(userProfile.img) }}</span>
+                    </td>
+                    <td>{{ userProfile.facebookLink }}</td>
+                    <td>{{ userProfile.instaLink }}</td>
+                    <td>{{ userProfile.twitterLink }}</td>
+                    <td>{{ userProfile.linkedLink }}</td>
+                    <td>{{ userProfile.tenantId }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/user-profile', userProfile.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/user-profile', userProfile.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(userProfile)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="userProfiles && userProfiles.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

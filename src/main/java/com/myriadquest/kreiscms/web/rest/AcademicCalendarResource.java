@@ -3,7 +3,11 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.AcademicCalendarService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.AcademicCalendarDTO;
+import com.myriadquest.kreiscms.service.dto.AcademicCalendarCriteria;
+import com.myriadquest.kreiscms.config.TenantContext;
+import com.myriadquest.kreiscms.service.AcademicCalendarQueryService;
 
+import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -40,8 +44,11 @@ public class AcademicCalendarResource {
 
     private final AcademicCalendarService academicCalendarService;
 
-    public AcademicCalendarResource(AcademicCalendarService academicCalendarService) {
+    private final AcademicCalendarQueryService academicCalendarQueryService;
+
+    public AcademicCalendarResource(AcademicCalendarService academicCalendarService, AcademicCalendarQueryService academicCalendarQueryService) {
         this.academicCalendarService = academicCalendarService;
+        this.academicCalendarQueryService = academicCalendarQueryService;
     }
 
     /**
@@ -88,14 +95,30 @@ public class AcademicCalendarResource {
      * {@code GET  /academic-calendars} : get all the academicCalendars.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of academicCalendars in body.
      */
     @GetMapping("/academic-calendars")
-    public ResponseEntity<List<AcademicCalendarDTO>> getAllAcademicCalendars(Pageable pageable) {
-        log.debug("REST request to get a page of AcademicCalendars");
-        Page<AcademicCalendarDTO> page = academicCalendarService.findAll(pageable);
+    public ResponseEntity<List<AcademicCalendarDTO>> getAllAcademicCalendars(AcademicCalendarCriteria criteria, Pageable pageable) {
+    	 StringFilter filter=new StringFilter();
+         filter.setEquals(TenantContext.getCurrentTenant());
+     	criteria.setTenantId(filter);
+    	log.debug("REST request to get AcademicCalendars by criteria: {}", criteria);
+        Page<AcademicCalendarDTO> page = academicCalendarQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /academic-calendars/count} : count all the academicCalendars.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/academic-calendars/count")
+    public ResponseEntity<Long> countAcademicCalendars(AcademicCalendarCriteria criteria) {
+        log.debug("REST request to count AcademicCalendars by criteria: {}", criteria);
+        return ResponseEntity.ok().body(academicCalendarQueryService.countByCriteria(criteria));
     }
 
     /**

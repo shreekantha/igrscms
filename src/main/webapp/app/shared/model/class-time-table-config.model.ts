@@ -3,8 +3,9 @@ import { TimeTableGenType } from 'app/shared/model/enumerations/time-table-gen-t
 export interface IClassTimeTableConfig {
   id?: number;
   timeTableGenType?: TimeTableGenType;
+  tenantId?: string;
 }
 
 export class ClassTimeTableConfig implements IClassTimeTableConfig {
-  constructor(public id?: number, public timeTableGenType?: TimeTableGenType) {}
+  constructor(public id?: number, public timeTableGenType?: TimeTableGenType, public tenantId?: string) {}
 }

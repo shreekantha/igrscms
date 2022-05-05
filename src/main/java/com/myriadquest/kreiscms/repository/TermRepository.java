@@ -12,7 +12,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TermRepository extends JpaRepository<Term, Long> {
+public interface TermRepository extends JpaRepository<Term, Long>, JpaSpecificationExecutor<Term> {
 
     @Query("select term from Term term where term.classTeacher.login = ?#{principal.username}")
     List<Term> findByClassTeacherIsCurrentUser();

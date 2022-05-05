@@ -98,6 +98,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="igrscmsApp.term.tenantId" for="field_tenantId">Tenant Id</label>
+                    <input type="text" class="form-control" name="tenantId" id="field_tenantId"
+                           formControlName="tenantId"/>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="igrscmsApp.term.classTeacher" for="field_classTeacher">Class Teacher</label>
                     <select class="form-control" id="field_classTeacher" name="classTeacher" formControlName="classTeacherId">
                         <option [ngValue]="null"></option>

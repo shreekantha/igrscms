@@ -21,11 +21,12 @@
     <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.course.name">Name</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.course.alias">Alias</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.course.code">Code</span></th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="name"><span jhiTranslate="igrscmsApp.course.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="alias"><span jhiTranslate="igrscmsApp.course.alias">Alias</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="code"><span jhiTranslate="igrscmsApp.course.code">Code</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.course.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -35,6 +36,7 @@
                     <td>{{ course.name }}</td>
                     <td>{{ course.alias }}</td>
                     <td>{{ course.code }}</td>
+                    <td>{{ course.tenantId }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
@@ -61,5 +63,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="courses && courses.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
     </div>
 </div>

@@ -3,6 +3,8 @@ package com.myriadquest.kreiscms.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.myriadquest.kreiscms.config.TenantContext;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -40,6 +42,9 @@ public class Period implements Serializable {
     @NotNull
     @Column(name = "end_time", nullable = false)
     private String endTime;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     @OneToMany(mappedBy = "period")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -106,6 +111,19 @@ public class Period implements Serializable {
         this.endTime = endTime;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public Period tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
+    }
+
     public Set<ClassTimeTable> getClassTimeTables() {
         return classTimeTables;
     }
@@ -157,6 +175,7 @@ public class Period implements Serializable {
             ", label='" + getLabel() + "'" +
             ", startTime='" + getStartTime() + "'" +
             ", endTime='" + getEndTime() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

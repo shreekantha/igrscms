@@ -6,6 +6,10 @@
       "fieldType": "TimeTableGenType",
       "fieldValues": "ALL_DAYS_EXCEPT_SAT (sameForAllDaysExceptSaturday),ALL_DAYS (sameForAllDays)",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "tenantId",
+      "fieldType": "String"
     }
   ],
   "relationships": [],
@@ -14,7 +18,7 @@
   "dto": "mapstruct",
   "pagination": "no",
   "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,

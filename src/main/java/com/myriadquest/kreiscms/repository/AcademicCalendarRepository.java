@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AcademicCalendarRepository extends JpaRepository<AcademicCalendar, Long> {
+public interface AcademicCalendarRepository extends JpaRepository<AcademicCalendar, Long>, JpaSpecificationExecutor<AcademicCalendar> {
 }

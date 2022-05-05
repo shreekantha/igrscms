@@ -6,6 +6,7 @@ export interface ICourse {
   name?: string;
   alias?: string;
   code?: string;
+  tenantId?: string;
   classTimeTables?: IClassTimeTable[];
   examTimeTables?: IExamTimeTable[];
 }
@@ -16,6 +17,7 @@ export class Course implements ICourse {
     public name?: string,
     public alias?: string,
     public code?: string,
+    public tenantId?: string,
     public classTimeTables?: IClassTimeTable[],
     public examTimeTables?: IExamTimeTable[]
   ) {}

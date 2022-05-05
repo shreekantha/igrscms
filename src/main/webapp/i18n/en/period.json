@@ -20,6 +20,7 @@
       "label": "Label",
       "startTime": "Start Time",
       "endTime": "End Time",
+      "tenantId": "Tenant Id",
       "classTimeTable": "Class Time Table"
     }
   }

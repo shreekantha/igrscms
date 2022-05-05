@@ -1,0 +1,111 @@
+{
+  "name": "UserProfile",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "Title",
+      "fieldValues": "Dr,Mr,Ms",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobile",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "minlength"],
+      "fieldValidateRulesMaxlength": "10",
+      "fieldValidateRulesMinlength": "10"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "designation",
+      "fieldType": "Designation",
+      "fieldValues": "PRINCIPAL (Principal),ASST_TEACHER_KANNADA (Asst Teacher Kannada),ASST_TEACHER_ENGLISH (Asst Teacher English),ASST_TEACHER_HINDI (Asst Teacher Hindi),ASST_TEACHER_MATHS (Asst Teacher Maths),ASST_TEACHER_SCIENCE (Asst Teacher Science),ASST_TEACHER_SOCIAL_SCIENCE (Asst Teacher Social Science),ASST_TEACHER_PE (Asst Teacher Physical Education),ASST_TEACHER_COMPUTER (Asst Teacher Computer),ASST_TEACHER_MUSIC (Asst Teacher Music),ASST_TEACHER_DRAWING (Asst Teacher Drawing),STAFF_NURSE (Staff Nurse),WARDEN (Warden),FDA (FDA),SDA (SDA)",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "userType",
+      "fieldType": "UserType",
+      "fieldValues": "Principal,Teaching,Non_Teaching,Group_D",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eduQual",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aboutMe",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hobbies",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadhaar",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "minlength"],
+      "fieldValidateRulesMaxlength": "12",
+      "fieldValidateRulesMinlength": "12"
+    },
+    {
+      "fieldName": "dob",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "imgLink",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "img",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image",
+      "fieldValidateRules": ["maxbytes"],
+      "fieldValidateRulesMaxbytes": "15360"
+    },
+    {
+      "fieldName": "facebookLink",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "instaLink",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "twitterLink",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "linkedLink",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tenantId",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20220504035952",
+  "entityTableName": "user_profile",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

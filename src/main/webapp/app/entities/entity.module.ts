@@ -93,6 +93,10 @@ import { RouterModule } from '@angular/router';
         path: 'exam-time-table',
         loadChildren: () => import('./exam-time-table/exam-time-table.module').then(m => m.IgrscmsExamTimeTableModule),
       },
+      {
+        path: 'user-profile',
+        loadChildren: () => import('./user-profile/user-profile.module').then(m => m.IgrscmsUserProfileModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
