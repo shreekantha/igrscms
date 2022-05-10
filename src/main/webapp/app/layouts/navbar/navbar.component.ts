@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { JhiLanguageService } from 'ng-jhipster';
-import { SessionStorageService } from 'ngx-webstorage';
-
 import { VERSION } from 'app/app.constants';
-import { LANGUAGES } from 'app/core/language/language.constants';
 import { AccountService } from 'app/core/auth/account.service';
+import { LANGUAGES } from 'app/core/language/language.constants';
 import { LoginModalService } from 'app/core/login/login-modal.service';
 import { LoginService } from 'app/core/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
+import { JhiLanguageService } from 'ng-jhipster';
+import { SessionStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'jhi-navbar',
@@ -21,6 +20,31 @@ export class NavbarComponent implements OnInit {
   languages = LANGUAGES;
   swaggerEnabled?: boolean;
   version: string;
+  navItems: any[] = [
+    { link: 'institute', label: 'Institute', icon: 'asterisk' },
+    { link: 'home-img', label: 'Home Img', icon: 'asterisk' },
+    { link: 'notice-board', label: 'Notice Board', icon: 'asterisk' },
+    { link: 'term', label: 'Term', icon: 'asterisk' },
+    { divider: true, icon: 'asterisk' },
+    { link: 'gallery-cat', label: 'Gallery Cat', icon: 'asterisk' },
+    { link: 'gallery', label: 'Gallery', icon: 'asterisk' },
+    { divider: true, icon: 'asterisk' },
+    { link: 'user-profile', label: 'User Profile', icon: 'asterisk' },
+    { link: 'student-profile', label: 'Student Profile', icon: 'asterisk' },
+    { divider: true, icon: 'asterisk' },
+    { link: 'testimonial', label: 'Testimonial', icon: 'asterisk' },
+    { link: 'about-us', label: 'About Us', icon: 'asterisk' },
+    { link: 'Vision And Mission', label: 'Vision And Mission', icon: 'asterisk' },
+    { divider: true, icon: 'asterisk' },
+    { link: 'news', label: 'News', icon: 'asterisk' },
+    { link: 'contact-details', label: 'Contact Details', icon: 'asterisk' },
+    { divider: true, icon: 'asterisk' },
+    { link: 'speaker-desk', label: 'Speaker Desk', icon: 'asterisk' },
+    { link: 'academic-calendar', label: 'Academic Calendar', icon: 'asterisk' },
+    { link: 'course', label: 'Course', icon: 'asterisk' },
+    { link: 'class-time-table-config', label: 'Class Time Table Config', icon: 'asterisk' },
+    { link: 'class-time-table', label: 'Class Time Table', icon: 'asterisk' },
+  ];
 
   constructor(
     private loginService: LoginService,

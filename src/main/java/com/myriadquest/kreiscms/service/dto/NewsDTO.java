@@ -14,6 +14,7 @@ public class NewsDTO implements Serializable {
     @NotNull
     private String title;
 
+    @Lob
     private String description;
 
     @NotNull
@@ -24,6 +25,8 @@ public class NewsDTO implements Serializable {
     private byte[] img;
 
     private String imgContentType;
+    private String tenantId;
+
     
     public Long getId() {
         return id;
@@ -73,6 +76,14 @@ public class NewsDTO implements Serializable {
         this.imgContentType = imgContentType;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -99,6 +110,7 @@ public class NewsDTO implements Serializable {
             ", description='" + getDescription() + "'" +
             ", imgUrl='" + getImgUrl() + "'" +
             ", img='" + getImg() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

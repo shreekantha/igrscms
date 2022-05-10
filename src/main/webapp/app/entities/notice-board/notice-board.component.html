@@ -21,10 +21,11 @@
     <div class="table-responsive" id="entities" *ngIf="noticeBoards && noticeBoards.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.noticeBoard.details">Details</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.noticeBoard.active">Active</span></th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="details"><span jhiTranslate="igrscmsApp.noticeBoard.details">Details</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span jhiTranslate="igrscmsApp.noticeBoard.active">Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.noticeBoard.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -33,6 +34,7 @@
                     <td><a [routerLink]="['/notice-board', noticeBoard.id, 'view']">{{ noticeBoard.id }}</a></td>
                     <td>{{ noticeBoard.details }}</td>
                     <td>{{ noticeBoard.active }}</td>
+                    <td>{{ noticeBoard.tenantId }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
@@ -59,5 +61,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="noticeBoards && noticeBoards.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
     </div>
 </div>

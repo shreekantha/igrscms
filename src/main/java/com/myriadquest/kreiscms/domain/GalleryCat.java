@@ -3,6 +3,8 @@ package com.myriadquest.kreiscms.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.myriadquest.kreiscms.config.TenantContext;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -43,6 +45,9 @@ public class GalleryCat implements Serializable {
 
     @Column(name = "img_content_type")
     private String imgContentType;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     @OneToMany(mappedBy = "category")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -122,6 +127,19 @@ public class GalleryCat implements Serializable {
         this.imgContentType = imgContentType;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public GalleryCat tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
+    }
+
     public Set<Gallery> getGalleries() {
         return galleries;
     }
@@ -174,6 +192,7 @@ public class GalleryCat implements Serializable {
             ", imgLink='" + getImgLink() + "'" +
             ", img='" + getImg() + "'" +
             ", imgContentType='" + getImgContentType() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

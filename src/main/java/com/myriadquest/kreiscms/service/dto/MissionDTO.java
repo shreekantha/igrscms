@@ -13,6 +13,8 @@ public class MissionDTO implements Serializable {
     @NotNull
     private String details;
 
+    private String tenantId;
+
     
     public Long getId() {
         return id;
@@ -28,6 +30,14 @@ public class MissionDTO implements Serializable {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     @Override
@@ -53,6 +63,7 @@ public class MissionDTO implements Serializable {
         return "MissionDTO{" +
             "id=" + getId() +
             ", details='" + getDetails() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

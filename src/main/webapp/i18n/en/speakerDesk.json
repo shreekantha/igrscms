@@ -19,7 +19,8 @@
       "name": "Name",
       "note": "Note",
       "imgLink": "Img Link",
-      "img": "Img"
+      "img": "Img",
+      "tenantId": "Tenant Id"
     }
   }
 }

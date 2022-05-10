@@ -19,7 +19,8 @@
       "title": "Title",
       "description": "Description",
       "imgUrl": "Img Url",
-      "img": "Img"
+      "img": "Img",
+      "tenantId": "Tenant Id"
     }
   }
 }

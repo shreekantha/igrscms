@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "Igrscms",
+    "title": "KREIS CMS",
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "menu": {
       "home": "Home",
@@ -30,6 +30,10 @@
         "classTimeTable": "Class Time Table",
         "examTimeTable": "Exam Time Table",
         "userProfile": "User Profile",
+        "studentProfile": "Student Profile",
+        "alumniProfile": "Alumni Profile",
+        "testimonial": "Testimonial",
+        "visionAndMission": "Vision And Mission",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

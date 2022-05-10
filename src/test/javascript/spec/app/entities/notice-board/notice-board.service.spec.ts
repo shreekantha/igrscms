@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(NoticeBoardService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new NoticeBoard(0, 'AAAAAAA', false);
+      elemDefault = new NoticeBoard(0, 'AAAAAAA', false, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -56,6 +56,7 @@ describe('Service Tests', () => {
           {
             details: 'BBBBBB',
             active: true,
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -74,6 +75,7 @@ describe('Service Tests', () => {
           {
             details: 'BBBBBB',
             active: true,
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

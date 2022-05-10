@@ -18,6 +18,8 @@ public class NoticeBoardDTO implements Serializable {
     @NotNull
     private Boolean active;
 
+    private String tenantId;
+
     
     public Long getId() {
         return id;
@@ -41,6 +43,14 @@ public class NoticeBoardDTO implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     @Override
@@ -67,6 +77,7 @@ public class NoticeBoardDTO implements Serializable {
             "id=" + getId() +
             ", details='" + getDetails() + "'" +
             ", active='" + isActive() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

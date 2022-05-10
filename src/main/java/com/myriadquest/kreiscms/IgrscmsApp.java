@@ -1,9 +1,11 @@
 package com.myriadquest.kreiscms;
 
 import com.myriadquest.kreiscms.config.ApplicationProperties;
+import com.myriadquest.kreiscms.config.TenantContext;
 
 import io.github.jhipster.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
+import io.github.jhipster.service.filter.StringFilter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,6 +32,12 @@ public class IgrscmsApp {
 
     public IgrscmsApp(Environment env) {
         this.env = env;
+    }
+    
+    public static StringFilter getTenantFilter() {
+    	StringFilter filter=new StringFilter();
+        filter.setEquals(TenantContext.getCurrentTenant());
+		return filter;
     }
 
     /**

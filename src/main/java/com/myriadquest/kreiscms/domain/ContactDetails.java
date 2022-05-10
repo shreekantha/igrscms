@@ -2,6 +2,9 @@ package com.myriadquest.kreiscms.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+
+import com.myriadquest.kreiscms.config.TenantContext;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -34,8 +37,13 @@ public class ContactDetails implements Serializable {
     @Column(name = "contact", nullable = false)
     private String contact;
 
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "map_link")
     private String mapLink;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -97,6 +105,19 @@ public class ContactDetails implements Serializable {
     public void setMapLink(String mapLink) {
         this.mapLink = mapLink;
     }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public ContactDetails tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -124,6 +145,7 @@ public class ContactDetails implements Serializable {
             ", email='" + getEmail() + "'" +
             ", contact='" + getContact() + "'" +
             ", mapLink='" + getMapLink() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

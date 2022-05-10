@@ -20,6 +20,7 @@
       "description": "Description",
       "imgLink": "Img Link",
       "img": "Img",
+      "tenantId": "Tenant Id",
       "gallery": "Gallery"
     }
   }

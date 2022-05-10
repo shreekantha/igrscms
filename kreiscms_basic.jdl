@@ -96,14 +96,14 @@ relationship OneToMany {
 
 
 // Set pagination options
-paginate AboutUs, SpeakerDesk, Vision, Mission, GalleryCat, Gallery, News, ContactDetails, Institute with pagination
+paginate AboutUs, SpeakerDesk, HomeImg, NoticeBoard, Vision, Mission, GalleryCat, Gallery, News, ContactDetails, Institute with pagination
 
 // Use Data Transfer Objects (DTO)
 dto * with mapstruct
 
 // Set service options to all except few
 service all with serviceImpl 
-filter AboutUs, SpeakerDesk, Vision, Mission, GalleryCat, Gallery, News, ContactDetails, Institute
+filter AboutUs, SpeakerDesk, HomeImg, NoticeBoard, Vision, Mission, GalleryCat, Gallery, News, ContactDetails, Institute
 // Set an angular suffix
 // angularSuffix * with mySuffix
 

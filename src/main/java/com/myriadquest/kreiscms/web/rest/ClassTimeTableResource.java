@@ -4,7 +4,9 @@ import com.myriadquest.kreiscms.service.ClassTimeTableService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.ClassTimeTableDTO;
 import com.myriadquest.kreiscms.service.dto.ClassTimeTableCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.config.TenantContext;
+import com.myriadquest.kreiscms.domain.enumeration.Day;
 import com.myriadquest.kreiscms.service.ClassTimeTableQueryService;
 
 import io.github.jhipster.service.filter.StringFilter;
@@ -26,7 +28,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing {@link com.myriadquest.kreiscms.domain.ClassTimeTable}.
@@ -100,15 +104,23 @@ public class ClassTimeTableResource {
      */
     @GetMapping("/class-time-tables")
     public ResponseEntity<List<ClassTimeTableDTO>> getAllClassTimeTables(ClassTimeTableCriteria criteria, Pageable pageable) {
-    	 StringFilter filter=new StringFilter();
-         filter.setEquals(TenantContext.getCurrentTenant());
-     	criteria.setTenantId(filter);
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
     	log.debug("REST request to get ClassTimeTables by criteria: {}", criteria);
         Page<ClassTimeTableDTO> page = classTimeTableQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/class-time-tables/group-by-day")
+    public Map<Day, List<ClassTimeTableDTO>> getClassTimeTables(ClassTimeTableCriteria criteria) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get ClassTimeTables by criteria: {}", criteria);
+        List<ClassTimeTableDTO> list = classTimeTableQueryService.findByCriteria(criteria);
+    return   list.stream().collect(Collectors.groupingBy(ClassTimeTableDTO::getDay));
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+//        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    
     /**
      * {@code GET  /class-time-tables/count} : count all the classTimeTables.
      *

@@ -2,7 +2,9 @@ package com.myriadquest.kreiscms.service;
 
 import com.myriadquest.kreiscms.service.dto.NoticeBoardDTO;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.Optional;
 
 /**
@@ -21,9 +23,10 @@ public interface NoticeBoardService {
     /**
      * Get all the noticeBoards.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    List<NoticeBoardDTO> findAll();
+    Page<NoticeBoardDTO> findAll(Pageable pageable);
 
 
     /**

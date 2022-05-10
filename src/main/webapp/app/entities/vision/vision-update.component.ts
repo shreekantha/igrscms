@@ -18,6 +18,7 @@ export class VisionUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     detail: [null, [Validators.required]],
+    tenantId: [],
   });
 
   constructor(protected visionService: VisionService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -32,6 +33,7 @@ export class VisionUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: vision.id,
       detail: vision.detail,
+      tenantId: vision.tenantId,
     });
   }
 
@@ -54,6 +56,7 @@ export class VisionUpdateComponent implements OnInit {
       ...new Vision(),
       id: this.editForm.get(['id'])!.value,
       detail: this.editForm.get(['detail'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

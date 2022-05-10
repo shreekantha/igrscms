@@ -19,7 +19,8 @@
       "address": "Address",
       "email": "Email",
       "contact": "Contact",
-      "mapLink": "Map Link"
+      "mapLink": "Map Link",
+      "tenantId": "Tenant Id"
     }
   }
 }

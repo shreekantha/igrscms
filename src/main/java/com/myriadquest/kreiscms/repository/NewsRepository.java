@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface NewsRepository extends JpaRepository<News, Long> {
+public interface NewsRepository extends JpaRepository<News, Long>, JpaSpecificationExecutor<News> {
 }

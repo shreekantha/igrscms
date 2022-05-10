@@ -33,7 +33,7 @@ public class CORSFilter extends CorsFilter {
 		response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
 		response.setHeader("Access-Control-Max-Age", "86400"); // 24 Hours
 		response.setHeader("Access-Control-Allow-Headers",
-				"Origin, X-Requested-With, Content-Type, Accept, x-auth-token");
+				"Origin, X-Requested-With, Content-Type, Accept, x-auth-token, x-tenant-id");
 
 		if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
 			response.setStatus(HttpServletResponse.SC_OK);

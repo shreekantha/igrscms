@@ -18,6 +18,7 @@ export class MissionUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     details: [null, [Validators.required]],
+    tenantId: [],
   });
 
   constructor(protected missionService: MissionService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -32,6 +33,7 @@ export class MissionUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: mission.id,
       details: mission.details,
+      tenantId: mission.tenantId,
     });
   }
 
@@ -54,6 +56,7 @@ export class MissionUpdateComponent implements OnInit {
       ...new Mission(),
       id: this.editForm.get(['id'])!.value,
       details: this.editForm.get(['details'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

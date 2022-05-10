@@ -1,0 +1,36 @@
+{
+  "igrscmsApp": {
+    "alumniProfile": {
+      "home": {
+        "title": "Alumni Profiles",
+        "createLabel": "Create a new Alumni Profile",
+        "createOrEditLabel": "Create or edit a Alumni Profile",
+        "notFound": "No Alumni Profiles found"
+      },
+      "created": "A new Alumni Profile is created with identifier {{ param }}",
+      "updated": "A Alumni Profile is updated with identifier {{ param }}",
+      "deleted": "A Alumni Profile is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Alumni Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "Alumni Profile"
+      },
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "fathersName": "Fathers Name",
+      "mothersName": "Mothers Name",
+      "currentTerm": "Current Term",
+      "joiningAcademicYear": "Joining Academic Year",
+      "exitAcademicYear": "Exit Academic Year",
+      "mobile": "Mobile",
+      "email": "Email",
+      "aadhaar": "Aadhaar",
+      "dob": "Dob",
+      "imgLink": "Img Link",
+      "img": "Img",
+      "tenantId": "Tenant Id",
+      "active": "Active"
+    }
+  }
+}

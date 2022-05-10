@@ -30,6 +30,9 @@
             <column name="img_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="tenant_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -58,6 +61,7 @@
             <column name="img_link" type="string"/>
             <column name="img" type="blob"/>
             <column name="img_content_type" type="string"/>
+            <column name="tenant_id" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

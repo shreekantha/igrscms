@@ -23,8 +23,7 @@ public class HomeImgDTO implements Serializable {
     @Lob
     private String description;
 
-    @NotNull
-    private Boolean active;
+    private String tenantId;
 
     
     public Long getId() {
@@ -67,12 +66,12 @@ public class HomeImgDTO implements Serializable {
         this.description = description;
     }
 
-    public Boolean isActive() {
-        return active;
+    public String getTenantId() {
+        return tenantId;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     @Override
@@ -100,7 +99,7 @@ public class HomeImgDTO implements Serializable {
             ", img='" + getImg() + "'" +
             ", title='" + getTitle() + "'" +
             ", description='" + getDescription() + "'" +
-            ", active='" + isActive() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

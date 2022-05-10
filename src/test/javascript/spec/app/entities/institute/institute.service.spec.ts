@@ -20,7 +20,19 @@ describe('Service Tests', () => {
       service = injector.get(InstituteService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Institute(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'image/png', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Institute(
+        0,
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'image/png',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA'
+      );
     });
 
     describe('Service methods', () => {
@@ -62,6 +74,7 @@ describe('Service Tests', () => {
             logoLink: 'BBBBBB',
             logo: 'BBBBBB',
             tagLine: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -86,6 +99,7 @@ describe('Service Tests', () => {
             logoLink: 'BBBBBB',
             logo: 'BBBBBB',
             tagLine: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

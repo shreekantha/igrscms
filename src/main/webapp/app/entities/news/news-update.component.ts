@@ -24,6 +24,7 @@ export class NewsUpdateComponent implements OnInit {
     imgUrl: [null, [Validators.required]],
     img: [null, []],
     imgContentType: [],
+    tenantId: [],
   });
 
   constructor(
@@ -49,6 +50,7 @@ export class NewsUpdateComponent implements OnInit {
       imgUrl: news.imgUrl,
       img: news.img,
       imgContentType: news.imgContentType,
+      tenantId: news.tenantId,
     });
   }
 
@@ -101,6 +103,7 @@ export class NewsUpdateComponent implements OnInit {
       imgUrl: this.editForm.get(['imgUrl'])!.value,
       imgContentType: this.editForm.get(['imgContentType'])!.value,
       img: this.editForm.get(['img'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

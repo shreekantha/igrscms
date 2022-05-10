@@ -3,6 +3,9 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.NewsService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.NewsDTO;
+import com.myriadquest.kreiscms.service.dto.NewsCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.service.NewsQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +43,11 @@ public class NewsResource {
 
     private final NewsService newsService;
 
-    public NewsResource(NewsService newsService) {
+    private final NewsQueryService newsQueryService;
+
+    public NewsResource(NewsService newsService, NewsQueryService newsQueryService) {
         this.newsService = newsService;
+        this.newsQueryService = newsQueryService;
     }
 
     /**
@@ -88,14 +94,28 @@ public class NewsResource {
      * {@code GET  /news} : get all the news.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of news in body.
      */
     @GetMapping("/news")
-    public ResponseEntity<List<NewsDTO>> getAllNews(Pageable pageable) {
-        log.debug("REST request to get a page of News");
-        Page<NewsDTO> page = newsService.findAll(pageable);
+    public ResponseEntity<List<NewsDTO>> getAllNews(NewsCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get News by criteria: {}", criteria);
+        Page<NewsDTO> page = newsQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /news/count} : count all the news.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/news/count")
+    public ResponseEntity<Long> countNews(NewsCriteria criteria) {
+        log.debug("REST request to count News by criteria: {}", criteria);
+        return ResponseEntity.ok().body(newsQueryService.countByCriteria(criteria));
     }
 
     /**

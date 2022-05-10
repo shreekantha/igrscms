@@ -18,6 +18,9 @@
             <column name="detail" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="tenant_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -42,6 +45,7 @@
                   tableName="vision">
             <column name="id" type="numeric"/>
             <column name="detail" type="string"/>
+            <column name="tenant_id" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

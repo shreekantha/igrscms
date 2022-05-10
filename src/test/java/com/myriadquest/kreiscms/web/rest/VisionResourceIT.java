@@ -6,6 +6,8 @@ import com.myriadquest.kreiscms.repository.VisionRepository;
 import com.myriadquest.kreiscms.service.VisionService;
 import com.myriadquest.kreiscms.service.dto.VisionDTO;
 import com.myriadquest.kreiscms.service.mapper.VisionMapper;
+import com.myriadquest.kreiscms.service.dto.VisionCriteria;
+import com.myriadquest.kreiscms.service.VisionQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,9 @@ public class VisionResourceIT {
     private static final String DEFAULT_DETAIL = "AAAAAAAAAA";
     private static final String UPDATED_DETAIL = "BBBBBBBBBB";
 
+    private static final String DEFAULT_TENANT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_TENANT_ID = "BBBBBBBBBB";
+
     @Autowired
     private VisionRepository visionRepository;
 
@@ -43,6 +48,9 @@ public class VisionResourceIT {
 
     @Autowired
     private VisionService visionService;
+
+    @Autowired
+    private VisionQueryService visionQueryService;
 
     @Autowired
     private EntityManager em;
@@ -60,7 +68,8 @@ public class VisionResourceIT {
      */
     public static Vision createEntity(EntityManager em) {
         Vision vision = new Vision()
-            .detail(DEFAULT_DETAIL);
+            .detail(DEFAULT_DETAIL)
+            .tenantId(DEFAULT_TENANT_ID);
         return vision;
     }
     /**
@@ -71,7 +80,8 @@ public class VisionResourceIT {
      */
     public static Vision createUpdatedEntity(EntityManager em) {
         Vision vision = new Vision()
-            .detail(UPDATED_DETAIL);
+            .detail(UPDATED_DETAIL)
+            .tenantId(UPDATED_TENANT_ID);
         return vision;
     }
 
@@ -96,6 +106,7 @@ public class VisionResourceIT {
         assertThat(visionList).hasSize(databaseSizeBeforeCreate + 1);
         Vision testVision = visionList.get(visionList.size() - 1);
         assertThat(testVision.getDetail()).isEqualTo(DEFAULT_DETAIL);
+        assertThat(testVision.getTenantId()).isEqualTo(DEFAULT_TENANT_ID);
     }
 
     @Test
@@ -150,7 +161,8 @@ public class VisionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vision.getId().intValue())))
-            .andExpect(jsonPath("$.[*].detail").value(hasItem(DEFAULT_DETAIL)));
+            .andExpect(jsonPath("$.[*].detail").value(hasItem(DEFAULT_DETAIL)))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
     }
     
     @Test
@@ -164,8 +176,220 @@ public class VisionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(vision.getId().intValue()))
-            .andExpect(jsonPath("$.detail").value(DEFAULT_DETAIL));
+            .andExpect(jsonPath("$.detail").value(DEFAULT_DETAIL))
+            .andExpect(jsonPath("$.tenantId").value(DEFAULT_TENANT_ID));
     }
+
+
+    @Test
+    @Transactional
+    public void getVisionsByIdFiltering() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        Long id = vision.getId();
+
+        defaultVisionShouldBeFound("id.equals=" + id);
+        defaultVisionShouldNotBeFound("id.notEquals=" + id);
+
+        defaultVisionShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultVisionShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultVisionShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultVisionShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllVisionsByDetailIsEqualToSomething() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where detail equals to DEFAULT_DETAIL
+        defaultVisionShouldBeFound("detail.equals=" + DEFAULT_DETAIL);
+
+        // Get all the visionList where detail equals to UPDATED_DETAIL
+        defaultVisionShouldNotBeFound("detail.equals=" + UPDATED_DETAIL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVisionsByDetailIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where detail not equals to DEFAULT_DETAIL
+        defaultVisionShouldNotBeFound("detail.notEquals=" + DEFAULT_DETAIL);
+
+        // Get all the visionList where detail not equals to UPDATED_DETAIL
+        defaultVisionShouldBeFound("detail.notEquals=" + UPDATED_DETAIL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVisionsByDetailIsInShouldWork() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where detail in DEFAULT_DETAIL or UPDATED_DETAIL
+        defaultVisionShouldBeFound("detail.in=" + DEFAULT_DETAIL + "," + UPDATED_DETAIL);
+
+        // Get all the visionList where detail equals to UPDATED_DETAIL
+        defaultVisionShouldNotBeFound("detail.in=" + UPDATED_DETAIL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVisionsByDetailIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where detail is not null
+        defaultVisionShouldBeFound("detail.specified=true");
+
+        // Get all the visionList where detail is null
+        defaultVisionShouldNotBeFound("detail.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllVisionsByDetailContainsSomething() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where detail contains DEFAULT_DETAIL
+        defaultVisionShouldBeFound("detail.contains=" + DEFAULT_DETAIL);
+
+        // Get all the visionList where detail contains UPDATED_DETAIL
+        defaultVisionShouldNotBeFound("detail.contains=" + UPDATED_DETAIL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVisionsByDetailNotContainsSomething() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where detail does not contain DEFAULT_DETAIL
+        defaultVisionShouldNotBeFound("detail.doesNotContain=" + DEFAULT_DETAIL);
+
+        // Get all the visionList where detail does not contain UPDATED_DETAIL
+        defaultVisionShouldBeFound("detail.doesNotContain=" + UPDATED_DETAIL);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllVisionsByTenantIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where tenantId equals to DEFAULT_TENANT_ID
+        defaultVisionShouldBeFound("tenantId.equals=" + DEFAULT_TENANT_ID);
+
+        // Get all the visionList where tenantId equals to UPDATED_TENANT_ID
+        defaultVisionShouldNotBeFound("tenantId.equals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVisionsByTenantIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where tenantId not equals to DEFAULT_TENANT_ID
+        defaultVisionShouldNotBeFound("tenantId.notEquals=" + DEFAULT_TENANT_ID);
+
+        // Get all the visionList where tenantId not equals to UPDATED_TENANT_ID
+        defaultVisionShouldBeFound("tenantId.notEquals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVisionsByTenantIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where tenantId in DEFAULT_TENANT_ID or UPDATED_TENANT_ID
+        defaultVisionShouldBeFound("tenantId.in=" + DEFAULT_TENANT_ID + "," + UPDATED_TENANT_ID);
+
+        // Get all the visionList where tenantId equals to UPDATED_TENANT_ID
+        defaultVisionShouldNotBeFound("tenantId.in=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVisionsByTenantIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where tenantId is not null
+        defaultVisionShouldBeFound("tenantId.specified=true");
+
+        // Get all the visionList where tenantId is null
+        defaultVisionShouldNotBeFound("tenantId.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllVisionsByTenantIdContainsSomething() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where tenantId contains DEFAULT_TENANT_ID
+        defaultVisionShouldBeFound("tenantId.contains=" + DEFAULT_TENANT_ID);
+
+        // Get all the visionList where tenantId contains UPDATED_TENANT_ID
+        defaultVisionShouldNotBeFound("tenantId.contains=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVisionsByTenantIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        visionRepository.saveAndFlush(vision);
+
+        // Get all the visionList where tenantId does not contain DEFAULT_TENANT_ID
+        defaultVisionShouldNotBeFound("tenantId.doesNotContain=" + DEFAULT_TENANT_ID);
+
+        // Get all the visionList where tenantId does not contain UPDATED_TENANT_ID
+        defaultVisionShouldBeFound("tenantId.doesNotContain=" + UPDATED_TENANT_ID);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultVisionShouldBeFound(String filter) throws Exception {
+        restVisionMockMvc.perform(get("/api/visions?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(vision.getId().intValue())))
+            .andExpect(jsonPath("$.[*].detail").value(hasItem(DEFAULT_DETAIL)))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
+
+        // Check, that the count call also returns 1
+        restVisionMockMvc.perform(get("/api/visions/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultVisionShouldNotBeFound(String filter) throws Exception {
+        restVisionMockMvc.perform(get("/api/visions?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restVisionMockMvc.perform(get("/api/visions/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
+    }
+
     @Test
     @Transactional
     public void getNonExistingVision() throws Exception {
@@ -187,7 +411,8 @@ public class VisionResourceIT {
         // Disconnect from session so that the updates on updatedVision are not directly saved in db
         em.detach(updatedVision);
         updatedVision
-            .detail(UPDATED_DETAIL);
+            .detail(UPDATED_DETAIL)
+            .tenantId(UPDATED_TENANT_ID);
         VisionDTO visionDTO = visionMapper.toDto(updatedVision);
 
         restVisionMockMvc.perform(put("/api/visions")
@@ -200,6 +425,7 @@ public class VisionResourceIT {
         assertThat(visionList).hasSize(databaseSizeBeforeUpdate);
         Vision testVision = visionList.get(visionList.size() - 1);
         assertThat(testVision.getDetail()).isEqualTo(UPDATED_DETAIL);
+        assertThat(testVision.getTenantId()).isEqualTo(UPDATED_TENANT_ID);
     }
 
     @Test

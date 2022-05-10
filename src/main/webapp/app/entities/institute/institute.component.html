@@ -31,6 +31,7 @@
                     <th scope="col"  jhiSortBy="logoLink"><span jhiTranslate="igrscmsApp.institute.logoLink">Logo Link</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="logo"><span jhiTranslate="igrscmsApp.institute.logo">Logo</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="tagLine"><span jhiTranslate="igrscmsApp.institute.tagLine">Tag Line</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.institute.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -50,6 +51,7 @@
                         <span *ngIf="institute.logo">{{ institute.logoContentType }}, {{ byteSize(institute.logo) }}</span>
                     </td>
                     <td>{{ institute.tagLine }}</td>
+                    <td>{{ institute.tenantId }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

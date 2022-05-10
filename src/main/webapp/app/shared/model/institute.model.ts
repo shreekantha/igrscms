@@ -9,6 +9,7 @@ export interface IInstitute {
   logoContentType?: string;
   logo?: any;
   tagLine?: string;
+  tenantId?: string;
 }
 
 export class Institute implements IInstitute {
@@ -22,6 +23,7 @@ export class Institute implements IInstitute {
     public logoLink?: string,
     public logoContentType?: string,
     public logo?: any,
-    public tagLine?: string
+    public tagLine?: string,
+    public tenantId?: string
   ) {}
 }

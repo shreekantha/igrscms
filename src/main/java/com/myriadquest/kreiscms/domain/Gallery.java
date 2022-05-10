@@ -1,6 +1,8 @@
 package com.myriadquest.kreiscms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.myriadquest.kreiscms.config.TenantContext;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -38,6 +40,9 @@ public class Gallery implements Serializable {
 
     @Column(name = "descritpion")
     private String descritpion;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -105,6 +110,19 @@ public class Gallery implements Serializable {
         this.descritpion = descritpion;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public Gallery tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
+    }
+
     public GalleryCat getCategory() {
         return category;
     }
@@ -144,6 +162,7 @@ public class Gallery implements Serializable {
             ", img='" + getImg() + "'" +
             ", imgContentType='" + getImgContentType() + "'" +
             ", descritpion='" + getDescritpion() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

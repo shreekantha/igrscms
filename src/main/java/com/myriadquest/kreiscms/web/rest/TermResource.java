@@ -4,6 +4,7 @@ import com.myriadquest.kreiscms.service.TermService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.TermDTO;
 import com.myriadquest.kreiscms.service.dto.TermCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.service.TermQueryService;
 
@@ -100,9 +101,7 @@ public class TermResource {
      */
     @GetMapping("/terms")
     public ResponseEntity<List<TermDTO>> getAllTerms(TermCriteria criteria, Pageable pageable) {
-    	 StringFilter filter=new StringFilter();
-         filter.setEquals(TenantContext.getCurrentTenant());
-     	criteria.setTenantId(filter);
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
         log.debug("REST request to get Terms by criteria: {}", criteria);
         Page<TermDTO> page = termQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

@@ -9,7 +9,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Term} and its DTO {@link TermDTO}.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class})
+@Mapper(componentModel = "spring", uses = {UserProfileMapper.class})
 public interface TermMapper extends EntityMapper<TermDTO, Term> {
 
     @Mapping(source = "classTeacher.id", target = "classTeacherId")

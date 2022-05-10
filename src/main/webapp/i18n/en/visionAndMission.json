@@ -1,0 +1,24 @@
+{
+  "igrscmsApp": {
+    "visionAndMission": {
+      "home": {
+        "title": "Vision And Missions",
+        "createLabel": "Create a new Vision And Mission",
+        "createOrEditLabel": "Create or edit a Vision And Mission",
+        "notFound": "No Vision And Missions found"
+      },
+      "created": "A new Vision And Mission is created with identifier {{ param }}",
+      "updated": "A Vision And Mission is updated with identifier {{ param }}",
+      "deleted": "A Vision And Mission is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Vision And Mission {{ id }}?"
+      },
+      "detail": {
+        "title": "Vision And Mission"
+      },
+      "vision": "Vision",
+      "mission": "Mission",
+      "tenantId": "Tenant Id"
+    }
+  }
+}

@@ -1,11 +1,11 @@
-id;title;description;img_link;img;img_content_type
-1;Borders reboot;Car;Silver;../fake-data/blob/hipster.png;image/png
-2;seize;Licensed bypass;Strategist TCP;../fake-data/blob/hipster.png;image/png
-3;Innovative Awesome District;Officer;neural-net Car;../fake-data/blob/hipster.png;image/png
-4;payment;Avon;Generic Wooden Gloves East Caribbean Dollar;../fake-data/blob/hipster.png;image/png
-5;Gloves innovate JSON;magnetic Garden Tasty;Alley connect;../fake-data/blob/hipster.png;image/png
-6;Strategist Tasty;Iceland Krona;digital Awesome;../fake-data/blob/hipster.png;image/png
-7;mobile Singapore;multi-tasking seize;Planner back-end;../fake-data/blob/hipster.png;image/png
-8;Automotive enable deposit;empower;Beauty;../fake-data/blob/hipster.png;image/png
-9;Centers pixel Licensed Soft Chicken;Regional optical;teal optical Peru;../fake-data/blob/hipster.png;image/png
-10;Incredible;Garden;Licensed;../fake-data/blob/hipster.png;image/png
+id;title;description;img_link;img;img_content_type;tenant_id
+1;Borders reboot;../fake-data/blob/hipster.txt;Car;../fake-data/blob/hipster.png;image/png;Silver
+2;seize;../fake-data/blob/hipster.txt;Licensed bypass;../fake-data/blob/hipster.png;image/png;Strategist TCP
+3;Innovative Awesome District;../fake-data/blob/hipster.txt;Officer;../fake-data/blob/hipster.png;image/png;neural-net Car
+4;payment;../fake-data/blob/hipster.txt;Avon;../fake-data/blob/hipster.png;image/png;Generic Wooden Gloves East Caribbean Dollar
+5;Gloves innovate JSON;../fake-data/blob/hipster.txt;magnetic Garden Tasty;../fake-data/blob/hipster.png;image/png;Alley connect
+6;Strategist Tasty;../fake-data/blob/hipster.txt;Iceland Krona;../fake-data/blob/hipster.png;image/png;digital Awesome
+7;mobile Singapore;../fake-data/blob/hipster.txt;multi-tasking seize;../fake-data/blob/hipster.png;image/png;Planner back-end
+8;Automotive enable deposit;../fake-data/blob/hipster.txt;empower;../fake-data/blob/hipster.png;image/png;Beauty
+9;Centers pixel Licensed Soft Chicken;../fake-data/blob/hipster.txt;Regional optical;../fake-data/blob/hipster.png;image/png;teal optical Peru
+10;Incredible;../fake-data/blob/hipster.txt;Garden;../fake-data/blob/hipster.png;image/png;Licensed

@@ -6,6 +6,8 @@ import com.myriadquest.kreiscms.repository.AboutUsRepository;
 import com.myriadquest.kreiscms.service.AboutUsService;
 import com.myriadquest.kreiscms.service.dto.AboutUsDTO;
 import com.myriadquest.kreiscms.service.mapper.AboutUsMapper;
+import com.myriadquest.kreiscms.service.dto.AboutUsCriteria;
+import com.myriadquest.kreiscms.service.AboutUsQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +49,9 @@ public class AboutUsResourceIT {
     private static final String DEFAULT_IMG_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_IMG_CONTENT_TYPE = "image/png";
 
+    private static final String DEFAULT_TENANT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_TENANT_ID = "BBBBBBBBBB";
+
     @Autowired
     private AboutUsRepository aboutUsRepository;
 
@@ -55,6 +60,9 @@ public class AboutUsResourceIT {
 
     @Autowired
     private AboutUsService aboutUsService;
+
+    @Autowired
+    private AboutUsQueryService aboutUsQueryService;
 
     @Autowired
     private EntityManager em;
@@ -76,7 +84,8 @@ public class AboutUsResourceIT {
             .description(DEFAULT_DESCRIPTION)
             .imgLink(DEFAULT_IMG_LINK)
             .img(DEFAULT_IMG)
-            .imgContentType(DEFAULT_IMG_CONTENT_TYPE);
+            .imgContentType(DEFAULT_IMG_CONTENT_TYPE)
+            .tenantId(DEFAULT_TENANT_ID);
         return aboutUs;
     }
     /**
@@ -91,7 +100,8 @@ public class AboutUsResourceIT {
             .description(UPDATED_DESCRIPTION)
             .imgLink(UPDATED_IMG_LINK)
             .img(UPDATED_IMG)
-            .imgContentType(UPDATED_IMG_CONTENT_TYPE);
+            .imgContentType(UPDATED_IMG_CONTENT_TYPE)
+            .tenantId(UPDATED_TENANT_ID);
         return aboutUs;
     }
 
@@ -120,6 +130,7 @@ public class AboutUsResourceIT {
         assertThat(testAboutUs.getImgLink()).isEqualTo(DEFAULT_IMG_LINK);
         assertThat(testAboutUs.getImg()).isEqualTo(DEFAULT_IMG);
         assertThat(testAboutUs.getImgContentType()).isEqualTo(DEFAULT_IMG_CONTENT_TYPE);
+        assertThat(testAboutUs.getTenantId()).isEqualTo(DEFAULT_TENANT_ID);
     }
 
     @Test
@@ -165,26 +176,6 @@ public class AboutUsResourceIT {
 
     @Test
     @Transactional
-    public void checkDescriptionIsRequired() throws Exception {
-        int databaseSizeBeforeTest = aboutUsRepository.findAll().size();
-        // set the field null
-        aboutUs.setDescription(null);
-
-        // Create the AboutUs, which fails.
-        AboutUsDTO aboutUsDTO = aboutUsMapper.toDto(aboutUs);
-
-
-        restAboutUsMockMvc.perform(post("/api/aboutuses")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(aboutUsDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<AboutUs> aboutUsList = aboutUsRepository.findAll();
-        assertThat(aboutUsList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllAboutuses() throws Exception {
         // Initialize the database
         aboutUsRepository.saveAndFlush(aboutUs);
@@ -195,10 +186,11 @@ public class AboutUsResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(aboutUs.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].imgLink").value(hasItem(DEFAULT_IMG_LINK)))
             .andExpect(jsonPath("$.[*].imgContentType").value(hasItem(DEFAULT_IMG_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))));
+            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
     }
     
     @Test
@@ -213,11 +205,305 @@ public class AboutUsResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(aboutUs.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.imgLink").value(DEFAULT_IMG_LINK))
             .andExpect(jsonPath("$.imgContentType").value(DEFAULT_IMG_CONTENT_TYPE))
-            .andExpect(jsonPath("$.img").value(Base64Utils.encodeToString(DEFAULT_IMG)));
+            .andExpect(jsonPath("$.img").value(Base64Utils.encodeToString(DEFAULT_IMG)))
+            .andExpect(jsonPath("$.tenantId").value(DEFAULT_TENANT_ID));
     }
+
+
+    @Test
+    @Transactional
+    public void getAboutusesByIdFiltering() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        Long id = aboutUs.getId();
+
+        defaultAboutUsShouldBeFound("id.equals=" + id);
+        defaultAboutUsShouldNotBeFound("id.notEquals=" + id);
+
+        defaultAboutUsShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultAboutUsShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultAboutUsShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultAboutUsShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTitleIsEqualToSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where title equals to DEFAULT_TITLE
+        defaultAboutUsShouldBeFound("title.equals=" + DEFAULT_TITLE);
+
+        // Get all the aboutUsList where title equals to UPDATED_TITLE
+        defaultAboutUsShouldNotBeFound("title.equals=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTitleIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where title not equals to DEFAULT_TITLE
+        defaultAboutUsShouldNotBeFound("title.notEquals=" + DEFAULT_TITLE);
+
+        // Get all the aboutUsList where title not equals to UPDATED_TITLE
+        defaultAboutUsShouldBeFound("title.notEquals=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTitleIsInShouldWork() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where title in DEFAULT_TITLE or UPDATED_TITLE
+        defaultAboutUsShouldBeFound("title.in=" + DEFAULT_TITLE + "," + UPDATED_TITLE);
+
+        // Get all the aboutUsList where title equals to UPDATED_TITLE
+        defaultAboutUsShouldNotBeFound("title.in=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTitleIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where title is not null
+        defaultAboutUsShouldBeFound("title.specified=true");
+
+        // Get all the aboutUsList where title is null
+        defaultAboutUsShouldNotBeFound("title.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAboutusesByTitleContainsSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where title contains DEFAULT_TITLE
+        defaultAboutUsShouldBeFound("title.contains=" + DEFAULT_TITLE);
+
+        // Get all the aboutUsList where title contains UPDATED_TITLE
+        defaultAboutUsShouldNotBeFound("title.contains=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTitleNotContainsSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where title does not contain DEFAULT_TITLE
+        defaultAboutUsShouldNotBeFound("title.doesNotContain=" + DEFAULT_TITLE);
+
+        // Get all the aboutUsList where title does not contain UPDATED_TITLE
+        defaultAboutUsShouldBeFound("title.doesNotContain=" + UPDATED_TITLE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByImgLinkIsEqualToSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where imgLink equals to DEFAULT_IMG_LINK
+        defaultAboutUsShouldBeFound("imgLink.equals=" + DEFAULT_IMG_LINK);
+
+        // Get all the aboutUsList where imgLink equals to UPDATED_IMG_LINK
+        defaultAboutUsShouldNotBeFound("imgLink.equals=" + UPDATED_IMG_LINK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByImgLinkIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where imgLink not equals to DEFAULT_IMG_LINK
+        defaultAboutUsShouldNotBeFound("imgLink.notEquals=" + DEFAULT_IMG_LINK);
+
+        // Get all the aboutUsList where imgLink not equals to UPDATED_IMG_LINK
+        defaultAboutUsShouldBeFound("imgLink.notEquals=" + UPDATED_IMG_LINK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByImgLinkIsInShouldWork() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where imgLink in DEFAULT_IMG_LINK or UPDATED_IMG_LINK
+        defaultAboutUsShouldBeFound("imgLink.in=" + DEFAULT_IMG_LINK + "," + UPDATED_IMG_LINK);
+
+        // Get all the aboutUsList where imgLink equals to UPDATED_IMG_LINK
+        defaultAboutUsShouldNotBeFound("imgLink.in=" + UPDATED_IMG_LINK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByImgLinkIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where imgLink is not null
+        defaultAboutUsShouldBeFound("imgLink.specified=true");
+
+        // Get all the aboutUsList where imgLink is null
+        defaultAboutUsShouldNotBeFound("imgLink.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAboutusesByImgLinkContainsSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where imgLink contains DEFAULT_IMG_LINK
+        defaultAboutUsShouldBeFound("imgLink.contains=" + DEFAULT_IMG_LINK);
+
+        // Get all the aboutUsList where imgLink contains UPDATED_IMG_LINK
+        defaultAboutUsShouldNotBeFound("imgLink.contains=" + UPDATED_IMG_LINK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByImgLinkNotContainsSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where imgLink does not contain DEFAULT_IMG_LINK
+        defaultAboutUsShouldNotBeFound("imgLink.doesNotContain=" + DEFAULT_IMG_LINK);
+
+        // Get all the aboutUsList where imgLink does not contain UPDATED_IMG_LINK
+        defaultAboutUsShouldBeFound("imgLink.doesNotContain=" + UPDATED_IMG_LINK);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTenantIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where tenantId equals to DEFAULT_TENANT_ID
+        defaultAboutUsShouldBeFound("tenantId.equals=" + DEFAULT_TENANT_ID);
+
+        // Get all the aboutUsList where tenantId equals to UPDATED_TENANT_ID
+        defaultAboutUsShouldNotBeFound("tenantId.equals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTenantIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where tenantId not equals to DEFAULT_TENANT_ID
+        defaultAboutUsShouldNotBeFound("tenantId.notEquals=" + DEFAULT_TENANT_ID);
+
+        // Get all the aboutUsList where tenantId not equals to UPDATED_TENANT_ID
+        defaultAboutUsShouldBeFound("tenantId.notEquals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTenantIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where tenantId in DEFAULT_TENANT_ID or UPDATED_TENANT_ID
+        defaultAboutUsShouldBeFound("tenantId.in=" + DEFAULT_TENANT_ID + "," + UPDATED_TENANT_ID);
+
+        // Get all the aboutUsList where tenantId equals to UPDATED_TENANT_ID
+        defaultAboutUsShouldNotBeFound("tenantId.in=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTenantIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where tenantId is not null
+        defaultAboutUsShouldBeFound("tenantId.specified=true");
+
+        // Get all the aboutUsList where tenantId is null
+        defaultAboutUsShouldNotBeFound("tenantId.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAboutusesByTenantIdContainsSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where tenantId contains DEFAULT_TENANT_ID
+        defaultAboutUsShouldBeFound("tenantId.contains=" + DEFAULT_TENANT_ID);
+
+        // Get all the aboutUsList where tenantId contains UPDATED_TENANT_ID
+        defaultAboutUsShouldNotBeFound("tenantId.contains=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAboutusesByTenantIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        aboutUsRepository.saveAndFlush(aboutUs);
+
+        // Get all the aboutUsList where tenantId does not contain DEFAULT_TENANT_ID
+        defaultAboutUsShouldNotBeFound("tenantId.doesNotContain=" + DEFAULT_TENANT_ID);
+
+        // Get all the aboutUsList where tenantId does not contain UPDATED_TENANT_ID
+        defaultAboutUsShouldBeFound("tenantId.doesNotContain=" + UPDATED_TENANT_ID);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultAboutUsShouldBeFound(String filter) throws Exception {
+        restAboutUsMockMvc.perform(get("/api/aboutuses?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(aboutUs.getId().intValue())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].imgLink").value(hasItem(DEFAULT_IMG_LINK)))
+            .andExpect(jsonPath("$.[*].imgContentType").value(hasItem(DEFAULT_IMG_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
+
+        // Check, that the count call also returns 1
+        restAboutUsMockMvc.perform(get("/api/aboutuses/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultAboutUsShouldNotBeFound(String filter) throws Exception {
+        restAboutUsMockMvc.perform(get("/api/aboutuses?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restAboutUsMockMvc.perform(get("/api/aboutuses/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
+    }
+
     @Test
     @Transactional
     public void getNonExistingAboutUs() throws Exception {
@@ -243,7 +529,8 @@ public class AboutUsResourceIT {
             .description(UPDATED_DESCRIPTION)
             .imgLink(UPDATED_IMG_LINK)
             .img(UPDATED_IMG)
-            .imgContentType(UPDATED_IMG_CONTENT_TYPE);
+            .imgContentType(UPDATED_IMG_CONTENT_TYPE)
+            .tenantId(UPDATED_TENANT_ID);
         AboutUsDTO aboutUsDTO = aboutUsMapper.toDto(updatedAboutUs);
 
         restAboutUsMockMvc.perform(put("/api/aboutuses")
@@ -260,6 +547,7 @@ public class AboutUsResourceIT {
         assertThat(testAboutUs.getImgLink()).isEqualTo(UPDATED_IMG_LINK);
         assertThat(testAboutUs.getImg()).isEqualTo(UPDATED_IMG);
         assertThat(testAboutUs.getImgContentType()).isEqualTo(UPDATED_IMG_CONTENT_TYPE);
+        assertThat(testAboutUs.getTenantId()).isEqualTo(UPDATED_TENANT_ID);
     }
 
     @Test

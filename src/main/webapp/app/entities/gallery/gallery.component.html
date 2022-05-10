@@ -26,6 +26,7 @@
                     <th scope="col"  jhiSortBy="imgUrl"><span jhiTranslate="igrscmsApp.gallery.imgUrl">Img Url</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="img"><span jhiTranslate="igrscmsApp.gallery.img">Img</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="descritpion"><span jhiTranslate="igrscmsApp.gallery.descritpion">Descritpion</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.gallery.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="categoryName"><span jhiTranslate="igrscmsApp.gallery.category">Category</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -41,6 +42,7 @@
                         <span *ngIf="gallery.img">{{ gallery.imgContentType }}, {{ byteSize(gallery.img) }}</span>
                     </td>
                     <td>{{ gallery.descritpion }}</td>
+                    <td>{{ gallery.tenantId }}</td>
                     <td>
                         <div *ngIf="gallery.categoryId">
                             <a [routerLink]="['/gallery-cat', gallery.categoryId , 'view']" >{{ gallery.categoryName }}</a>

@@ -21,6 +21,8 @@ public class GalleryDTO implements Serializable {
     private String imgContentType;
     private String descritpion;
 
+    private String tenantId;
+
 
     private Long categoryId;
 
@@ -66,6 +68,14 @@ public class GalleryDTO implements Serializable {
         this.descritpion = descritpion;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     public Long getCategoryId() {
         return categoryId;
     }
@@ -107,6 +117,7 @@ public class GalleryDTO implements Serializable {
             ", imgUrl='" + getImgUrl() + "'" +
             ", img='" + getImg() + "'" +
             ", descritpion='" + getDescritpion() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             ", categoryId=" + getCategoryId() +
             ", categoryName='" + getCategoryName() + "'" +
             "}";

@@ -21,12 +21,12 @@
     <div class="table-responsive" id="entities" *ngIf="homeImgs && homeImgs.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.homeImg.img">Img</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.homeImg.title">Title</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.homeImg.description">Description</span></th>
-                    <th scope="col" ><span jhiTranslate="igrscmsApp.homeImg.active">Active</span></th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="img"><span jhiTranslate="igrscmsApp.homeImg.img">Img</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="title"><span jhiTranslate="igrscmsApp.homeImg.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span jhiTranslate="igrscmsApp.homeImg.description">Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.homeImg.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -41,7 +41,7 @@
                     </td>
                     <td>{{ homeImg.title }}</td>
                     <td>{{ homeImg.description }}</td>
-                    <td>{{ homeImg.active }}</td>
+                    <td>{{ homeImg.tenantId }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
@@ -68,5 +68,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="homeImgs && homeImgs.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
     </div>
 </div>

@@ -26,6 +26,7 @@ export class GalleryUpdateComponent implements OnInit {
     img: [null, []],
     imgContentType: [],
     descritpion: [],
+    tenantId: [],
     categoryId: [null, Validators.required],
   });
 
@@ -54,6 +55,7 @@ export class GalleryUpdateComponent implements OnInit {
       img: gallery.img,
       imgContentType: gallery.imgContentType,
       descritpion: gallery.descritpion,
+      tenantId: gallery.tenantId,
       categoryId: gallery.categoryId,
     });
   }
@@ -106,6 +108,7 @@ export class GalleryUpdateComponent implements OnInit {
       imgContentType: this.editForm.get(['imgContentType'])!.value,
       img: this.editForm.get(['img'])!.value,
       descritpion: this.editForm.get(['descritpion'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
       categoryId: this.editForm.get(['categoryId'])!.value,
     };
   }

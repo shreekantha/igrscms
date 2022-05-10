@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface GalleryCatRepository extends JpaRepository<GalleryCat, Long> {
+public interface GalleryCatRepository extends JpaRepository<GalleryCat, Long>, JpaSpecificationExecutor<GalleryCat> {
 }

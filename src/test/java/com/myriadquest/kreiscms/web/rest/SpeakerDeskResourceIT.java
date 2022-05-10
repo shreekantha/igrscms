@@ -6,6 +6,8 @@ import com.myriadquest.kreiscms.repository.SpeakerDeskRepository;
 import com.myriadquest.kreiscms.service.SpeakerDeskService;
 import com.myriadquest.kreiscms.service.dto.SpeakerDeskDTO;
 import com.myriadquest.kreiscms.service.mapper.SpeakerDeskMapper;
+import com.myriadquest.kreiscms.service.dto.SpeakerDeskCriteria;
+import com.myriadquest.kreiscms.service.SpeakerDeskQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +49,9 @@ public class SpeakerDeskResourceIT {
     private static final String DEFAULT_IMG_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_IMG_CONTENT_TYPE = "image/png";
 
+    private static final String DEFAULT_TENANT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_TENANT_ID = "BBBBBBBBBB";
+
     @Autowired
     private SpeakerDeskRepository speakerDeskRepository;
 
@@ -55,6 +60,9 @@ public class SpeakerDeskResourceIT {
 
     @Autowired
     private SpeakerDeskService speakerDeskService;
+
+    @Autowired
+    private SpeakerDeskQueryService speakerDeskQueryService;
 
     @Autowired
     private EntityManager em;
@@ -76,7 +84,8 @@ public class SpeakerDeskResourceIT {
             .note(DEFAULT_NOTE)
             .imgLink(DEFAULT_IMG_LINK)
             .img(DEFAULT_IMG)
-            .imgContentType(DEFAULT_IMG_CONTENT_TYPE);
+            .imgContentType(DEFAULT_IMG_CONTENT_TYPE)
+            .tenantId(DEFAULT_TENANT_ID);
         return speakerDesk;
     }
     /**
@@ -91,7 +100,8 @@ public class SpeakerDeskResourceIT {
             .note(UPDATED_NOTE)
             .imgLink(UPDATED_IMG_LINK)
             .img(UPDATED_IMG)
-            .imgContentType(UPDATED_IMG_CONTENT_TYPE);
+            .imgContentType(UPDATED_IMG_CONTENT_TYPE)
+            .tenantId(UPDATED_TENANT_ID);
         return speakerDesk;
     }
 
@@ -120,6 +130,7 @@ public class SpeakerDeskResourceIT {
         assertThat(testSpeakerDesk.getImgLink()).isEqualTo(DEFAULT_IMG_LINK);
         assertThat(testSpeakerDesk.getImg()).isEqualTo(DEFAULT_IMG);
         assertThat(testSpeakerDesk.getImgContentType()).isEqualTo(DEFAULT_IMG_CONTENT_TYPE);
+        assertThat(testSpeakerDesk.getTenantId()).isEqualTo(DEFAULT_TENANT_ID);
     }
 
     @Test
@@ -218,7 +229,8 @@ public class SpeakerDeskResourceIT {
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE)))
             .andExpect(jsonPath("$.[*].imgLink").value(hasItem(DEFAULT_IMG_LINK)))
             .andExpect(jsonPath("$.[*].imgContentType").value(hasItem(DEFAULT_IMG_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))));
+            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
     }
     
     @Test
@@ -236,8 +248,380 @@ public class SpeakerDeskResourceIT {
             .andExpect(jsonPath("$.note").value(DEFAULT_NOTE))
             .andExpect(jsonPath("$.imgLink").value(DEFAULT_IMG_LINK))
             .andExpect(jsonPath("$.imgContentType").value(DEFAULT_IMG_CONTENT_TYPE))
-            .andExpect(jsonPath("$.img").value(Base64Utils.encodeToString(DEFAULT_IMG)));
+            .andExpect(jsonPath("$.img").value(Base64Utils.encodeToString(DEFAULT_IMG)))
+            .andExpect(jsonPath("$.tenantId").value(DEFAULT_TENANT_ID));
     }
+
+
+    @Test
+    @Transactional
+    public void getSpeakerDesksByIdFiltering() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        Long id = speakerDesk.getId();
+
+        defaultSpeakerDeskShouldBeFound("id.equals=" + id);
+        defaultSpeakerDeskShouldNotBeFound("id.notEquals=" + id);
+
+        defaultSpeakerDeskShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultSpeakerDeskShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultSpeakerDeskShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultSpeakerDeskShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where name equals to DEFAULT_NAME
+        defaultSpeakerDeskShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the speakerDeskList where name equals to UPDATED_NAME
+        defaultSpeakerDeskShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where name not equals to DEFAULT_NAME
+        defaultSpeakerDeskShouldNotBeFound("name.notEquals=" + DEFAULT_NAME);
+
+        // Get all the speakerDeskList where name not equals to UPDATED_NAME
+        defaultSpeakerDeskShouldBeFound("name.notEquals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultSpeakerDeskShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the speakerDeskList where name equals to UPDATED_NAME
+        defaultSpeakerDeskShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where name is not null
+        defaultSpeakerDeskShouldBeFound("name.specified=true");
+
+        // Get all the speakerDeskList where name is null
+        defaultSpeakerDeskShouldNotBeFound("name.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllSpeakerDesksByNameContainsSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where name contains DEFAULT_NAME
+        defaultSpeakerDeskShouldBeFound("name.contains=" + DEFAULT_NAME);
+
+        // Get all the speakerDeskList where name contains UPDATED_NAME
+        defaultSpeakerDeskShouldNotBeFound("name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where name does not contain DEFAULT_NAME
+        defaultSpeakerDeskShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
+
+        // Get all the speakerDeskList where name does not contain UPDATED_NAME
+        defaultSpeakerDeskShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNoteIsEqualToSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where note equals to DEFAULT_NOTE
+        defaultSpeakerDeskShouldBeFound("note.equals=" + DEFAULT_NOTE);
+
+        // Get all the speakerDeskList where note equals to UPDATED_NOTE
+        defaultSpeakerDeskShouldNotBeFound("note.equals=" + UPDATED_NOTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNoteIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where note not equals to DEFAULT_NOTE
+        defaultSpeakerDeskShouldNotBeFound("note.notEquals=" + DEFAULT_NOTE);
+
+        // Get all the speakerDeskList where note not equals to UPDATED_NOTE
+        defaultSpeakerDeskShouldBeFound("note.notEquals=" + UPDATED_NOTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNoteIsInShouldWork() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where note in DEFAULT_NOTE or UPDATED_NOTE
+        defaultSpeakerDeskShouldBeFound("note.in=" + DEFAULT_NOTE + "," + UPDATED_NOTE);
+
+        // Get all the speakerDeskList where note equals to UPDATED_NOTE
+        defaultSpeakerDeskShouldNotBeFound("note.in=" + UPDATED_NOTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNoteIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where note is not null
+        defaultSpeakerDeskShouldBeFound("note.specified=true");
+
+        // Get all the speakerDeskList where note is null
+        defaultSpeakerDeskShouldNotBeFound("note.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllSpeakerDesksByNoteContainsSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where note contains DEFAULT_NOTE
+        defaultSpeakerDeskShouldBeFound("note.contains=" + DEFAULT_NOTE);
+
+        // Get all the speakerDeskList where note contains UPDATED_NOTE
+        defaultSpeakerDeskShouldNotBeFound("note.contains=" + UPDATED_NOTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByNoteNotContainsSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where note does not contain DEFAULT_NOTE
+        defaultSpeakerDeskShouldNotBeFound("note.doesNotContain=" + DEFAULT_NOTE);
+
+        // Get all the speakerDeskList where note does not contain UPDATED_NOTE
+        defaultSpeakerDeskShouldBeFound("note.doesNotContain=" + UPDATED_NOTE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByImgLinkIsEqualToSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where imgLink equals to DEFAULT_IMG_LINK
+        defaultSpeakerDeskShouldBeFound("imgLink.equals=" + DEFAULT_IMG_LINK);
+
+        // Get all the speakerDeskList where imgLink equals to UPDATED_IMG_LINK
+        defaultSpeakerDeskShouldNotBeFound("imgLink.equals=" + UPDATED_IMG_LINK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByImgLinkIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where imgLink not equals to DEFAULT_IMG_LINK
+        defaultSpeakerDeskShouldNotBeFound("imgLink.notEquals=" + DEFAULT_IMG_LINK);
+
+        // Get all the speakerDeskList where imgLink not equals to UPDATED_IMG_LINK
+        defaultSpeakerDeskShouldBeFound("imgLink.notEquals=" + UPDATED_IMG_LINK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByImgLinkIsInShouldWork() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where imgLink in DEFAULT_IMG_LINK or UPDATED_IMG_LINK
+        defaultSpeakerDeskShouldBeFound("imgLink.in=" + DEFAULT_IMG_LINK + "," + UPDATED_IMG_LINK);
+
+        // Get all the speakerDeskList where imgLink equals to UPDATED_IMG_LINK
+        defaultSpeakerDeskShouldNotBeFound("imgLink.in=" + UPDATED_IMG_LINK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByImgLinkIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where imgLink is not null
+        defaultSpeakerDeskShouldBeFound("imgLink.specified=true");
+
+        // Get all the speakerDeskList where imgLink is null
+        defaultSpeakerDeskShouldNotBeFound("imgLink.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllSpeakerDesksByImgLinkContainsSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where imgLink contains DEFAULT_IMG_LINK
+        defaultSpeakerDeskShouldBeFound("imgLink.contains=" + DEFAULT_IMG_LINK);
+
+        // Get all the speakerDeskList where imgLink contains UPDATED_IMG_LINK
+        defaultSpeakerDeskShouldNotBeFound("imgLink.contains=" + UPDATED_IMG_LINK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByImgLinkNotContainsSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where imgLink does not contain DEFAULT_IMG_LINK
+        defaultSpeakerDeskShouldNotBeFound("imgLink.doesNotContain=" + DEFAULT_IMG_LINK);
+
+        // Get all the speakerDeskList where imgLink does not contain UPDATED_IMG_LINK
+        defaultSpeakerDeskShouldBeFound("imgLink.doesNotContain=" + UPDATED_IMG_LINK);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByTenantIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where tenantId equals to DEFAULT_TENANT_ID
+        defaultSpeakerDeskShouldBeFound("tenantId.equals=" + DEFAULT_TENANT_ID);
+
+        // Get all the speakerDeskList where tenantId equals to UPDATED_TENANT_ID
+        defaultSpeakerDeskShouldNotBeFound("tenantId.equals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByTenantIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where tenantId not equals to DEFAULT_TENANT_ID
+        defaultSpeakerDeskShouldNotBeFound("tenantId.notEquals=" + DEFAULT_TENANT_ID);
+
+        // Get all the speakerDeskList where tenantId not equals to UPDATED_TENANT_ID
+        defaultSpeakerDeskShouldBeFound("tenantId.notEquals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByTenantIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where tenantId in DEFAULT_TENANT_ID or UPDATED_TENANT_ID
+        defaultSpeakerDeskShouldBeFound("tenantId.in=" + DEFAULT_TENANT_ID + "," + UPDATED_TENANT_ID);
+
+        // Get all the speakerDeskList where tenantId equals to UPDATED_TENANT_ID
+        defaultSpeakerDeskShouldNotBeFound("tenantId.in=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByTenantIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where tenantId is not null
+        defaultSpeakerDeskShouldBeFound("tenantId.specified=true");
+
+        // Get all the speakerDeskList where tenantId is null
+        defaultSpeakerDeskShouldNotBeFound("tenantId.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllSpeakerDesksByTenantIdContainsSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where tenantId contains DEFAULT_TENANT_ID
+        defaultSpeakerDeskShouldBeFound("tenantId.contains=" + DEFAULT_TENANT_ID);
+
+        // Get all the speakerDeskList where tenantId contains UPDATED_TENANT_ID
+        defaultSpeakerDeskShouldNotBeFound("tenantId.contains=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpeakerDesksByTenantIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        speakerDeskRepository.saveAndFlush(speakerDesk);
+
+        // Get all the speakerDeskList where tenantId does not contain DEFAULT_TENANT_ID
+        defaultSpeakerDeskShouldNotBeFound("tenantId.doesNotContain=" + DEFAULT_TENANT_ID);
+
+        // Get all the speakerDeskList where tenantId does not contain UPDATED_TENANT_ID
+        defaultSpeakerDeskShouldBeFound("tenantId.doesNotContain=" + UPDATED_TENANT_ID);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultSpeakerDeskShouldBeFound(String filter) throws Exception {
+        restSpeakerDeskMockMvc.perform(get("/api/speaker-desks?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(speakerDesk.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE)))
+            .andExpect(jsonPath("$.[*].imgLink").value(hasItem(DEFAULT_IMG_LINK)))
+            .andExpect(jsonPath("$.[*].imgContentType").value(hasItem(DEFAULT_IMG_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
+
+        // Check, that the count call also returns 1
+        restSpeakerDeskMockMvc.perform(get("/api/speaker-desks/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultSpeakerDeskShouldNotBeFound(String filter) throws Exception {
+        restSpeakerDeskMockMvc.perform(get("/api/speaker-desks?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restSpeakerDeskMockMvc.perform(get("/api/speaker-desks/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
+    }
+
     @Test
     @Transactional
     public void getNonExistingSpeakerDesk() throws Exception {
@@ -263,7 +647,8 @@ public class SpeakerDeskResourceIT {
             .note(UPDATED_NOTE)
             .imgLink(UPDATED_IMG_LINK)
             .img(UPDATED_IMG)
-            .imgContentType(UPDATED_IMG_CONTENT_TYPE);
+            .imgContentType(UPDATED_IMG_CONTENT_TYPE)
+            .tenantId(UPDATED_TENANT_ID);
         SpeakerDeskDTO speakerDeskDTO = speakerDeskMapper.toDto(updatedSpeakerDesk);
 
         restSpeakerDeskMockMvc.perform(put("/api/speaker-desks")
@@ -280,6 +665,7 @@ public class SpeakerDeskResourceIT {
         assertThat(testSpeakerDesk.getImgLink()).isEqualTo(UPDATED_IMG_LINK);
         assertThat(testSpeakerDesk.getImg()).isEqualTo(UPDATED_IMG);
         assertThat(testSpeakerDesk.getImgContentType()).isEqualTo(UPDATED_IMG_CONTENT_TYPE);
+        assertThat(testSpeakerDesk.getTenantId()).isEqualTo(UPDATED_TENANT_ID);
     }
 
     @Test

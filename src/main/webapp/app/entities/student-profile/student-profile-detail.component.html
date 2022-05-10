@@ -1,0 +1,91 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="studentProfile">
+            <h2><span jhiTranslate="igrscmsApp.studentProfile.detail.title">Student Profile</span> {{ studentProfile.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.firstName">First Name</span></dt>
+                <dd>
+                    <span>{{ studentProfile.firstName }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.lastName">Last Name</span></dt>
+                <dd>
+                    <span>{{ studentProfile.lastName }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.img">Img</span></dt>
+                <dd>
+                    <div *ngIf="studentProfile.img">
+                        <a (click)="openFile(studentProfile.imgContentType, studentProfile.img)">
+                            <img [src]="'data:' + studentProfile.imgContentType + ';base64,' + studentProfile.img" style="max-width: 100%;" alt="studentProfile image"/>
+                        </a>
+                        {{ studentProfile.imgContentType }}, {{ byteSize(studentProfile.img) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.fathersName">Fathers Name</span></dt>
+                <dd>
+                    <span>{{ studentProfile.fathersName }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.mothersName">Mothers Name</span></dt>
+                <dd>
+                    <span>{{ studentProfile.mothersName }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.currentTerm">Current Term</span></dt>
+                <dd>
+                    <span>{{ studentProfile.currentTerm }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.joiningAcademicYear">Joining Academic Year</span></dt>
+                <dd>
+                    <span>{{ studentProfile.joiningAcademicYear }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.exitAcademicYear">Exit Academic Year</span></dt>
+                <dd>
+                    <span>{{ studentProfile.exitAcademicYear }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.mobile">Mobile</span></dt>
+                <dd>
+                    <span>{{ studentProfile.mobile }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.email">Email</span></dt>
+                <dd>
+                    <span>{{ studentProfile.email }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.aadhaar">Aadhaar</span></dt>
+                <dd>
+                    <span>{{ studentProfile.aadhaar }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.dob">Dob</span></dt>
+                <dd>
+                    <span>{{ studentProfile.dob }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.imgLink">Img Link</span></dt>
+                <dd>
+                    <span>{{ studentProfile.imgLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.tenantId">Tenant Id</span></dt>
+                <dd>
+                    <span>{{ studentProfile.tenantId }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.studentProfile.active">Active</span></dt>
+                <dd>
+                    <span>{{ studentProfile.active }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/student-profile', studentProfile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

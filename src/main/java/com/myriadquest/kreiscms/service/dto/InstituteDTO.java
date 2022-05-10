@@ -37,6 +37,8 @@ public class InstituteDTO implements Serializable {
     @NotNull
     private String tagLine;
 
+    private String tenantId;
+
     
     public Long getId() {
         return id;
@@ -118,6 +120,14 @@ public class InstituteDTO implements Serializable {
         this.tagLine = tagLine;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -148,6 +158,7 @@ public class InstituteDTO implements Serializable {
             ", logoLink='" + getLogoLink() + "'" +
             ", logo='" + getLogo() + "'" +
             ", tagLine='" + getTagLine() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

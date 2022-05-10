@@ -27,6 +27,7 @@
                     <th scope="col"  jhiSortBy="email"><span jhiTranslate="igrscmsApp.contactDetails.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="contact"><span jhiTranslate="igrscmsApp.contactDetails.contact">Contact</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="mapLink"><span jhiTranslate="igrscmsApp.contactDetails.mapLink">Map Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.contactDetails.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -37,6 +38,7 @@
                     <td>{{ contactDetails.email }}</td>
                     <td>{{ contactDetails.contact }}</td>
                     <td>{{ contactDetails.mapLink }}</td>
+                    <td>{{ contactDetails.tenantId }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

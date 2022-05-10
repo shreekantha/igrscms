@@ -3,6 +3,9 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.GalleryService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.GalleryDTO;
+import com.myriadquest.kreiscms.service.dto.GalleryCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.service.GalleryQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +43,11 @@ public class GalleryResource {
 
     private final GalleryService galleryService;
 
-    public GalleryResource(GalleryService galleryService) {
+    private final GalleryQueryService galleryQueryService;
+
+    public GalleryResource(GalleryService galleryService, GalleryQueryService galleryQueryService) {
         this.galleryService = galleryService;
+        this.galleryQueryService = galleryQueryService;
     }
 
     /**
@@ -88,14 +94,28 @@ public class GalleryResource {
      * {@code GET  /galleries} : get all the galleries.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of galleries in body.
      */
     @GetMapping("/galleries")
-    public ResponseEntity<List<GalleryDTO>> getAllGalleries(Pageable pageable) {
-        log.debug("REST request to get a page of Galleries");
-        Page<GalleryDTO> page = galleryService.findAll(pageable);
+    public ResponseEntity<List<GalleryDTO>> getAllGalleries(GalleryCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get Galleries by criteria: {}", criteria);
+        Page<GalleryDTO> page = galleryQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /galleries/count} : count all the galleries.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/galleries/count")
+    public ResponseEntity<Long> countGalleries(GalleryCriteria criteria) {
+        log.debug("REST request to count Galleries by criteria: {}", criteria);
+        return ResponseEntity.ok().body(galleryQueryService.countByCriteria(criteria));
     }
 
     /**

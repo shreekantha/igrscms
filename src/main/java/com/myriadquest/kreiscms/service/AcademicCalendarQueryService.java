@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.jhipster.service.QueryService;
 
 import com.myriadquest.kreiscms.domain.AcademicCalendar;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.domain.*; // for static metamodels
 import com.myriadquest.kreiscms.repository.AcademicCalendarRepository;
 import com.myriadquest.kreiscms.service.dto.AcademicCalendarCriteria;
@@ -62,7 +63,8 @@ public class AcademicCalendarQueryService extends QueryService<AcademicCalendar>
      */
     @Transactional(readOnly = true)
     public Page<AcademicCalendarDTO> findByCriteria(AcademicCalendarCriteria criteria, Pageable page) {
-        log.debug("find by criteria : {}, page: {}", criteria, page);
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<AcademicCalendar> specification = createSpecification(criteria);
         return academicCalendarRepository.findAll(specification, page)
             .map(academicCalendarMapper::toDto);

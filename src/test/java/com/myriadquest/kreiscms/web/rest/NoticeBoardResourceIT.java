@@ -6,6 +6,8 @@ import com.myriadquest.kreiscms.repository.NoticeBoardRepository;
 import com.myriadquest.kreiscms.service.NoticeBoardService;
 import com.myriadquest.kreiscms.service.dto.NoticeBoardDTO;
 import com.myriadquest.kreiscms.service.mapper.NoticeBoardMapper;
+import com.myriadquest.kreiscms.service.dto.NoticeBoardCriteria;
+import com.myriadquest.kreiscms.service.NoticeBoardQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +41,9 @@ public class NoticeBoardResourceIT {
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
 
+    private static final String DEFAULT_TENANT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_TENANT_ID = "BBBBBBBBBB";
+
     @Autowired
     private NoticeBoardRepository noticeBoardRepository;
 
@@ -47,6 +52,9 @@ public class NoticeBoardResourceIT {
 
     @Autowired
     private NoticeBoardService noticeBoardService;
+
+    @Autowired
+    private NoticeBoardQueryService noticeBoardQueryService;
 
     @Autowired
     private EntityManager em;
@@ -65,7 +73,8 @@ public class NoticeBoardResourceIT {
     public static NoticeBoard createEntity(EntityManager em) {
         NoticeBoard noticeBoard = new NoticeBoard()
             .details(DEFAULT_DETAILS)
-            .active(DEFAULT_ACTIVE);
+            .active(DEFAULT_ACTIVE)
+            .tenantId(DEFAULT_TENANT_ID);
         return noticeBoard;
     }
     /**
@@ -77,7 +86,8 @@ public class NoticeBoardResourceIT {
     public static NoticeBoard createUpdatedEntity(EntityManager em) {
         NoticeBoard noticeBoard = new NoticeBoard()
             .details(UPDATED_DETAILS)
-            .active(UPDATED_ACTIVE);
+            .active(UPDATED_ACTIVE)
+            .tenantId(UPDATED_TENANT_ID);
         return noticeBoard;
     }
 
@@ -103,6 +113,7 @@ public class NoticeBoardResourceIT {
         NoticeBoard testNoticeBoard = noticeBoardList.get(noticeBoardList.size() - 1);
         assertThat(testNoticeBoard.getDetails()).isEqualTo(DEFAULT_DETAILS);
         assertThat(testNoticeBoard.isActive()).isEqualTo(DEFAULT_ACTIVE);
+        assertThat(testNoticeBoard.getTenantId()).isEqualTo(DEFAULT_TENANT_ID);
     }
 
     @Test
@@ -158,7 +169,8 @@ public class NoticeBoardResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(noticeBoard.getId().intValue())))
             .andExpect(jsonPath("$.[*].details").value(hasItem(DEFAULT_DETAILS.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
     }
     
     @Test
@@ -173,8 +185,195 @@ public class NoticeBoardResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(noticeBoard.getId().intValue()))
             .andExpect(jsonPath("$.details").value(DEFAULT_DETAILS.toString()))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
+            .andExpect(jsonPath("$.tenantId").value(DEFAULT_TENANT_ID));
     }
+
+
+    @Test
+    @Transactional
+    public void getNoticeBoardsByIdFiltering() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        Long id = noticeBoard.getId();
+
+        defaultNoticeBoardShouldBeFound("id.equals=" + id);
+        defaultNoticeBoardShouldNotBeFound("id.notEquals=" + id);
+
+        defaultNoticeBoardShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultNoticeBoardShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultNoticeBoardShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultNoticeBoardShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllNoticeBoardsByActiveIsEqualToSomething() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where active equals to DEFAULT_ACTIVE
+        defaultNoticeBoardShouldBeFound("active.equals=" + DEFAULT_ACTIVE);
+
+        // Get all the noticeBoardList where active equals to UPDATED_ACTIVE
+        defaultNoticeBoardShouldNotBeFound("active.equals=" + UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNoticeBoardsByActiveIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where active not equals to DEFAULT_ACTIVE
+        defaultNoticeBoardShouldNotBeFound("active.notEquals=" + DEFAULT_ACTIVE);
+
+        // Get all the noticeBoardList where active not equals to UPDATED_ACTIVE
+        defaultNoticeBoardShouldBeFound("active.notEquals=" + UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNoticeBoardsByActiveIsInShouldWork() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where active in DEFAULT_ACTIVE or UPDATED_ACTIVE
+        defaultNoticeBoardShouldBeFound("active.in=" + DEFAULT_ACTIVE + "," + UPDATED_ACTIVE);
+
+        // Get all the noticeBoardList where active equals to UPDATED_ACTIVE
+        defaultNoticeBoardShouldNotBeFound("active.in=" + UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNoticeBoardsByActiveIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where active is not null
+        defaultNoticeBoardShouldBeFound("active.specified=true");
+
+        // Get all the noticeBoardList where active is null
+        defaultNoticeBoardShouldNotBeFound("active.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllNoticeBoardsByTenantIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where tenantId equals to DEFAULT_TENANT_ID
+        defaultNoticeBoardShouldBeFound("tenantId.equals=" + DEFAULT_TENANT_ID);
+
+        // Get all the noticeBoardList where tenantId equals to UPDATED_TENANT_ID
+        defaultNoticeBoardShouldNotBeFound("tenantId.equals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNoticeBoardsByTenantIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where tenantId not equals to DEFAULT_TENANT_ID
+        defaultNoticeBoardShouldNotBeFound("tenantId.notEquals=" + DEFAULT_TENANT_ID);
+
+        // Get all the noticeBoardList where tenantId not equals to UPDATED_TENANT_ID
+        defaultNoticeBoardShouldBeFound("tenantId.notEquals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNoticeBoardsByTenantIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where tenantId in DEFAULT_TENANT_ID or UPDATED_TENANT_ID
+        defaultNoticeBoardShouldBeFound("tenantId.in=" + DEFAULT_TENANT_ID + "," + UPDATED_TENANT_ID);
+
+        // Get all the noticeBoardList where tenantId equals to UPDATED_TENANT_ID
+        defaultNoticeBoardShouldNotBeFound("tenantId.in=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNoticeBoardsByTenantIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where tenantId is not null
+        defaultNoticeBoardShouldBeFound("tenantId.specified=true");
+
+        // Get all the noticeBoardList where tenantId is null
+        defaultNoticeBoardShouldNotBeFound("tenantId.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllNoticeBoardsByTenantIdContainsSomething() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where tenantId contains DEFAULT_TENANT_ID
+        defaultNoticeBoardShouldBeFound("tenantId.contains=" + DEFAULT_TENANT_ID);
+
+        // Get all the noticeBoardList where tenantId contains UPDATED_TENANT_ID
+        defaultNoticeBoardShouldNotBeFound("tenantId.contains=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNoticeBoardsByTenantIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        noticeBoardRepository.saveAndFlush(noticeBoard);
+
+        // Get all the noticeBoardList where tenantId does not contain DEFAULT_TENANT_ID
+        defaultNoticeBoardShouldNotBeFound("tenantId.doesNotContain=" + DEFAULT_TENANT_ID);
+
+        // Get all the noticeBoardList where tenantId does not contain UPDATED_TENANT_ID
+        defaultNoticeBoardShouldBeFound("tenantId.doesNotContain=" + UPDATED_TENANT_ID);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultNoticeBoardShouldBeFound(String filter) throws Exception {
+        restNoticeBoardMockMvc.perform(get("/api/notice-boards?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(noticeBoard.getId().intValue())))
+            .andExpect(jsonPath("$.[*].details").value(hasItem(DEFAULT_DETAILS.toString())))
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
+
+        // Check, that the count call also returns 1
+        restNoticeBoardMockMvc.perform(get("/api/notice-boards/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultNoticeBoardShouldNotBeFound(String filter) throws Exception {
+        restNoticeBoardMockMvc.perform(get("/api/notice-boards?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restNoticeBoardMockMvc.perform(get("/api/notice-boards/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
+    }
+
     @Test
     @Transactional
     public void getNonExistingNoticeBoard() throws Exception {
@@ -197,7 +396,8 @@ public class NoticeBoardResourceIT {
         em.detach(updatedNoticeBoard);
         updatedNoticeBoard
             .details(UPDATED_DETAILS)
-            .active(UPDATED_ACTIVE);
+            .active(UPDATED_ACTIVE)
+            .tenantId(UPDATED_TENANT_ID);
         NoticeBoardDTO noticeBoardDTO = noticeBoardMapper.toDto(updatedNoticeBoard);
 
         restNoticeBoardMockMvc.perform(put("/api/notice-boards")
@@ -211,6 +411,7 @@ public class NoticeBoardResourceIT {
         NoticeBoard testNoticeBoard = noticeBoardList.get(noticeBoardList.size() - 1);
         assertThat(testNoticeBoard.getDetails()).isEqualTo(UPDATED_DETAILS);
         assertThat(testNoticeBoard.isActive()).isEqualTo(UPDATED_ACTIVE);
+        assertThat(testNoticeBoard.getTenantId()).isEqualTo(UPDATED_TENANT_ID);
     }
 
     @Test

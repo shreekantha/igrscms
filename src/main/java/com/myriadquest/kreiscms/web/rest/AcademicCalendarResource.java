@@ -4,6 +4,7 @@ import com.myriadquest.kreiscms.service.AcademicCalendarService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.AcademicCalendarDTO;
 import com.myriadquest.kreiscms.service.dto.AcademicCalendarCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.service.AcademicCalendarQueryService;
 
@@ -100,9 +101,7 @@ public class AcademicCalendarResource {
      */
     @GetMapping("/academic-calendars")
     public ResponseEntity<List<AcademicCalendarDTO>> getAllAcademicCalendars(AcademicCalendarCriteria criteria, Pageable pageable) {
-    	 StringFilter filter=new StringFilter();
-         filter.setEquals(TenantContext.getCurrentTenant());
-     	criteria.setTenantId(filter);
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
     	log.debug("REST request to get AcademicCalendars by criteria: {}", criteria);
         Page<AcademicCalendarDTO> page = academicCalendarQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

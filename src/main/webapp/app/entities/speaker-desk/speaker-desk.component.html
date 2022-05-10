@@ -27,6 +27,7 @@
                     <th scope="col"  jhiSortBy="note"><span jhiTranslate="igrscmsApp.speakerDesk.note">Note</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="imgLink"><span jhiTranslate="igrscmsApp.speakerDesk.imgLink">Img Link</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="img"><span jhiTranslate="igrscmsApp.speakerDesk.img">Img</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.speakerDesk.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -42,6 +43,7 @@
                         </a>
                         <span *ngIf="speakerDesk.img">{{ speakerDesk.imgContentType }}, {{ byteSize(speakerDesk.img) }}</span>
                     </td>
+                    <td>{{ speakerDesk.tenantId }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

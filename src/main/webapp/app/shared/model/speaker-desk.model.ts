@@ -5,6 +5,7 @@ export interface ISpeakerDesk {
   imgLink?: string;
   imgContentType?: string;
   img?: any;
+  tenantId?: string;
 }
 
 export class SpeakerDesk implements ISpeakerDesk {
@@ -14,6 +15,7 @@ export class SpeakerDesk implements ISpeakerDesk {
     public note?: string,
     public imgLink?: string,
     public imgContentType?: string,
-    public img?: any
+    public img?: any,
+    public tenantId?: string
   ) {}
 }

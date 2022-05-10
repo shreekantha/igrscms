@@ -21,6 +21,7 @@ export class NoticeBoardUpdateComponent implements OnInit {
     id: [],
     details: [null, [Validators.required]],
     active: [null, [Validators.required]],
+    tenantId: [],
   });
 
   constructor(
@@ -42,6 +43,7 @@ export class NoticeBoardUpdateComponent implements OnInit {
       id: noticeBoard.id,
       details: noticeBoard.details,
       active: noticeBoard.active,
+      tenantId: noticeBoard.tenantId,
     });
   }
 
@@ -81,6 +83,7 @@ export class NoticeBoardUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       details: this.editForm.get(['details'])!.value,
       active: this.editForm.get(['active'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

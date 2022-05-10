@@ -40,6 +40,7 @@ export const noticeBoardRoute: Routes = [
     component: NoticeBoardComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'igrscmsApp.noticeBoard.home.title',
     },
     canActivate: [UserRouteAccessService],

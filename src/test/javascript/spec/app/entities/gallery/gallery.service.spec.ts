@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(GalleryService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Gallery(0, 'AAAAAAA', 'image/png', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Gallery(0, 'AAAAAAA', 'image/png', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -57,6 +57,7 @@ describe('Service Tests', () => {
             imgUrl: 'BBBBBB',
             img: 'BBBBBB',
             descritpion: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -76,6 +77,7 @@ describe('Service Tests', () => {
             imgUrl: 'BBBBBB',
             img: 'BBBBBB',
             descritpion: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

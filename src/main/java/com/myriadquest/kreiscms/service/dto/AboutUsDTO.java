@@ -14,7 +14,8 @@ public class AboutUsDTO implements Serializable {
     @NotNull
     private String title;
 
-    @NotNull
+    
+    @Lob
     private String description;
 
     private String imgLink;
@@ -24,6 +25,8 @@ public class AboutUsDTO implements Serializable {
     private byte[] img;
 
     private String imgContentType;
+    private String tenantId;
+
     
     public Long getId() {
         return id;
@@ -73,6 +76,14 @@ public class AboutUsDTO implements Serializable {
         this.imgContentType = imgContentType;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -99,6 +110,7 @@ public class AboutUsDTO implements Serializable {
             ", description='" + getDescription() + "'" +
             ", imgLink='" + getImgLink() + "'" +
             ", img='" + getImg() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

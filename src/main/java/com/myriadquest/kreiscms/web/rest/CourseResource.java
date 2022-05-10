@@ -4,6 +4,7 @@ import com.myriadquest.kreiscms.service.CourseService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.CourseDTO;
 import com.myriadquest.kreiscms.service.dto.CourseCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.service.CourseQueryService;
 
@@ -100,9 +101,7 @@ public class CourseResource {
      */
     @GetMapping("/courses")
     public ResponseEntity<List<CourseDTO>> getAllCourses(CourseCriteria criteria, Pageable pageable) {
-    	 StringFilter filter=new StringFilter();
-         filter.setEquals(TenantContext.getCurrentTenant());
-     	criteria.setTenantId(filter);
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
     	log.debug("REST request to get Courses by criteria: {}", criteria);
         Page<CourseDTO> page = courseQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

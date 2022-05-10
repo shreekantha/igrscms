@@ -97,6 +97,22 @@ import { RouterModule } from '@angular/router';
         path: 'user-profile',
         loadChildren: () => import('./user-profile/user-profile.module').then(m => m.IgrscmsUserProfileModule),
       },
+      {
+        path: 'student-profile',
+        loadChildren: () => import('./student-profile/student-profile.module').then(m => m.IgrscmsStudentProfileModule),
+      },
+      {
+        path: 'alumni-profile',
+        loadChildren: () => import('./alumni-profile/alumni-profile.module').then(m => m.IgrscmsAlumniProfileModule),
+      },
+      {
+        path: 'testimonial',
+        loadChildren: () => import('./testimonial/testimonial.module').then(m => m.IgrscmsTestimonialModule),
+      },
+      {
+        path: 'vision-and-mission',
+        loadChildren: () => import('./vision-and-mission/vision-and-mission.module').then(m => m.IgrscmsVisionAndMissionModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

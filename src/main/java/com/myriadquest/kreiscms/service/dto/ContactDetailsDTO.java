@@ -2,6 +2,7 @@ package com.myriadquest.kreiscms.service.dto;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import javax.persistence.Lob;
 
 /**
  * A DTO for the {@link com.myriadquest.kreiscms.domain.ContactDetails} entity.
@@ -18,7 +19,10 @@ public class ContactDetailsDTO implements Serializable {
     @NotNull
     private String contact;
 
+    @Lob
     private String mapLink;
+
+    private String tenantId;
 
     
     public Long getId() {
@@ -61,6 +65,14 @@ public class ContactDetailsDTO implements Serializable {
         this.mapLink = mapLink;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -87,6 +99,7 @@ public class ContactDetailsDTO implements Serializable {
             ", email='" + getEmail() + "'" +
             ", contact='" + getContact() + "'" +
             ", mapLink='" + getMapLink() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

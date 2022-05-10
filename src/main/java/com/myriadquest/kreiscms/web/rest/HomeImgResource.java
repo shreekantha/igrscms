@@ -3,12 +3,21 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.HomeImgService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.HomeImgDTO;
+import com.myriadquest.kreiscms.service.dto.HomeImgCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.service.HomeImgQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +43,11 @@ public class HomeImgResource {
 
     private final HomeImgService homeImgService;
 
-    public HomeImgResource(HomeImgService homeImgService) {
+    private final HomeImgQueryService homeImgQueryService;
+
+    public HomeImgResource(HomeImgService homeImgService, HomeImgQueryService homeImgQueryService) {
         this.homeImgService = homeImgService;
+        this.homeImgQueryService = homeImgQueryService;
     }
 
     /**
@@ -81,12 +93,29 @@ public class HomeImgResource {
     /**
      * {@code GET  /home-imgs} : get all the homeImgs.
      *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of homeImgs in body.
      */
     @GetMapping("/home-imgs")
-    public List<HomeImgDTO> getAllHomeImgs() {
-        log.debug("REST request to get all HomeImgs");
-        return homeImgService.findAll();
+    public ResponseEntity<List<HomeImgDTO>> getAllHomeImgs(HomeImgCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get HomeImgs by criteria: {}", criteria);
+        Page<HomeImgDTO> page = homeImgQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /home-imgs/count} : count all the homeImgs.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/home-imgs/count")
+    public ResponseEntity<Long> countHomeImgs(HomeImgCriteria criteria) {
+        log.debug("REST request to count HomeImgs by criteria: {}", criteria);
+        return ResponseEntity.ok().body(homeImgQueryService.countByCriteria(criteria));
     }
 
     /**

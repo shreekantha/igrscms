@@ -3,6 +3,8 @@ package com.myriadquest.kreiscms.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.myriadquest.kreiscms.config.TenantContext;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -42,6 +44,9 @@ public class SpeakerDesk implements Serializable {
 
     @Column(name = "img_content_type")
     private String imgContentType;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -116,6 +121,19 @@ public class SpeakerDesk implements Serializable {
     public void setImgContentType(String imgContentType) {
         this.imgContentType = imgContentType;
     }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public SpeakerDesk tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -144,6 +162,7 @@ public class SpeakerDesk implements Serializable {
             ", imgLink='" + getImgLink() + "'" +
             ", img='" + getImg() + "'" +
             ", imgContentType='" + getImgContentType() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

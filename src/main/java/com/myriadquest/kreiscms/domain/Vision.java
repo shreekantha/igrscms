@@ -3,6 +3,8 @@ package com.myriadquest.kreiscms.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.myriadquest.kreiscms.config.TenantContext;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -27,6 +29,9 @@ public class Vision implements Serializable {
     @Column(name = "detail", nullable = false)
     private String detail;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -47,6 +52,19 @@ public class Vision implements Serializable {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public Vision tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -72,6 +90,7 @@ public class Vision implements Serializable {
         return "Vision{" +
             "id=" + getId() +
             ", detail='" + getDetail() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

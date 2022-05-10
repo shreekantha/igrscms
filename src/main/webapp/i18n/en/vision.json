@@ -16,7 +16,8 @@
       "detail": {
         "title": "Vision"
       },
-      "detail": "Detail"
+      "detail": "Detail",
+      "tenantId": "Tenant Id"
     }
   }
 }

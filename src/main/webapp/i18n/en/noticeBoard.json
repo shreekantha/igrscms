@@ -17,7 +17,8 @@
         "title": "Notice Board"
       },
       "details": "Details",
-      "active": "Active"
+      "active": "Active",
+      "tenantId": "Tenant Id"
     }
   }
 }

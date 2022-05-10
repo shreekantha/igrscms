@@ -16,7 +16,8 @@
       "detail": {
         "title": "Mission"
       },
-      "details": "Details"
+      "details": "Details",
+      "tenantId": "Tenant Id"
     }
   }
 }

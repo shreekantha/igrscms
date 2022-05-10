@@ -119,7 +119,7 @@ public class TermQueryService extends QueryService<Term> {
             }
             if (criteria.getClassTeacherId() != null) {
                 specification = specification.and(buildSpecification(criteria.getClassTeacherId(),
-                    root -> root.join(Term_.classTeacher, JoinType.LEFT).get(User_.id)));
+                    root -> root.join(Term_.classTeacher, JoinType.LEFT).get(UserProfile_.id)));
             }
         }
         return specification;

@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(MissionService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Mission(0, 'AAAAAAA');
+      elemDefault = new Mission(0, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -55,6 +55,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             details: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -72,6 +73,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             details: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

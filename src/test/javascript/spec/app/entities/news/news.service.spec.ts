@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(NewsService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new News(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'image/png', 'AAAAAAA');
+      elemDefault = new News(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'image/png', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -58,6 +58,7 @@ describe('Service Tests', () => {
             description: 'BBBBBB',
             imgUrl: 'BBBBBB',
             img: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -78,6 +79,7 @@ describe('Service Tests', () => {
             description: 'BBBBBB',
             imgUrl: 'BBBBBB',
             img: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

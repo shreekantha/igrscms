@@ -3,6 +3,9 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.GalleryCatService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.GalleryCatDTO;
+import com.myriadquest.kreiscms.service.dto.GalleryCatCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.service.GalleryCatQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +43,11 @@ public class GalleryCatResource {
 
     private final GalleryCatService galleryCatService;
 
-    public GalleryCatResource(GalleryCatService galleryCatService) {
+    private final GalleryCatQueryService galleryCatQueryService;
+
+    public GalleryCatResource(GalleryCatService galleryCatService, GalleryCatQueryService galleryCatQueryService) {
         this.galleryCatService = galleryCatService;
+        this.galleryCatQueryService = galleryCatQueryService;
     }
 
     /**
@@ -88,14 +94,28 @@ public class GalleryCatResource {
      * {@code GET  /gallery-cats} : get all the galleryCats.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of galleryCats in body.
      */
     @GetMapping("/gallery-cats")
-    public ResponseEntity<List<GalleryCatDTO>> getAllGalleryCats(Pageable pageable) {
-        log.debug("REST request to get a page of GalleryCats");
-        Page<GalleryCatDTO> page = galleryCatService.findAll(pageable);
+    public ResponseEntity<List<GalleryCatDTO>> getAllGalleryCats(GalleryCatCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get GalleryCats by criteria: {}", criteria);
+        Page<GalleryCatDTO> page = galleryCatQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /gallery-cats/count} : count all the galleryCats.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/gallery-cats/count")
+    public ResponseEntity<Long> countGalleryCats(GalleryCatCriteria criteria) {
+        log.debug("REST request to count GalleryCats by criteria: {}", criteria);
+        return ResponseEntity.ok().body(galleryCatQueryService.countByCriteria(criteria));
     }
 
     /**

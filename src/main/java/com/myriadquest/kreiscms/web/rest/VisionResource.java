@@ -3,6 +3,9 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.VisionService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.VisionDTO;
+import com.myriadquest.kreiscms.service.dto.VisionCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.service.VisionQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +43,11 @@ public class VisionResource {
 
     private final VisionService visionService;
 
-    public VisionResource(VisionService visionService) {
+    private final VisionQueryService visionQueryService;
+
+    public VisionResource(VisionService visionService, VisionQueryService visionQueryService) {
         this.visionService = visionService;
+        this.visionQueryService = visionQueryService;
     }
 
     /**
@@ -88,14 +94,28 @@ public class VisionResource {
      * {@code GET  /visions} : get all the visions.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of visions in body.
      */
     @GetMapping("/visions")
-    public ResponseEntity<List<VisionDTO>> getAllVisions(Pageable pageable) {
-        log.debug("REST request to get a page of Visions");
-        Page<VisionDTO> page = visionService.findAll(pageable);
+    public ResponseEntity<List<VisionDTO>> getAllVisions(VisionCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get Visions by criteria: {}", criteria);
+        Page<VisionDTO> page = visionQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /visions/count} : count all the visions.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/visions/count")
+    public ResponseEntity<Long> countVisions(VisionCriteria criteria) {
+        log.debug("REST request to count Visions by criteria: {}", criteria);
+        return ResponseEntity.ok().body(visionQueryService.countByCriteria(criteria));
     }
 
     /**

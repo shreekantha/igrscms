@@ -6,6 +6,8 @@ import com.myriadquest.kreiscms.repository.NewsRepository;
 import com.myriadquest.kreiscms.service.NewsService;
 import com.myriadquest.kreiscms.service.dto.NewsDTO;
 import com.myriadquest.kreiscms.service.mapper.NewsMapper;
+import com.myriadquest.kreiscms.service.dto.NewsCriteria;
+import com.myriadquest.kreiscms.service.NewsQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +49,9 @@ public class NewsResourceIT {
     private static final String DEFAULT_IMG_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_IMG_CONTENT_TYPE = "image/png";
 
+    private static final String DEFAULT_TENANT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_TENANT_ID = "BBBBBBBBBB";
+
     @Autowired
     private NewsRepository newsRepository;
 
@@ -55,6 +60,9 @@ public class NewsResourceIT {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private NewsQueryService newsQueryService;
 
     @Autowired
     private EntityManager em;
@@ -76,7 +84,8 @@ public class NewsResourceIT {
             .description(DEFAULT_DESCRIPTION)
             .imgUrl(DEFAULT_IMG_URL)
             .img(DEFAULT_IMG)
-            .imgContentType(DEFAULT_IMG_CONTENT_TYPE);
+            .imgContentType(DEFAULT_IMG_CONTENT_TYPE)
+            .tenantId(DEFAULT_TENANT_ID);
         return news;
     }
     /**
@@ -91,7 +100,8 @@ public class NewsResourceIT {
             .description(UPDATED_DESCRIPTION)
             .imgUrl(UPDATED_IMG_URL)
             .img(UPDATED_IMG)
-            .imgContentType(UPDATED_IMG_CONTENT_TYPE);
+            .imgContentType(UPDATED_IMG_CONTENT_TYPE)
+            .tenantId(UPDATED_TENANT_ID);
         return news;
     }
 
@@ -120,6 +130,7 @@ public class NewsResourceIT {
         assertThat(testNews.getImgUrl()).isEqualTo(DEFAULT_IMG_URL);
         assertThat(testNews.getImg()).isEqualTo(DEFAULT_IMG);
         assertThat(testNews.getImgContentType()).isEqualTo(DEFAULT_IMG_CONTENT_TYPE);
+        assertThat(testNews.getTenantId()).isEqualTo(DEFAULT_TENANT_ID);
     }
 
     @Test
@@ -195,10 +206,11 @@ public class NewsResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(news.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].imgUrl").value(hasItem(DEFAULT_IMG_URL)))
             .andExpect(jsonPath("$.[*].imgContentType").value(hasItem(DEFAULT_IMG_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))));
+            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
     }
     
     @Test
@@ -213,11 +225,305 @@ public class NewsResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(news.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.imgUrl").value(DEFAULT_IMG_URL))
             .andExpect(jsonPath("$.imgContentType").value(DEFAULT_IMG_CONTENT_TYPE))
-            .andExpect(jsonPath("$.img").value(Base64Utils.encodeToString(DEFAULT_IMG)));
+            .andExpect(jsonPath("$.img").value(Base64Utils.encodeToString(DEFAULT_IMG)))
+            .andExpect(jsonPath("$.tenantId").value(DEFAULT_TENANT_ID));
     }
+
+
+    @Test
+    @Transactional
+    public void getNewsByIdFiltering() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        Long id = news.getId();
+
+        defaultNewsShouldBeFound("id.equals=" + id);
+        defaultNewsShouldNotBeFound("id.notEquals=" + id);
+
+        defaultNewsShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultNewsShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultNewsShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultNewsShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllNewsByTitleIsEqualToSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where title equals to DEFAULT_TITLE
+        defaultNewsShouldBeFound("title.equals=" + DEFAULT_TITLE);
+
+        // Get all the newsList where title equals to UPDATED_TITLE
+        defaultNewsShouldNotBeFound("title.equals=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByTitleIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where title not equals to DEFAULT_TITLE
+        defaultNewsShouldNotBeFound("title.notEquals=" + DEFAULT_TITLE);
+
+        // Get all the newsList where title not equals to UPDATED_TITLE
+        defaultNewsShouldBeFound("title.notEquals=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByTitleIsInShouldWork() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where title in DEFAULT_TITLE or UPDATED_TITLE
+        defaultNewsShouldBeFound("title.in=" + DEFAULT_TITLE + "," + UPDATED_TITLE);
+
+        // Get all the newsList where title equals to UPDATED_TITLE
+        defaultNewsShouldNotBeFound("title.in=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByTitleIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where title is not null
+        defaultNewsShouldBeFound("title.specified=true");
+
+        // Get all the newsList where title is null
+        defaultNewsShouldNotBeFound("title.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllNewsByTitleContainsSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where title contains DEFAULT_TITLE
+        defaultNewsShouldBeFound("title.contains=" + DEFAULT_TITLE);
+
+        // Get all the newsList where title contains UPDATED_TITLE
+        defaultNewsShouldNotBeFound("title.contains=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByTitleNotContainsSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where title does not contain DEFAULT_TITLE
+        defaultNewsShouldNotBeFound("title.doesNotContain=" + DEFAULT_TITLE);
+
+        // Get all the newsList where title does not contain UPDATED_TITLE
+        defaultNewsShouldBeFound("title.doesNotContain=" + UPDATED_TITLE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllNewsByImgUrlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where imgUrl equals to DEFAULT_IMG_URL
+        defaultNewsShouldBeFound("imgUrl.equals=" + DEFAULT_IMG_URL);
+
+        // Get all the newsList where imgUrl equals to UPDATED_IMG_URL
+        defaultNewsShouldNotBeFound("imgUrl.equals=" + UPDATED_IMG_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByImgUrlIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where imgUrl not equals to DEFAULT_IMG_URL
+        defaultNewsShouldNotBeFound("imgUrl.notEquals=" + DEFAULT_IMG_URL);
+
+        // Get all the newsList where imgUrl not equals to UPDATED_IMG_URL
+        defaultNewsShouldBeFound("imgUrl.notEquals=" + UPDATED_IMG_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByImgUrlIsInShouldWork() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where imgUrl in DEFAULT_IMG_URL or UPDATED_IMG_URL
+        defaultNewsShouldBeFound("imgUrl.in=" + DEFAULT_IMG_URL + "," + UPDATED_IMG_URL);
+
+        // Get all the newsList where imgUrl equals to UPDATED_IMG_URL
+        defaultNewsShouldNotBeFound("imgUrl.in=" + UPDATED_IMG_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByImgUrlIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where imgUrl is not null
+        defaultNewsShouldBeFound("imgUrl.specified=true");
+
+        // Get all the newsList where imgUrl is null
+        defaultNewsShouldNotBeFound("imgUrl.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllNewsByImgUrlContainsSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where imgUrl contains DEFAULT_IMG_URL
+        defaultNewsShouldBeFound("imgUrl.contains=" + DEFAULT_IMG_URL);
+
+        // Get all the newsList where imgUrl contains UPDATED_IMG_URL
+        defaultNewsShouldNotBeFound("imgUrl.contains=" + UPDATED_IMG_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByImgUrlNotContainsSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where imgUrl does not contain DEFAULT_IMG_URL
+        defaultNewsShouldNotBeFound("imgUrl.doesNotContain=" + DEFAULT_IMG_URL);
+
+        // Get all the newsList where imgUrl does not contain UPDATED_IMG_URL
+        defaultNewsShouldBeFound("imgUrl.doesNotContain=" + UPDATED_IMG_URL);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllNewsByTenantIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where tenantId equals to DEFAULT_TENANT_ID
+        defaultNewsShouldBeFound("tenantId.equals=" + DEFAULT_TENANT_ID);
+
+        // Get all the newsList where tenantId equals to UPDATED_TENANT_ID
+        defaultNewsShouldNotBeFound("tenantId.equals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByTenantIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where tenantId not equals to DEFAULT_TENANT_ID
+        defaultNewsShouldNotBeFound("tenantId.notEquals=" + DEFAULT_TENANT_ID);
+
+        // Get all the newsList where tenantId not equals to UPDATED_TENANT_ID
+        defaultNewsShouldBeFound("tenantId.notEquals=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByTenantIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where tenantId in DEFAULT_TENANT_ID or UPDATED_TENANT_ID
+        defaultNewsShouldBeFound("tenantId.in=" + DEFAULT_TENANT_ID + "," + UPDATED_TENANT_ID);
+
+        // Get all the newsList where tenantId equals to UPDATED_TENANT_ID
+        defaultNewsShouldNotBeFound("tenantId.in=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByTenantIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where tenantId is not null
+        defaultNewsShouldBeFound("tenantId.specified=true");
+
+        // Get all the newsList where tenantId is null
+        defaultNewsShouldNotBeFound("tenantId.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllNewsByTenantIdContainsSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where tenantId contains DEFAULT_TENANT_ID
+        defaultNewsShouldBeFound("tenantId.contains=" + DEFAULT_TENANT_ID);
+
+        // Get all the newsList where tenantId contains UPDATED_TENANT_ID
+        defaultNewsShouldNotBeFound("tenantId.contains=" + UPDATED_TENANT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNewsByTenantIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        newsRepository.saveAndFlush(news);
+
+        // Get all the newsList where tenantId does not contain DEFAULT_TENANT_ID
+        defaultNewsShouldNotBeFound("tenantId.doesNotContain=" + DEFAULT_TENANT_ID);
+
+        // Get all the newsList where tenantId does not contain UPDATED_TENANT_ID
+        defaultNewsShouldBeFound("tenantId.doesNotContain=" + UPDATED_TENANT_ID);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultNewsShouldBeFound(String filter) throws Exception {
+        restNewsMockMvc.perform(get("/api/news?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(news.getId().intValue())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].imgUrl").value(hasItem(DEFAULT_IMG_URL)))
+            .andExpect(jsonPath("$.[*].imgContentType").value(hasItem(DEFAULT_IMG_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))))
+            .andExpect(jsonPath("$.[*].tenantId").value(hasItem(DEFAULT_TENANT_ID)));
+
+        // Check, that the count call also returns 1
+        restNewsMockMvc.perform(get("/api/news/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultNewsShouldNotBeFound(String filter) throws Exception {
+        restNewsMockMvc.perform(get("/api/news?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restNewsMockMvc.perform(get("/api/news/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
+    }
+
     @Test
     @Transactional
     public void getNonExistingNews() throws Exception {
@@ -243,7 +549,8 @@ public class NewsResourceIT {
             .description(UPDATED_DESCRIPTION)
             .imgUrl(UPDATED_IMG_URL)
             .img(UPDATED_IMG)
-            .imgContentType(UPDATED_IMG_CONTENT_TYPE);
+            .imgContentType(UPDATED_IMG_CONTENT_TYPE)
+            .tenantId(UPDATED_TENANT_ID);
         NewsDTO newsDTO = newsMapper.toDto(updatedNews);
 
         restNewsMockMvc.perform(put("/api/news")
@@ -260,6 +567,7 @@ public class NewsResourceIT {
         assertThat(testNews.getImgUrl()).isEqualTo(UPDATED_IMG_URL);
         assertThat(testNews.getImg()).isEqualTo(UPDATED_IMG);
         assertThat(testNews.getImgContentType()).isEqualTo(UPDATED_IMG_CONTENT_TYPE);
+        assertThat(testNews.getTenantId()).isEqualTo(UPDATED_TENANT_ID);
     }
 
     @Test

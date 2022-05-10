@@ -4,6 +4,7 @@ import com.myriadquest.kreiscms.service.ExamTimeTableService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.ExamTimeTableDTO;
 import com.myriadquest.kreiscms.service.dto.ExamTimeTableCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.service.ExamTimeTableQueryService;
 
@@ -100,9 +101,7 @@ public class ExamTimeTableResource {
      */
     @GetMapping("/exam-time-tables")
     public ResponseEntity<List<ExamTimeTableDTO>> getAllExamTimeTables(ExamTimeTableCriteria criteria, Pageable pageable) {
-    	 StringFilter filter=new StringFilter();
-         filter.setEquals(TenantContext.getCurrentTenant());
-     	criteria.setTenantId(filter);
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
     	log.debug("REST request to get ExamTimeTables by criteria: {}", criteria);
         Page<ExamTimeTableDTO> page = examTimeTableQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

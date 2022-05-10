@@ -4,6 +4,7 @@ import com.myriadquest.kreiscms.service.PeriodService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.PeriodDTO;
 import com.myriadquest.kreiscms.service.dto.PeriodCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.service.PeriodQueryService;
 
@@ -93,9 +94,7 @@ public class PeriodResource {
      */
     @GetMapping("/periods")
     public ResponseEntity<List<PeriodDTO>> getAllPeriods(PeriodCriteria criteria) {
-    	 StringFilter filter=new StringFilter();
-         filter.setEquals(TenantContext.getCurrentTenant());
-     	criteria.setTenantId(filter);
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
         log.debug("REST request to get Periods by criteria: {}", criteria);
         List<PeriodDTO> entityList = periodQueryService.findByCriteria(criteria);
         return ResponseEntity.ok().body(entityList);

@@ -3,6 +3,9 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.ContactDetailsService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.ContactDetailsDTO;
+import com.myriadquest.kreiscms.service.dto.ContactDetailsCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.service.ContactDetailsQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +43,11 @@ public class ContactDetailsResource {
 
     private final ContactDetailsService contactDetailsService;
 
-    public ContactDetailsResource(ContactDetailsService contactDetailsService) {
+    private final ContactDetailsQueryService contactDetailsQueryService;
+
+    public ContactDetailsResource(ContactDetailsService contactDetailsService, ContactDetailsQueryService contactDetailsQueryService) {
         this.contactDetailsService = contactDetailsService;
+        this.contactDetailsQueryService = contactDetailsQueryService;
     }
 
     /**
@@ -88,14 +94,28 @@ public class ContactDetailsResource {
      * {@code GET  /contact-details} : get all the contactDetails.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of contactDetails in body.
      */
     @GetMapping("/contact-details")
-    public ResponseEntity<List<ContactDetailsDTO>> getAllContactDetails(Pageable pageable) {
-        log.debug("REST request to get a page of ContactDetails");
-        Page<ContactDetailsDTO> page = contactDetailsService.findAll(pageable);
+    public ResponseEntity<List<ContactDetailsDTO>> getAllContactDetails(ContactDetailsCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get ContactDetails by criteria: {}", criteria);
+        Page<ContactDetailsDTO> page = contactDetailsQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /contact-details/count} : count all the contactDetails.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/contact-details/count")
+    public ResponseEntity<Long> countContactDetails(ContactDetailsCriteria criteria) {
+        log.debug("REST request to count ContactDetails by criteria: {}", criteria);
+        return ResponseEntity.ok().body(contactDetailsQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -3,6 +3,9 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.SpeakerDeskService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.SpeakerDeskDTO;
+import com.myriadquest.kreiscms.service.dto.SpeakerDeskCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.service.SpeakerDeskQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +43,11 @@ public class SpeakerDeskResource {
 
     private final SpeakerDeskService speakerDeskService;
 
-    public SpeakerDeskResource(SpeakerDeskService speakerDeskService) {
+    private final SpeakerDeskQueryService speakerDeskQueryService;
+
+    public SpeakerDeskResource(SpeakerDeskService speakerDeskService, SpeakerDeskQueryService speakerDeskQueryService) {
         this.speakerDeskService = speakerDeskService;
+        this.speakerDeskQueryService = speakerDeskQueryService;
     }
 
     /**
@@ -88,14 +94,28 @@ public class SpeakerDeskResource {
      * {@code GET  /speaker-desks} : get all the speakerDesks.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of speakerDesks in body.
      */
     @GetMapping("/speaker-desks")
-    public ResponseEntity<List<SpeakerDeskDTO>> getAllSpeakerDesks(Pageable pageable) {
-        log.debug("REST request to get a page of SpeakerDesks");
-        Page<SpeakerDeskDTO> page = speakerDeskService.findAll(pageable);
+    public ResponseEntity<List<SpeakerDeskDTO>> getAllSpeakerDesks(SpeakerDeskCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get SpeakerDesks by criteria: {}", criteria);
+        Page<SpeakerDeskDTO> page = speakerDeskQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /speaker-desks/count} : count all the speakerDesks.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/speaker-desks/count")
+    public ResponseEntity<Long> countSpeakerDesks(SpeakerDeskCriteria criteria) {
+        log.debug("REST request to count SpeakerDesks by criteria: {}", criteria);
+        return ResponseEntity.ok().body(speakerDeskQueryService.countByCriteria(criteria));
     }
 
     /**

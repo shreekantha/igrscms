@@ -68,7 +68,7 @@ public class Term implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = "terms", allowSetters = true)
-    private User classTeacher;
+    private UserProfile classTeacher;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -233,16 +233,16 @@ public class Term implements Serializable {
         this.examTimeTables = examTimeTables;
     }
 
-    public User getClassTeacher() {
+    public UserProfile getClassTeacher() {
         return classTeacher;
     }
 
-    public Term classTeacher(User user) {
+    public Term classTeacher(UserProfile user) {
         this.classTeacher = user;
         return this;
     }
 
-    public void setClassTeacher(User user) {
+    public void setClassTeacher(UserProfile user) {
         this.classTeacher = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

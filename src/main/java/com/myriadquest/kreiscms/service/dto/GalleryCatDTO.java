@@ -24,6 +24,8 @@ public class GalleryCatDTO implements Serializable {
     private byte[] img;
 
     private String imgContentType;
+    private String tenantId;
+
     
     public Long getId() {
         return id;
@@ -73,6 +75,14 @@ public class GalleryCatDTO implements Serializable {
         this.imgContentType = imgContentType;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -99,6 +109,7 @@ public class GalleryCatDTO implements Serializable {
             ", description='" + getDescription() + "'" +
             ", imgLink='" + getImgLink() + "'" +
             ", img='" + getImg() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

@@ -1,0 +1,104 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="igrscmsApp.alumniProfile.home.title">Alumni Profiles</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-alumni-profile" [routerLink]="['/alumni-profile/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="igrscmsApp.alumniProfile.home.createLabel">
+            Create a new Alumni Profile
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="alumniProfiles?.length === 0">
+        <span jhiTranslate="igrscmsApp.alumniProfile.home.notFound">No alumniProfiles found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="alumniProfiles && alumniProfiles.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="firstName"><span jhiTranslate="igrscmsApp.alumniProfile.firstName">First Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastName"><span jhiTranslate="igrscmsApp.alumniProfile.lastName">Last Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="fathersName"><span jhiTranslate="igrscmsApp.alumniProfile.fathersName">Fathers Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="mothersName"><span jhiTranslate="igrscmsApp.alumniProfile.mothersName">Mothers Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="currentTerm"><span jhiTranslate="igrscmsApp.alumniProfile.currentTerm">Current Term</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="joiningAcademicYear"><span jhiTranslate="igrscmsApp.alumniProfile.joiningAcademicYear">Joining Academic Year</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="exitAcademicYear"><span jhiTranslate="igrscmsApp.alumniProfile.exitAcademicYear">Exit Academic Year</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="mobile"><span jhiTranslate="igrscmsApp.alumniProfile.mobile">Mobile</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="email"><span jhiTranslate="igrscmsApp.alumniProfile.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="aadhaar"><span jhiTranslate="igrscmsApp.alumniProfile.aadhaar">Aadhaar</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dob"><span jhiTranslate="igrscmsApp.alumniProfile.dob">Dob</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="imgLink"><span jhiTranslate="igrscmsApp.alumniProfile.imgLink">Img Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="img"><span jhiTranslate="igrscmsApp.alumniProfile.img">Img</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.alumniProfile.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span jhiTranslate="igrscmsApp.alumniProfile.active">Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let alumniProfile of alumniProfiles ;trackBy: trackId">
+                    <td><a [routerLink]="['/alumni-profile', alumniProfile.id, 'view']">{{ alumniProfile.id }}</a></td>
+                    <td>{{ alumniProfile.firstName }}</td>
+                    <td>{{ alumniProfile.lastName }}</td>
+                    <td>{{ alumniProfile.fathersName }}</td>
+                    <td>{{ alumniProfile.mothersName }}</td>
+                    <td>{{ alumniProfile.currentTerm }}</td>
+                    <td>{{ alumniProfile.joiningAcademicYear }}</td>
+                    <td>{{ alumniProfile.exitAcademicYear }}</td>
+                    <td>{{ alumniProfile.mobile }}</td>
+                    <td>{{ alumniProfile.email }}</td>
+                    <td>{{ alumniProfile.aadhaar }}</td>
+                    <td>{{ alumniProfile.dob | date:'mediumDate' }}</td>
+                    <td>{{ alumniProfile.imgLink }}</td>
+                    <td>
+                        <a *ngIf="alumniProfile.img" (click)="openFile(alumniProfile.imgContentType, alumniProfile.img)">
+                            <img [src]="'data:' + alumniProfile.imgContentType + ';base64,' + alumniProfile.img" style="max-height: 30px;" alt="alumniProfile image"/>
+                        </a>
+                        <span *ngIf="alumniProfile.img">{{ alumniProfile.imgContentType }}, {{ byteSize(alumniProfile.img) }}</span>
+                    </td>
+                    <td>{{ alumniProfile.tenantId }}</td>
+                    <td>{{ alumniProfile.active }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/alumni-profile', alumniProfile.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/alumni-profile', alumniProfile.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(alumniProfile)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="alumniProfiles && alumniProfiles.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

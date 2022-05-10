@@ -1,16 +1,15 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
-
-import { ITerm, Term } from 'app/shared/model/term.model';
-import { TermService } from './term.service';
-import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IUser } from 'app/core/user/user.model';
-import { UserService } from 'app/core/user/user.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
+import { ITerm, Term } from 'app/shared/model/term.model';
+import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { UserProfileService } from '../user-profile/user-profile.service';
+import { TermService } from './term.service';
 
 @Component({
   selector: 'jhi-term-update',
@@ -37,7 +36,7 @@ export class TermUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected termService: TermService,
-    protected userService: UserService,
+    protected userService: UserProfileService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder

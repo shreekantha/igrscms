@@ -7,6 +7,7 @@ export interface IGalleryCat {
   imgLink?: string;
   imgContentType?: string;
   img?: any;
+  tenantId?: string;
   galleries?: IGallery[];
 }
 
@@ -18,6 +19,7 @@ export class GalleryCat implements IGalleryCat {
     public imgLink?: string,
     public imgContentType?: string,
     public img?: any,
+    public tenantId?: string,
     public galleries?: IGallery[]
   ) {}
 }

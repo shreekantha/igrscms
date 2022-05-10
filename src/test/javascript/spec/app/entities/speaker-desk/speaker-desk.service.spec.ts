@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(SpeakerDeskService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new SpeakerDesk(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'image/png', 'AAAAAAA');
+      elemDefault = new SpeakerDesk(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'image/png', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -58,6 +58,7 @@ describe('Service Tests', () => {
             note: 'BBBBBB',
             imgLink: 'BBBBBB',
             img: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -78,6 +79,7 @@ describe('Service Tests', () => {
             note: 'BBBBBB',
             imgLink: 'BBBBBB',
             img: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

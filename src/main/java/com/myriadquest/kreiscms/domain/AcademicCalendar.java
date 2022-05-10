@@ -1,6 +1,8 @@
 package com.myriadquest.kreiscms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.myriadquest.kreiscms.config.TenantContext;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -129,7 +131,7 @@ public class AcademicCalendar implements Serializable {
     }
 
     public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
+        this.tenantId = TenantContext.getCurrentTenant();
     }
 
     public Set<ClassTimeTable> getClassTimeTables() {

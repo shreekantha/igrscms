@@ -28,6 +28,7 @@ export class InstituteUpdateComponent implements OnInit {
     logo: [null, []],
     logoContentType: [],
     tagLine: [null, [Validators.required]],
+    tenantId: [],
   });
 
   constructor(
@@ -57,6 +58,7 @@ export class InstituteUpdateComponent implements OnInit {
       logo: institute.logo,
       logoContentType: institute.logoContentType,
       tagLine: institute.tagLine,
+      tenantId: institute.tenantId,
     });
   }
 
@@ -113,6 +115,7 @@ export class InstituteUpdateComponent implements OnInit {
       logoContentType: this.editForm.get(['logoContentType'])!.value,
       logo: this.editForm.get(['logo'])!.value,
       tagLine: this.editForm.get(['tagLine'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

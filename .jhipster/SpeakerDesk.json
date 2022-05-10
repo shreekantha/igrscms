@@ -22,6 +22,10 @@
       "fieldTypeBlobContent": "image",
       "fieldValidateRules": ["maxbytes"],
       "fieldValidateRulesMaxbytes": "15360"
+    },
+    {
+      "fieldName": "tenantId",
+      "fieldType": "String"
     }
   ],
   "relationships": [],
@@ -30,7 +34,7 @@
   "dto": "mapstruct",
   "pagination": "pagination",
   "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,

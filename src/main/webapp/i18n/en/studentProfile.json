@@ -1,0 +1,36 @@
+{
+  "igrscmsApp": {
+    "studentProfile": {
+      "home": {
+        "title": "Student Profiles",
+        "createLabel": "Create a new Student Profile",
+        "createOrEditLabel": "Create or edit a Student Profile",
+        "notFound": "No Student Profiles found"
+      },
+      "created": "A new Student Profile is created with identifier {{ param }}",
+      "updated": "A Student Profile is updated with identifier {{ param }}",
+      "deleted": "A Student Profile is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Student Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "Student Profile"
+      },
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "img": "Img",
+      "fathersName": "Fathers Name",
+      "mothersName": "Mothers Name",
+      "currentTerm": "Current Term",
+      "joiningAcademicYear": "Joining Academic Year",
+      "exitAcademicYear": "Exit Academic Year",
+      "mobile": "Mobile",
+      "email": "Email",
+      "aadhaar": "Aadhaar",
+      "dob": "Dob",
+      "imgLink": "Img Link",
+      "tenantId": "Tenant Id",
+      "active": "Active"
+    }
+  }
+}

@@ -4,6 +4,7 @@ import com.myriadquest.kreiscms.service.ClassTimeTableConfigService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.ClassTimeTableConfigDTO;
 import com.myriadquest.kreiscms.service.dto.ClassTimeTableConfigCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.service.ClassTimeTableConfigQueryService;
 
@@ -93,9 +94,7 @@ public class ClassTimeTableConfigResource {
      */
     @GetMapping("/class-time-table-configs")
     public ResponseEntity<List<ClassTimeTableConfigDTO>> getAllClassTimeTableConfigs(ClassTimeTableConfigCriteria criteria) {
-    	 StringFilter filter=new StringFilter();
-         filter.setEquals(TenantContext.getCurrentTenant());
-     	criteria.setTenantId(filter);
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
     	log.debug("REST request to get ClassTimeTableConfigs by criteria: {}", criteria);
         List<ClassTimeTableConfigDTO> entityList = classTimeTableConfigQueryService.findByCriteria(criteria);
         return ResponseEntity.ok().body(entityList);

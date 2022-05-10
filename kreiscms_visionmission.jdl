@@ -1,0 +1,19 @@
+
+entity VisionAndMission{
+	vision String required
+    mission String required
+    tenantId String
+}
+
+// Set pagination options
+paginate VisionAndMission with pagination
+
+// Use Data Transfer Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl 
+filter VisionAndMission
+// Set an angular suffix
+// angularSuffix * with mySuffix
+

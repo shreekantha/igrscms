@@ -4,7 +4,7 @@ export interface IHomeImg {
   img?: any;
   title?: string;
   description?: any;
-  active?: boolean;
+  tenantId?: string;
 }
 
 export class HomeImg implements IHomeImg {
@@ -14,8 +14,6 @@ export class HomeImg implements IHomeImg {
     public img?: any,
     public title?: string,
     public description?: any,
-    public active?: boolean
-  ) {
-    this.active = this.active || false;
-  }
+    public tenantId?: string
+  ) {}
 }

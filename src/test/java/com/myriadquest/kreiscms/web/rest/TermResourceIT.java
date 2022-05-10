@@ -5,6 +5,7 @@ import com.myriadquest.kreiscms.domain.Term;
 import com.myriadquest.kreiscms.domain.ClassTimeTable;
 import com.myriadquest.kreiscms.domain.ExamTimeTable;
 import com.myriadquest.kreiscms.domain.User;
+import com.myriadquest.kreiscms.domain.UserProfile;
 import com.myriadquest.kreiscms.repository.TermRepository;
 import com.myriadquest.kreiscms.service.TermService;
 import com.myriadquest.kreiscms.service.dto.TermDTO;
@@ -880,7 +881,7 @@ public class TermResourceIT {
     public void getAllTermsByClassTeacherIsEqualToSomething() throws Exception {
         // Initialize the database
         termRepository.saveAndFlush(term);
-        User classTeacher = UserResourceIT.createEntity(em);
+        UserProfile classTeacher = UserProfileResourceIT.createEntity(em);
         em.persist(classTeacher);
         em.flush();
         term.setClassTeacher(classTeacher);

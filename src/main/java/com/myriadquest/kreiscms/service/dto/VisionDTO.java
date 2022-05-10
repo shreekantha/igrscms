@@ -13,6 +13,8 @@ public class VisionDTO implements Serializable {
     @NotNull
     private String detail;
 
+    private String tenantId;
+
     
     public Long getId() {
         return id;
@@ -28,6 +30,14 @@ public class VisionDTO implements Serializable {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     @Override
@@ -53,6 +63,7 @@ public class VisionDTO implements Serializable {
         return "VisionDTO{" +
             "id=" + getId() +
             ", detail='" + getDetail() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

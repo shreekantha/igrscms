@@ -3,12 +3,21 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.NoticeBoardService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.NoticeBoardDTO;
+import com.myriadquest.kreiscms.service.dto.NoticeBoardCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.service.NoticeBoardQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +43,11 @@ public class NoticeBoardResource {
 
     private final NoticeBoardService noticeBoardService;
 
-    public NoticeBoardResource(NoticeBoardService noticeBoardService) {
+    private final NoticeBoardQueryService noticeBoardQueryService;
+
+    public NoticeBoardResource(NoticeBoardService noticeBoardService, NoticeBoardQueryService noticeBoardQueryService) {
         this.noticeBoardService = noticeBoardService;
+        this.noticeBoardQueryService = noticeBoardQueryService;
     }
 
     /**
@@ -81,12 +93,29 @@ public class NoticeBoardResource {
     /**
      * {@code GET  /notice-boards} : get all the noticeBoards.
      *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of noticeBoards in body.
      */
     @GetMapping("/notice-boards")
-    public List<NoticeBoardDTO> getAllNoticeBoards() {
-        log.debug("REST request to get all NoticeBoards");
-        return noticeBoardService.findAll();
+    public ResponseEntity<List<NoticeBoardDTO>> getAllNoticeBoards(NoticeBoardCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get NoticeBoards by criteria: {}", criteria);
+        Page<NoticeBoardDTO> page = noticeBoardQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /notice-boards/count} : count all the noticeBoards.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/notice-boards/count")
+    public ResponseEntity<Long> countNoticeBoards(NoticeBoardCriteria criteria) {
+        log.debug("REST request to count NoticeBoards by criteria: {}", criteria);
+        return ResponseEntity.ok().body(noticeBoardQueryService.countByCriteria(criteria));
     }
 
     /**

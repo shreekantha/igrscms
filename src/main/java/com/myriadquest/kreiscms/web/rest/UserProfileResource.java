@@ -3,8 +3,11 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.UserProfileService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.UserProfileDTO;
+import com.myriadquest.kreiscms.service.dto.ProfileDTO;
 import com.myriadquest.kreiscms.service.dto.UserProfileCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.config.TenantContext;
+import com.myriadquest.kreiscms.domain.enumeration.UserType;
 import com.myriadquest.kreiscms.service.UserProfileQueryService;
 
 import io.github.jhipster.service.Criteria;
@@ -27,7 +30,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing {@link com.myriadquest.kreiscms.domain.UserProfile}.
@@ -101,14 +106,26 @@ public class UserProfileResource {
      */
     @GetMapping("/user-profiles")
     public ResponseEntity<List<UserProfileDTO>> getAllUserProfiles(UserProfileCriteria criteria, Pageable pageable) {
-        StringFilter filter=new StringFilter();
-        filter.setEquals(TenantContext.getCurrentTenant());
-    	criteria.setTenantId(filter);
+        
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
         log.debug("REST request to get UserProfiles by criteria: {}", criteria);	
         Page<UserProfileDTO> page = userProfileQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
+    @GetMapping("/user-profiles/designation")
+	public Map<UserType, List<UserProfileDTO>> getAllProfilesByDesignation(UserProfileCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get a page of Profiles");
+		Page<UserProfileDTO> page = userProfileQueryService.findByCriteria(criteria, pageable);
+		HttpHeaders headers = PaginationUtil
+				.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+
+		return page.getContent().stream().collect(Collectors.groupingBy(UserProfileDTO::getUserType));
+//        return ResponseEntity.ok().headers(headers).body(page.getContent());
+	}
+
 
     /**
      * {@code GET  /user-profiles/count} : count all the userProfiles.

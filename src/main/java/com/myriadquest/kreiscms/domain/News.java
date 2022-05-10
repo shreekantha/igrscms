@@ -2,6 +2,9 @@ package com.myriadquest.kreiscms.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+
+import com.myriadquest.kreiscms.config.TenantContext;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -27,6 +30,8 @@ public class News implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "description")
     private String description;
 
@@ -41,6 +46,9 @@ public class News implements Serializable {
 
     @Column(name = "img_content_type")
     private String imgContentType;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -115,6 +123,19 @@ public class News implements Serializable {
     public void setImgContentType(String imgContentType) {
         this.imgContentType = imgContentType;
     }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public News tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -143,6 +164,7 @@ public class News implements Serializable {
             ", imgUrl='" + getImgUrl() + "'" +
             ", img='" + getImg() + "'" +
             ", imgContentType='" + getImgContentType() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

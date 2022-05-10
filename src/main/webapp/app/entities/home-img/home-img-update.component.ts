@@ -23,7 +23,7 @@ export class HomeImgUpdateComponent implements OnInit {
     imgContentType: [],
     title: [null, [Validators.required]],
     description: [null, [Validators.required]],
-    active: [null, [Validators.required]],
+    tenantId: [],
   });
 
   constructor(
@@ -48,7 +48,7 @@ export class HomeImgUpdateComponent implements OnInit {
       imgContentType: homeImg.imgContentType,
       title: homeImg.title,
       description: homeImg.description,
-      active: homeImg.active,
+      tenantId: homeImg.tenantId,
     });
   }
 
@@ -100,7 +100,7 @@ export class HomeImgUpdateComponent implements OnInit {
       img: this.editForm.get(['img'])!.value,
       title: this.editForm.get(['title'])!.value,
       description: this.editForm.get(['description'])!.value,
-      active: this.editForm.get(['active'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

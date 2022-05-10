@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface HomeImgRepository extends JpaRepository<HomeImg, Long> {
+public interface HomeImgRepository extends JpaRepository<HomeImg, Long>, JpaSpecificationExecutor<HomeImg> {
 }

@@ -11,15 +11,19 @@
       "fieldName": "active",
       "fieldType": "Boolean",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "tenantId",
+      "fieldType": "String"
     }
   ],
   "relationships": [],
   "changelogDate": "20220304043805",
   "entityTableName": "notice_board",
   "dto": "mapstruct",
-  "pagination": "no",
+  "pagination": "pagination",
   "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,

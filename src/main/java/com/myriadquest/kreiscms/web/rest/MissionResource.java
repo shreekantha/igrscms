@@ -3,6 +3,9 @@ package com.myriadquest.kreiscms.web.rest;
 import com.myriadquest.kreiscms.service.MissionService;
 import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 import com.myriadquest.kreiscms.service.dto.MissionDTO;
+import com.myriadquest.kreiscms.service.dto.MissionCriteria;
+import com.myriadquest.kreiscms.IgrscmsApp;
+import com.myriadquest.kreiscms.service.MissionQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +43,11 @@ public class MissionResource {
 
     private final MissionService missionService;
 
-    public MissionResource(MissionService missionService) {
+    private final MissionQueryService missionQueryService;
+
+    public MissionResource(MissionService missionService, MissionQueryService missionQueryService) {
         this.missionService = missionService;
+        this.missionQueryService = missionQueryService;
     }
 
     /**
@@ -88,14 +94,28 @@ public class MissionResource {
      * {@code GET  /missions} : get all the missions.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of missions in body.
      */
     @GetMapping("/missions")
-    public ResponseEntity<List<MissionDTO>> getAllMissions(Pageable pageable) {
-        log.debug("REST request to get a page of Missions");
-        Page<MissionDTO> page = missionService.findAll(pageable);
+    public ResponseEntity<List<MissionDTO>> getAllMissions(MissionCriteria criteria, Pageable pageable) {
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("REST request to get Missions by criteria: {}", criteria);
+        Page<MissionDTO> page = missionQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /missions/count} : count all the missions.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/missions/count")
+    public ResponseEntity<Long> countMissions(MissionCriteria criteria) {
+        log.debug("REST request to count Missions by criteria: {}", criteria);
+        return ResponseEntity.ok().body(missionQueryService.countByCriteria(criteria));
     }
 
     /**

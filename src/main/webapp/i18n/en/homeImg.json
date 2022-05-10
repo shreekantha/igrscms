@@ -19,7 +19,7 @@
       "img": "Img",
       "title": "Title",
       "description": "Description",
-      "active": "Active"
+      "tenantId": "Tenant Id"
     }
   }
 }

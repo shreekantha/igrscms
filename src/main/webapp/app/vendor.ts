@@ -1,2 +1,93 @@
 /* after changing this file run 'npm run webpack:build' */
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  faAddressBook,
+  faAddressCard,
+  faArrowLeft,
+  faAsterisk,
+  faBan,
+  faBars,
+  faBell,
+  faBook,
+  faBuilding,
+  faCalendarAlt,
+  faChalkboard,
+  faClock,
+  faCloud,
+  faEye,
+  faFlag,
+  faGrinHearts,
+  faHdd,
+  faHeart,
+  faHome,
+  faImage,
+  faImages,
+  faList,
+  faNewspaper,
+  faPencilAlt,
+  faPlus,
+  faRoad,
+  faSave,
+  faSearch,
+  faSignInAlt,
+  faSignOutAlt,
+  faSitemap,
+  faSort,
+  faSync,
+  faTachometerAlt,
+  faTape,
+  faTasks,
+  faThList,
+  faTimes,
+  faTrashAlt,
+  faUniversity,
+  faUser,
+  faUserPlus,
+  faWrench,
+} from '@fortawesome/free-solid-svg-icons';
 import '../content/scss/vendor.scss';
+
+// Adds the SVG icon to the library so you can use it in your page
+library.add(faUser);
+library.add(faSort);
+library.add(faSync);
+library.add(faEye);
+library.add(faBan);
+library.add(faTimes);
+library.add(faArrowLeft);
+library.add(faSave);
+library.add(faPlus);
+library.add(faPencilAlt);
+library.add(faBars);
+library.add(faHome);
+library.add(faThList);
+library.add(faUserPlus);
+library.add(faRoad);
+library.add(faTachometerAlt);
+library.add(faHeart);
+library.add(faList);
+library.add(faBell);
+library.add(faTasks);
+library.add(faBook);
+library.add(faHdd);
+library.add(faFlag);
+library.add(faWrench);
+library.add(faClock);
+library.add(faCloud);
+library.add(faSignOutAlt);
+library.add(faSignInAlt);
+library.add(faCalendarAlt);
+library.add(faSearch);
+library.add(faTrashAlt);
+library.add(faAsterisk);
+library.add(faGrinHearts);
+library.add(faUniversity);
+library.add(faAddressBook);
+library.add(faNewspaper);
+library.add(faSitemap);
+library.add(faImages);
+library.add(faImage);
+library.add(faAddressCard);
+library.add(faTape);
+library.add(faChalkboard);
+library.add(faBuilding);

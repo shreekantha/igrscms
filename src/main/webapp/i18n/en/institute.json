@@ -23,7 +23,8 @@
       "contact": "Contact",
       "logoLink": "Logo Link",
       "logo": "Logo",
-      "tagLine": "Tag Line"
+      "tagLine": "Tag Line",
+      "tenantId": "Tenant Id"
     }
   }
 }

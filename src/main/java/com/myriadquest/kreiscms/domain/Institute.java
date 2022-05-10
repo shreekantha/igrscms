@@ -3,6 +3,8 @@ package com.myriadquest.kreiscms.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.myriadquest.kreiscms.config.TenantContext;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -58,6 +60,9 @@ public class Institute implements Serializable {
     @NotNull
     @Column(name = "tag_line", nullable = false)
     private String tagLine;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -184,6 +189,19 @@ public class Institute implements Serializable {
     public void setTagLine(String tagLine) {
         this.tagLine = tagLine;
     }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public Institute tenantId(String tenantId) {
+        this.tenantId = tenantId;
+        return this;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = TenantContext.getCurrentTenant();
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -216,6 +234,7 @@ public class Institute implements Serializable {
             ", logo='" + getLogo() + "'" +
             ", logoContentType='" + getLogoContentType() + "'" +
             ", tagLine='" + getTagLine() + "'" +
+            ", tenantId='" + getTenantId() + "'" +
             "}";
     }
 }

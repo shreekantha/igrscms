@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="testimonial">
+            <h2><span jhiTranslate="igrscmsApp.testimonial.detail.title">Testimonial</span> {{ testimonial.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.testimonial.name">Name</span></dt>
+                <dd>
+                    <span>{{ testimonial.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.testimonial.img">Img</span></dt>
+                <dd>
+                    <div *ngIf="testimonial.img">
+                        <a (click)="openFile(testimonial.imgContentType, testimonial.img)">
+                            <img [src]="'data:' + testimonial.imgContentType + ';base64,' + testimonial.img" style="max-width: 100%;" alt="testimonial image"/>
+                        </a>
+                        {{ testimonial.imgContentType }}, {{ byteSize(testimonial.img) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.testimonial.imgLink">Img Link</span></dt>
+                <dd>
+                    <span>{{ testimonial.imgLink }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.testimonial.batchYear">Batch Year</span></dt>
+                <dd>
+                    <span>{{ testimonial.batchYear }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.testimonial.note">Note</span></dt>
+                <dd>
+                    <span>{{ testimonial.note }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/testimonial', testimonial.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -19,6 +19,7 @@
       "imgUrl": "Img Url",
       "img": "Img",
       "descritpion": "Descritpion",
+      "tenantId": "Tenant Id",
       "category": "Category"
     }
   }

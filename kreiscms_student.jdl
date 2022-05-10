@@ -1,0 +1,64 @@
+entity StudentProfile {
+  firstName String required,
+  lastName String,
+  img ImageBlob,
+  fathersName String,
+  mothersName String,
+  currentTerm Integer,
+  joiningAcademicYear String,
+  exitAcademicYear String,
+  mobile String required maxlength(10) minlength(10),
+  email String,
+  aadhaar String  maxlength(12) minlength(12),
+  dob LocalDate required,
+  imgLink String,
+  img ImageBlob maxbytes(15360),
+  tenantId String
+  active Boolean
+}
+
+entity AlumniProfile {
+  firstName String required,
+  lastName String,
+  fathersName String,
+  mothersName String,
+  currentTerm Integer,
+  joiningAcademicYear String,
+  exitAcademicYear String,
+  mobile String required maxlength(10) minlength(10),
+  email String,
+  aadhaar String  maxlength(12) minlength(12),
+  dob LocalDate required,
+  imgLink String,
+  img ImageBlob maxbytes(15360),
+  tenantId String
+  active Boolean
+}
+
+entity Testimonial {
+  name String required,
+  img ImageBlob required,
+  imgLink String,
+  batchYear String required,
+  note TextBlob required
+}
+
+// defining multiple OneToMany relationships with comments
+//relationship ManyToOne {
+ //StudentProfile{user(firstName) required} to User 
+ //EmployeeCertificate{user(firstName) required} to  User 
+//}
+
+// Set pagination options
+paginate  StudentProfile, AlumniProfile, Testimonial with pagination
+
+// Use Data Transfer Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl 
+filter StudentProfile, AlumniProfile, Testimonial
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
+

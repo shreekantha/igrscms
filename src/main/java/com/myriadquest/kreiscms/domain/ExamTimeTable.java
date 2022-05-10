@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 
+import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.domain.enumeration.ExamType;
 
 /**
@@ -139,7 +140,7 @@ public class ExamTimeTable implements Serializable {
     }
 
     public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
+        this.tenantId = TenantContext.getCurrentTenant();
     }
 
     public AcademicCalendar getAcademicCalendar() {

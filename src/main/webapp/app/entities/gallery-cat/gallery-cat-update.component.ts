@@ -24,6 +24,7 @@ export class GalleryCatUpdateComponent implements OnInit {
     imgLink: [null, [Validators.required]],
     img: [null, []],
     imgContentType: [],
+    tenantId: [],
   });
 
   constructor(
@@ -49,6 +50,7 @@ export class GalleryCatUpdateComponent implements OnInit {
       imgLink: galleryCat.imgLink,
       img: galleryCat.img,
       imgContentType: galleryCat.imgContentType,
+      tenantId: galleryCat.tenantId,
     });
   }
 
@@ -101,6 +103,7 @@ export class GalleryCatUpdateComponent implements OnInit {
       imgLink: this.editForm.get(['imgLink'])!.value,
       imgContentType: this.editForm.get(['imgContentType'])!.value,
       img: this.editForm.get(['img'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

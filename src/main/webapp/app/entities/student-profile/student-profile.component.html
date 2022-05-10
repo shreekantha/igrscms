@@ -1,0 +1,104 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="igrscmsApp.studentProfile.home.title">Student Profiles</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-student-profile" [routerLink]="['/student-profile/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="igrscmsApp.studentProfile.home.createLabel">
+            Create a new Student Profile
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="studentProfiles?.length === 0">
+        <span jhiTranslate="igrscmsApp.studentProfile.home.notFound">No studentProfiles found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="studentProfiles && studentProfiles.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="firstName"><span jhiTranslate="igrscmsApp.studentProfile.firstName">First Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastName"><span jhiTranslate="igrscmsApp.studentProfile.lastName">Last Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="img"><span jhiTranslate="igrscmsApp.studentProfile.img">Img</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="fathersName"><span jhiTranslate="igrscmsApp.studentProfile.fathersName">Fathers Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="mothersName"><span jhiTranslate="igrscmsApp.studentProfile.mothersName">Mothers Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="currentTerm"><span jhiTranslate="igrscmsApp.studentProfile.currentTerm">Current Term</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="joiningAcademicYear"><span jhiTranslate="igrscmsApp.studentProfile.joiningAcademicYear">Joining Academic Year</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="exitAcademicYear"><span jhiTranslate="igrscmsApp.studentProfile.exitAcademicYear">Exit Academic Year</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="mobile"><span jhiTranslate="igrscmsApp.studentProfile.mobile">Mobile</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="email"><span jhiTranslate="igrscmsApp.studentProfile.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="aadhaar"><span jhiTranslate="igrscmsApp.studentProfile.aadhaar">Aadhaar</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dob"><span jhiTranslate="igrscmsApp.studentProfile.dob">Dob</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="imgLink"><span jhiTranslate="igrscmsApp.studentProfile.imgLink">Img Link</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="tenantId"><span jhiTranslate="igrscmsApp.studentProfile.tenantId">Tenant Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span jhiTranslate="igrscmsApp.studentProfile.active">Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let studentProfile of studentProfiles ;trackBy: trackId">
+                    <td><a [routerLink]="['/student-profile', studentProfile.id, 'view']">{{ studentProfile.id }}</a></td>
+                    <td>{{ studentProfile.firstName }}</td>
+                    <td>{{ studentProfile.lastName }}</td>
+                    <td>
+                        <a *ngIf="studentProfile.img" (click)="openFile(studentProfile.imgContentType, studentProfile.img)">
+                            <img [src]="'data:' + studentProfile.imgContentType + ';base64,' + studentProfile.img" style="max-height: 30px;" alt="studentProfile image"/>
+                        </a>
+                        <span *ngIf="studentProfile.img">{{ studentProfile.imgContentType }}, {{ byteSize(studentProfile.img) }}</span>
+                    </td>
+                    <td>{{ studentProfile.fathersName }}</td>
+                    <td>{{ studentProfile.mothersName }}</td>
+                    <td>{{ studentProfile.currentTerm }}</td>
+                    <td>{{ studentProfile.joiningAcademicYear }}</td>
+                    <td>{{ studentProfile.exitAcademicYear }}</td>
+                    <td>{{ studentProfile.mobile }}</td>
+                    <td>{{ studentProfile.email }}</td>
+                    <td>{{ studentProfile.aadhaar }}</td>
+                    <td>{{ studentProfile.dob | date:'mediumDate' }}</td>
+                    <td>{{ studentProfile.imgLink }}</td>
+                    <td>{{ studentProfile.tenantId }}</td>
+                    <td>{{ studentProfile.active }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/student-profile', studentProfile.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/student-profile', studentProfile.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(studentProfile)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="studentProfiles && studentProfiles.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

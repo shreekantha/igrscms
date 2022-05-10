@@ -40,6 +40,7 @@ export const homeImgRoute: Routes = [
     component: HomeImgComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'igrscmsApp.homeImg.home.title',
     },
     canActivate: [UserRouteAccessService],

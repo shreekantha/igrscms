@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(ContactDetailsService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new ContactDetails(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new ContactDetails(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -58,6 +58,7 @@ describe('Service Tests', () => {
             email: 'BBBBBB',
             contact: 'BBBBBB',
             mapLink: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -78,6 +79,7 @@ describe('Service Tests', () => {
             email: 'BBBBBB',
             contact: 'BBBBBB',
             mapLink: 'BBBBBB',
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

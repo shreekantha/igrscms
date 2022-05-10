@@ -1,14 +1,14 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
-
-import { IAboutUs, AboutUs } from 'app/shared/model/about-us.model';
-import { AboutUsService } from './about-us.service';
+// import * as ClassicEditorBuild from '@ckeditor/ckeditor5-build-classic';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { AboutUs, IAboutUs } from 'app/shared/model/about-us.model';
+import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { AboutUsService } from './about-us.service';
 
 @Component({
   selector: 'jhi-about-us-update',
@@ -16,7 +16,7 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 })
 export class AboutUsUpdateComponent implements OnInit {
   isSaving = false;
-
+  // public Editor = ClassicEditorBuild;
   editForm = this.fb.group({
     id: [],
     title: [null, [Validators.required]],
@@ -24,6 +24,7 @@ export class AboutUsUpdateComponent implements OnInit {
     imgLink: [],
     img: [null, []],
     imgContentType: [],
+    tenantId: [],
   });
 
   constructor(
@@ -49,6 +50,7 @@ export class AboutUsUpdateComponent implements OnInit {
       imgLink: aboutUs.imgLink,
       img: aboutUs.img,
       imgContentType: aboutUs.imgContentType,
+      tenantId: aboutUs.tenantId,
     });
   }
 
@@ -101,6 +103,7 @@ export class AboutUsUpdateComponent implements OnInit {
       imgLink: this.editForm.get(['imgLink'])!.value,
       imgContentType: this.editForm.get(['imgContentType'])!.value,
       img: this.editForm.get(['img'])!.value,
+      tenantId: this.editForm.get(['tenantId'])!.value,
     };
   }
 

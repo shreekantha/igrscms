@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(HomeImgService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new HomeImg(0, 'image/png', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', false);
+      elemDefault = new HomeImg(0, 'image/png', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -57,7 +57,7 @@ describe('Service Tests', () => {
             img: 'BBBBBB',
             title: 'BBBBBB',
             description: 'BBBBBB',
-            active: true,
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );
@@ -77,7 +77,7 @@ describe('Service Tests', () => {
             img: 'BBBBBB',
             title: 'BBBBBB',
             description: 'BBBBBB',
-            active: true,
+            tenantId: 'BBBBBB',
           },
           elemDefault
         );

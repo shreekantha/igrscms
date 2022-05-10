@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.jhipster.service.QueryService;
 
 import com.myriadquest.kreiscms.domain.ClassTimeTableConfig;
+import com.myriadquest.kreiscms.IgrscmsApp;
 import com.myriadquest.kreiscms.domain.*; // for static metamodels
 import com.myriadquest.kreiscms.repository.ClassTimeTableConfigRepository;
 import com.myriadquest.kreiscms.service.dto.ClassTimeTableConfigCriteria;
@@ -49,7 +50,8 @@ public class ClassTimeTableConfigQueryService extends QueryService<ClassTimeTabl
      */
     @Transactional(readOnly = true)
     public List<ClassTimeTableConfigDTO> findByCriteria(ClassTimeTableConfigCriteria criteria) {
-        log.debug("find by criteria : {}", criteria);
+    	criteria.setTenantId(IgrscmsApp.getTenantFilter());
+    	log.debug("find by criteria : {}", criteria);
         final Specification<ClassTimeTableConfig> specification = createSpecification(criteria);
         return classTimeTableConfigMapper.toDto(classTimeTableConfigRepository.findAll(specification));
     }
