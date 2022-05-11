@@ -24,7 +24,7 @@
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="igrscmsApp.aboutUs.description" for="field_description">Description</label>
           <!-- <textarea class="form-control" name="description" id="field_description" formControlName="description"></textarea> -->
-          <ckeditor name="description" id="field_description" formControlName="description" ></ckeditor>
+          <ckeditor name="description" id="field_description" formControlName="description"></ckeditor>
 
           <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
             <small

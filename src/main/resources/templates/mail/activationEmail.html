@@ -1,25 +1,104 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}" lang="en">
-    <head>
-        <title th:text="#{email.activation.title}">JHipster activation</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}" />
-    </head>
-    <body>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:lang="${#locale.language}"
+  lang="en"
+>
+  <head>
+    <title th:text="#{email.activation.title}">Account activation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}" />
+
+    <style type="text/css">
+      body {
+        font-family: sans-serif;
+      }
+      .main {
+        width: 80%;
+        text-align: center;
+      }
+      .header,
+      .footer {
+        background: #1bb4b9;
+        width: 80%;
+        height: 80px;
+        color: white;
+        margin-left: auto;
+        margin-right: auto;
+        display: inline-table;
+        
+      }
+
+      .header h3 {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 28px;
+      }
+
+      .verify-email {
+        width: auto;
+        height: 60px;
+        background: #1bb4b9;
+        border: none;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 6px 13px 6px 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div class="header">
+        <h3>Verification E-Mail</h3>
+      </div>
+      <div class="content">
+   <!-- 
+         <p th:text="${name}">Dear</p>
+        <p th:text="${text1}">Thank you for enquiring at Our Institutes , .</p>
+    -->
         <p th:text="#{email.activation.greeting(${user.login})}">
             Dear
         </p>
-        <p th:text="#{email.activation.text1}">
-            Your JHipster account has been created, please click on the URL below to activate it:
+         <p th:text="#{email.activation.text1}">
+            Your  account has been created, please click on the URL below to activate it:
+        </p>
+        <p th:text="#{email.activation.text2}">
+          To complete the process, you MUST click the link below.
         </p>
         <p>
-            <a th:with="url=(@{|${baseUrl}/account/activate?key=${user.activationKey}|})" th:href="${url}"
-            th:text="${url}">Activation link</a>
+          <a
+            th:with="url=(@{|${baseUrl}/account/activate/${activationKey}|})"
+            th:href="${url}"
+          >
+            <button class="verify-email">Verify Your Email</button></a
+          >
+        </p>
+        <p th:text="#{email.activation.text3}">
+          If clicking the link doesn't work, you can copy and paste the link
+          into your browser's address window, or retype it there.
         </p>
         <p>
-            <span th:text="#{email.activation.text2}">Regards, </span>
-            <br/>
-            <em th:text="#{email.signature}">JHipster.</em>
+          <a
+            th:with="url=(@{|${baseUrl}/account/activate/${activationKey}|})"
+            th:href="${url}"
+            th:text="${url}"
+            >Activation link</a
+          >
         </p>
-    </body>
+        <p th:text="#{email.activation.text4}">
+          Our team will be in touch with you to guide you further.
+        </p>
+      </div>
+      <div class="footer">
+        <p th:text="#{email.activation.text5}">Thanks & Regards,</p>
+
+        <em th:text="#{email.signature}">KREIS CMS Team.</em>
+  <!-- 
+         <p th:text="${admissionOffice}">KREIS CMS Team</p>
+        <p th:text="${institute}">Institutes</p>
+   -->
+      </div>
+    </div>
+  </body>
 </html>

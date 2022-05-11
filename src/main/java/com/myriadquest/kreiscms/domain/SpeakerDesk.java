@@ -2,6 +2,7 @@ package com.myriadquest.kreiscms.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import com.myriadquest.kreiscms.config.TenantContext;
 
@@ -30,6 +31,8 @@ public class SpeakerDesk implements Serializable {
     private String name;
 
     @NotNull
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "note", nullable = false)
     private String note;
 
