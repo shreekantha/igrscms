@@ -233,7 +233,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 	}
 
 	public void setTenantId(String tenantId) {
-		this.tenantId = this.schoolShortName.trim() + "" + this.schoolCode.trim();
+		this.tenantId = tenantId;
 	}
 
 	public Set<Authority> getAuthorities() {

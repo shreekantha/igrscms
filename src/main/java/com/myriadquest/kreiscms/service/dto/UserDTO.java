@@ -17,9 +17,9 @@ public class UserDTO {
 
     private Long id;
 
-    @NotBlank
-    @Pattern(regexp = Constants.LOGIN_REGEX)
-    @Size(min = 1, max = 50)
+//    @NotBlank
+//    @Pattern(regexp = Constants.LOGIN_REGEX)
+//    @Size(min = 1, max = 50)
     private String login;
 
     @Size(max = 50)

@@ -88,7 +88,7 @@ public class UserService {
     }
 
     public User registerUser(UserDTO userDTO, String password) {
-        userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
+        userRepository.findOneByLogin(userDTO.getEmail().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
                 throw new UsernameAlreadyUsedException();
@@ -102,7 +102,7 @@ public class UserService {
         });
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
-        newUser.setLogin(userDTO.getLogin().toLowerCase());
+        newUser.setLogin(userDTO.getEmail().toLowerCase());
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
         newUser.setFirstName(userDTO.getFirstName());
@@ -110,7 +110,7 @@ public class UserService {
         newUser.setSchoolCode(userDTO.getSchoolCode());
         newUser.setSchoolName(userDTO.getSchoolName());
         newUser.setSchoolShortName(userDTO.getSchoolShortName());
-        newUser.setTenantId(newUser.getSchoolShortName()+newUser.getSchoolCode());
+        newUser.setTenantId("kreis"+newUser.getSchoolCode());
         if (userDTO.getEmail() != null) {
             newUser.setEmail(userDTO.getEmail().toLowerCase());
         }
