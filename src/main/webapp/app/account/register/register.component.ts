@@ -1,10 +1,9 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { JhiLanguageService } from 'ng-jhipster';
-
-import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared/constants/error.constants';
 import { LoginModalService } from 'app/core/login/login-modal.service';
+import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared/constants/error.constants';
+import { JhiLanguageService } from 'ng-jhipster';
 import { RegisterService } from './register.service';
 
 @Component({
@@ -34,6 +33,9 @@ export class RegisterComponent implements AfterViewInit {
     email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    schoolCode: ['', [Validators.required]],
+    schoolName: ['', [Validators.required]],
+    schoolShortName: ['', [Validators.required]],
   });
 
   constructor(
@@ -61,10 +63,16 @@ export class RegisterComponent implements AfterViewInit {
     } else {
       const login = this.registerForm.get(['login'])!.value;
       const email = this.registerForm.get(['email'])!.value;
-      this.registerService.save({ login, email, password, langKey: this.languageService.getCurrentLanguage() }).subscribe(
-        () => (this.success = true),
-        response => this.processError(response)
-      );
+      const schoolCode = this.registerForm.get(['schoolCode'])!.value;
+      const schoolName = this.registerForm.get(['schoolName'])!.value;
+      const schoolShortName = this.registerForm.get(['schoolShortName'])!.value;
+
+      this.registerService
+        .save({ login, email, password, schoolCode, schoolName, schoolShortName, langKey: this.languageService.getCurrentLanguage() })
+        .subscribe(
+          () => (this.success = true),
+          response => this.processError(response)
+        );
     }
   }
 

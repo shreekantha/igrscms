@@ -122,7 +122,33 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getImageUrl() {
+    
+    
+    public String getSchoolCode() {
+		return schoolCode;
+	}
+
+	public void setSchoolCode(String schoolCode) {
+		this.schoolCode = schoolCode;
+	}
+
+	public String getSchoolName() {
+		return schoolName;
+	}
+
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
+	}
+
+	public String getSchoolShortName() {
+		return schoolShortName;
+	}
+
+	public void setSchoolShortName(String schoolShortName) {
+		this.schoolShortName = schoolShortName;
+	}
+
+	public String getImageUrl() {
         return imageUrl;
     }
 

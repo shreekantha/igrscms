@@ -107,6 +107,10 @@ public class UserService {
         newUser.setPassword(encryptedPassword);
         newUser.setFirstName(userDTO.getFirstName());
         newUser.setLastName(userDTO.getLastName());
+        newUser.setSchoolCode(userDTO.getSchoolCode());
+        newUser.setSchoolName(userDTO.getSchoolName());
+        newUser.setSchoolShortName(userDTO.getSchoolShortName());
+        newUser.setTenantId(newUser.getSchoolShortName()+newUser.getSchoolCode());
         if (userDTO.getEmail() != null) {
             newUser.setEmail(userDTO.getEmail().toLowerCase());
         }

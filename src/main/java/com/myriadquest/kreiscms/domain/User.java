@@ -72,16 +72,16 @@ public class User extends AbstractAuditingEntity implements Serializable {
 	@Column(name = "image_url", length = 256)
 	private String imageUrl;
 
-	   @NotBlank
-	   @Column(name="school_code",length = 254, unique = true)
-	    private String schoolCode;
-	    @NotBlank
-	    @Column(name="school_name",length = 254)
-	    private String schoolName;
-	    @NotBlank
-	    @Column(name="school_short_name",length = 254)
-	    private String schoolShortName;
-	
+	@NotBlank
+	@Column(name = "school_code", length = 254, unique = true)
+	private String schoolCode;
+	@NotBlank
+	@Column(name = "school_name", length = 254)
+	private String schoolName;
+	@NotBlank
+	@Column(name = "school_short_name", length = 254)
+	private String schoolShortName;
+
 	@Size(max = 20)
 	@Column(name = "activation_key", length = 20)
 	@JsonIgnore
@@ -156,6 +156,30 @@ public class User extends AbstractAuditingEntity implements Serializable {
 		this.email = email;
 	}
 
+	public String getSchoolCode() {
+		return schoolCode;
+	}
+
+	public void setSchoolCode(String schoolCode) {
+		this.schoolCode = schoolCode;
+	}
+
+	public String getSchoolName() {
+		return schoolName;
+	}
+
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
+	}
+
+	public String getSchoolShortName() {
+		return schoolShortName;
+	}
+
+	public void setSchoolShortName(String schoolShortName) {
+		this.schoolShortName = schoolShortName;
+	}
+
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -209,7 +233,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 	}
 
 	public void setTenantId(String tenantId) {
-		this.tenantId = this.schoolShortName.trim()+""+this.schoolCode.trim();
+		this.tenantId = this.schoolShortName.trim() + "" + this.schoolCode.trim();
 	}
 
 	public Set<Authority> getAuthorities() {
