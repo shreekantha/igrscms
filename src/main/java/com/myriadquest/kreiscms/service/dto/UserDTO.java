@@ -34,6 +34,13 @@ public class UserDTO {
 
     @Size(max = 256)
     private String imageUrl;
+    
+    @NotBlank
+    private String schoolCode;
+    @NotBlank
+    private String schoolName;
+    @NotBlank
+    private String schoolShortName;
 
     private boolean activated = false;
 
@@ -178,6 +185,8 @@ public class UserDTO {
 	public void setTenantId(String tenantId) {
 		this.tenantId = tenantId;
 	}
+	
+	
 
 	public Set<String> getAuthorities() {
         return authorities;

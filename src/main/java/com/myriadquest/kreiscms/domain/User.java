@@ -10,6 +10,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -71,6 +72,16 @@ public class User extends AbstractAuditingEntity implements Serializable {
 	@Column(name = "image_url", length = 256)
 	private String imageUrl;
 
+	   @NotBlank
+	   @Column(name="school_code",length = 254, unique = true)
+	    private String schoolCode;
+	    @NotBlank
+	    @Column(name="school_name",length = 254)
+	    private String schoolName;
+	    @NotBlank
+	    @Column(name="school_short_name",length = 254)
+	    private String schoolShortName;
+	
 	@Size(max = 20)
 	@Column(name = "activation_key", length = 20)
 	@JsonIgnore
@@ -198,7 +209,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 	}
 
 	public void setTenantId(String tenantId) {
-		this.tenantId = tenantId;
+		this.tenantId = this.schoolShortName.trim()+""+this.schoolCode.trim();
 	}
 
 	public Set<Authority> getAuthorities() {

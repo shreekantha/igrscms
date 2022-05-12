@@ -40,11 +40,17 @@ public class CORSFilter extends CorsFilter {
 
 		} else {
 			String token = request.getHeader("Authorization");
+			
 			if (token != null && !token.isEmpty()) {
 				String tokenId = token.split(" ")[1];
 				//SecurityContextHolder.getContext().setAuthentication(tokenProvider.getAuthentication(tokenId));
 				String tenantId = tokenProvider.getTenant(tokenId);
 				TenantContext.setCurrentTenant(tenantId);
+			}else {
+				String tenantId=request.getHeader("x-tenant-id");
+				if(tenantId!=null && !tenantId.isEmpty())
+					TenantContext.setCurrentTenant(tenantId);
+					
 			}
 
 		}
