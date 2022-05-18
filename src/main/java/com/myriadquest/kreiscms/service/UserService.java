@@ -7,12 +7,15 @@ import com.myriadquest.kreiscms.repository.AuthorityRepository;
 import com.myriadquest.kreiscms.repository.UserRepository;
 import com.myriadquest.kreiscms.security.AuthoritiesConstants;
 import com.myriadquest.kreiscms.security.SecurityUtils;
+import com.myriadquest.kreiscms.service.dto.InstituteDTO;
 import com.myriadquest.kreiscms.service.dto.UserDTO;
+import com.myriadquest.kreiscms.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.security.RandomUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +45,9 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
+    
+    @Autowired
+    private InstituteService instituteService;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
         this.userRepository = userRepository;
@@ -88,18 +94,25 @@ public class UserService {
     }
 
     public User registerUser(UserDTO userDTO, String password) {
-        userRepository.findOneByLogin(userDTO.getEmail().toLowerCase()).ifPresent(existingUser -> {
-            boolean removed = removeNonActivatedUser(existingUser);
-            if (!removed) {
-                throw new UsernameAlreadyUsedException();
-            }
+//        userRepository.findOneByLogin(userDTO.getEmail().toLowerCase()).ifPresent(existingUser -> {
+//            boolean removed = removeNonActivatedUser(existingUser);
+//            if (!removed) {
+//                throw new UsernameAlreadyUsedException();
+//            }
+//        });
+//        
+        userRepository.findBySchoolCodeIgnoreCase(userDTO.getSchoolCode()).ifPresent(existingUser ->{
+        	throw new BadRequestAlertException("School with the given school code is already registered", "", "schoolcodeexists");
+//        	("School with the given school code is already registered");
         });
+        
         userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
                 throw new EmailAlreadyUsedException();
             }
         });
+                
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.getEmail().toLowerCase());
@@ -126,6 +139,14 @@ public class UserService {
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
+        
+        InstituteDTO instituteDTO=new InstituteDTO();
+        instituteDTO.setName(userDTO.getSchoolName());
+        instituteDTO.setShortName(userDTO.getSchoolShortName());
+        instituteDTO.setTenantId(newUser.getTenantId());
+        instituteDTO.setEmail(userDTO.getEmail());
+        instituteService.save(instituteDTO);
+        
         return newUser;
     }
 

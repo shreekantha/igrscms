@@ -92,6 +92,18 @@
         <p th:text="#{email.activation.text4}">
           Our team will be in touch with you to guide you further.
         </p>
+         <p th:text="#{email.activation.text6}">
+          Use the below link after 24Hrs to see your school/college website up and running()
+        </p>
+        <hr>
+        <p>
+          <a
+            th:with="url=(@{|https://${user.tenantId}.myriadquest.com|})"
+            th:href="${url}"
+            th:text="${url}"
+            >Website link</a
+          >
+        </p>
       </div>
       <div class="footer">
         <p th:text="#{email.activation.text5}">Thanks & Regards,</p>

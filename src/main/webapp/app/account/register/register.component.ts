@@ -18,6 +18,7 @@ export class RegisterComponent implements AfterViewInit {
   error = false;
   errorEmailExists = false;
   errorUserExists = false;
+  errorSchoolCodeExists = false;
   success = false;
 
   registerForm = this.fb.group({
@@ -56,6 +57,7 @@ export class RegisterComponent implements AfterViewInit {
     this.error = false;
     this.errorEmailExists = false;
     this.errorUserExists = false;
+    this.errorSchoolCodeExists = false;
 
     const password = this.registerForm.get(['password'])!.value;
     if (password !== this.registerForm.get(['confirmPassword'])!.value) {
@@ -81,10 +83,13 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   private processError(response: HttpErrorResponse): void {
+    // alert('error: ' + response.error.errorKey);
     if (response.status === 400 && response.error.type === LOGIN_ALREADY_USED_TYPE) {
       this.errorUserExists = true;
     } else if (response.status === 400 && response.error.type === EMAIL_ALREADY_USED_TYPE) {
       this.errorEmailExists = true;
+    } else if (response.status === 400 && response.error.errorKey === 'schoolcodeexists') {
+      this.errorSchoolCodeExists = true;
     } else {
       this.error = true;
     }

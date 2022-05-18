@@ -33,19 +33,19 @@ public class Institute implements Serializable {
     @Column(name = "short_name", nullable = false)
     private String shortName;
 
-    @NotNull
-    @Column(name = "address", nullable = false)
+//    @NotNull
+    @Column(name = "address")
     private String address;
 
     @NotNull
     @Column(name = "email", nullable = false)
     private String email;
 
-    @NotNull
+//    @NotNull
     @Column(name = "contact", nullable = false)
     private String contact;
 
-    @NotNull
+//    @NotNull
     @Column(name = "logo_link", nullable = false)
     private String logoLink;
 
@@ -57,7 +57,7 @@ public class Institute implements Serializable {
     @Column(name = "logo_content_type")
     private String logoContentType;
 
-    @NotNull
+//    @NotNull
     @Column(name = "tag_line", nullable = false)
     private String tagLine;
 

@@ -17,16 +17,16 @@ public class InstituteDTO implements Serializable {
     @NotNull
     private String shortName;
 
-    @NotNull
+//    @NotNull
     private String address;
 
     @NotNull
     private String email;
 
-    @NotNull
+//    @NotNull
     private String contact;
 
-    @NotNull
+//    @NotNull
     private String logoLink;
 
     
@@ -34,7 +34,7 @@ public class InstituteDTO implements Serializable {
     private byte[] logo;
 
     private String logoContentType;
-    @NotNull
+//    @NotNull
     private String tagLine;
 
     private String tenantId;
