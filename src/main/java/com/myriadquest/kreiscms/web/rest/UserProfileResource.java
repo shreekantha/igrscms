@@ -64,6 +64,7 @@ public class UserProfileResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new userProfileDTO, or with status {@code 400 (Bad Request)} if the userProfile has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    
     @PostMapping("/user-profiles")
     public ResponseEntity<UserProfileDTO> createUserProfile(@Valid @RequestBody UserProfileDTO userProfileDTO) throws URISyntaxException {
         log.debug("REST request to save UserProfile : {}", userProfileDTO);

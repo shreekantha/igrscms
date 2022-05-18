@@ -14,8 +14,10 @@
         font-family: sans-serif;
       }
       .main {
-        width: 80%;
+        width: 100%;
         text-align: center;
+        margin-left: auto;
+        margin-right: auto;
       }
       .header,
       .footer {
@@ -44,6 +46,7 @@
         font-size: 16px;
         font-weight: 600;
         padding: 6px 13px 6px 13px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -68,7 +71,7 @@
         </p>
         <p>
           <a
-            th:with="url=(@{|${baseUrl}/account/activate/${activationKey}|})"
+            th:with="url=(@{|${baseUrl}/account/activate?key=${user.activationKey}|})"
             th:href="${url}"
           >
             <button class="verify-email">Verify Your Email</button></a
@@ -80,7 +83,7 @@
         </p>
         <p>
           <a
-            th:with="url=(@{|${baseUrl}/account/activate/${activationKey}|})"
+            th:with="url=(@{|${baseUrl}/account/activate?key=${user.activationKey}|})"
             th:href="${url}"
             th:text="${url}"
             >Activation link</a
@@ -92,7 +95,6 @@
       </div>
       <div class="footer">
         <p th:text="#{email.activation.text5}">Thanks & Regards,</p>
-
         <em th:text="#{email.signature}">KREIS CMS Team.</em>
   <!-- 
          <p th:text="${admissionOffice}">KREIS CMS Team</p>

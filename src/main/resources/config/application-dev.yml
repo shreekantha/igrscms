@@ -54,7 +54,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: myriadquest@gmail.com
-    password: 7568@Last
+    password: trkcpcalcwifpmry
     properties:
             mail.smtp.starttls.enable: true
   messages:
@@ -94,6 +94,7 @@ jhipster:
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: http://127.0.0.1:8080
+    from: KREISCMS
   metrics:
     logs: # Reports metrics in the logs
       enabled: false

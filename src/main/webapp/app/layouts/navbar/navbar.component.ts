@@ -20,17 +20,13 @@ export class NavbarComponent implements OnInit {
   languages = LANGUAGES;
   swaggerEnabled?: boolean;
   version: string;
-  navItems: any[] = [
+  basic: any[] = [
     { link: 'institute', label: 'Institute', icon: 'asterisk' },
     { link: 'home-img', label: 'Home Img', icon: 'asterisk' },
     { link: 'notice-board', label: 'Notice Board', icon: 'asterisk' },
-    { link: 'term', label: 'Term', icon: 'asterisk' },
     { divider: true, icon: 'asterisk' },
     { link: 'gallery-cat', label: 'Gallery Cat', icon: 'asterisk' },
     { link: 'gallery', label: 'Gallery', icon: 'asterisk' },
-    { divider: true, icon: 'asterisk' },
-    { link: 'user-profile', label: 'User Profile', icon: 'asterisk' },
-    { link: 'student-profile', label: 'Student Profile', icon: 'asterisk' },
     { divider: true, icon: 'asterisk' },
     { link: 'testimonial', label: 'Testimonial', icon: 'asterisk' },
     { link: 'about-us', label: 'About Us', icon: 'asterisk' },
@@ -40,8 +36,22 @@ export class NavbarComponent implements OnInit {
     { link: 'contact-details', label: 'Contact Details', icon: 'asterisk' },
     { divider: true, icon: 'asterisk' },
     { link: 'speaker-desk', label: 'Speaker Desk', icon: 'asterisk' },
-    { link: 'academic-calendar', label: 'Academic Calendar', icon: 'asterisk' },
+  ];
+
+  users: any[] = [
+    { link: 'user-profile', label: 'Staff Profile', icon: 'asterisk' },
+    { link: 'student-profile', label: 'Student Profile', icon: 'asterisk' },
+    { link: 'alumni-profile', label: 'Alumni Profile', icon: 'asterisk' },
+
+    // { divider: true, icon: 'asterisk' },
+  ];
+  navItems: any[] = [
     { link: 'course', label: 'Course', icon: 'asterisk' },
+    { divider: true, icon: 'asterisk' },
+    { link: 'term', label: 'Term', icon: 'asterisk' },
+    { divider: true, icon: 'asterisk' },
+    { link: 'academic-calendar', label: 'Academic Calendar', icon: 'asterisk' },
+    { divider: true, icon: 'asterisk' },
     { link: 'class-time-table-config', label: 'Class Time Table Config', icon: 'asterisk' },
     { link: 'class-time-table', label: 'Class Time Table', icon: 'asterisk' },
   ];

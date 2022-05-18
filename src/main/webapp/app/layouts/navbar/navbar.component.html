@@ -37,7 +37,75 @@
         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="menu">
           <span>
             <fa-icon icon="th-list"></fa-icon>
-            <span> Menu </span>
+            <span> Basic </span>
+          </span>
+        </a>
+        <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="menu">
+          <div *ngFor="let navItem of basic">
+            <li *ngIf="!navItem.divider">
+              <a
+                class="dropdown-item"
+                [routerLink]="navItem.link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon [icon]="navItem.icon" [fixedWidth]="true"></fa-icon>
+                <span>{{ navItem.label }}</span>
+              </a>
+            </li>
+            <li *ngIf="navItem.divider">
+              <hr class="dropdown-divider" />
+            </li>
+          </div>
+        </ul>
+      </li>
+      <li
+        *ngSwitchCase="true"
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="menu">
+          <span>
+            <fa-icon icon="th-list"></fa-icon>
+            <span> User Profile</span>
+          </span>
+        </a>
+        <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="menu">
+          <div *ngFor="let navItem of users">
+            <li *ngIf="!navItem.divider">
+              <a
+                class="dropdown-item"
+                [routerLink]="navItem.link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon [icon]="navItem.icon" [fixedWidth]="true"></fa-icon>
+                <span>{{ navItem.label }}</span>
+              </a>
+            </li>
+            <li *ngIf="navItem.divider">
+              <hr class="dropdown-divider" />
+            </li>
+          </div>
+        </ul>
+      </li>
+      <li
+        *ngSwitchCase="true"
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="menu">
+          <span>
+            <fa-icon icon="th-list"></fa-icon>
+            <span> Academics </span>
           </span>
         </a>
         <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="menu">
