@@ -11,7 +11,6 @@ public class GalleryDTO implements Serializable {
     
     private Long id;
 
-    @NotNull
     private String imgUrl;
 
     

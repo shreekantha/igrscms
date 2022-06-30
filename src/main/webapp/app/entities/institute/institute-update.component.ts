@@ -1,14 +1,13 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
-
-import { IInstitute, Institute } from 'app/shared/model/institute.model';
-import { InstituteService } from './institute.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IInstitute, Institute } from 'app/shared/model/institute.model';
+import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { InstituteService } from './institute.service';
 
 @Component({
   selector: 'jhi-institute-update',
@@ -24,7 +23,7 @@ export class InstituteUpdateComponent implements OnInit {
     address: [null, [Validators.required]],
     email: [null, [Validators.required]],
     contact: [null, [Validators.required]],
-    logoLink: [null, [Validators.required]],
+    logoLink: [null, []],
     logo: [null, []],
     logoContentType: [],
     tagLine: [null, [Validators.required]],

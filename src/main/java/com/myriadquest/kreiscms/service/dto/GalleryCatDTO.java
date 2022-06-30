@@ -16,7 +16,6 @@ public class GalleryCatDTO implements Serializable {
 
     private String description;
 
-    @NotNull
     private String imgLink;
 
     

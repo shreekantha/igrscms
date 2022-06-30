@@ -4,9 +4,7 @@
     {
       "fieldName": "firstName",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "lastName",
@@ -16,9 +14,7 @@
       "fieldName": "img",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "image",
-      "fieldValidateRules": [
-        "maxbytes"
-      ],
+      "fieldValidateRules": ["maxbytes"],
       "fieldValidateRulesMaxbytes": "15360"
     },
     {
@@ -44,11 +40,7 @@
     {
       "fieldName": "mobile",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required",
-        "maxlength",
-        "minlength"
-      ],
+      "fieldValidateRules": ["required", "maxlength", "minlength"],
       "fieldValidateRulesMaxlength": "10",
       "fieldValidateRulesMinlength": "10"
     },
@@ -59,19 +51,14 @@
     {
       "fieldName": "aadhaar",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "maxlength",
-        "minlength"
-      ],
+      "fieldValidateRules": ["maxlength", "minlength"],
       "fieldValidateRulesMaxlength": "12",
       "fieldValidateRulesMinlength": "12"
     },
     {
       "fieldName": "dob",
       "fieldType": "LocalDate",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "imgLink",

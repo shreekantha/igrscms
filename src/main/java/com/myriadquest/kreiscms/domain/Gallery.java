@@ -26,11 +26,11 @@ public class Gallery implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @NotNull
-    @Column(name = "img_url", nullable = false)
+    @Column(name = "img_url")
     private String imgUrl;
 
     
+//    @NotNull
     @Lob
     @Column(name = "img")
     private byte[] img;

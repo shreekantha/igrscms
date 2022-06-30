@@ -35,8 +35,8 @@ public class News implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @NotNull
-    @Column(name = "img_url", nullable = false)
+//    @NotNull
+    @Column(name = "img_url")
     private String imgUrl;
 
     

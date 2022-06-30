@@ -34,6 +34,7 @@
         "alumniProfile": "Alumni Profile",
         "testimonial": "Testimonial",
         "visionAndMission": "Vision And Mission",
+        "blog": "Blog",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

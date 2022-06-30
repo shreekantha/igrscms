@@ -30,7 +30,7 @@ public class Testimonial implements Serializable {
 
     
     @Lob
-    @Column(name = "img", nullable = false)
+    @Column(name = "img")
     private byte[] img;
 
     @Column(name = "img_content_type", nullable = false)

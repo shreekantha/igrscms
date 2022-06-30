@@ -36,11 +36,11 @@ public class SpeakerDesk implements Serializable {
     @Column(name = "note", nullable = false)
     private String note;
 
-    @NotNull
-    @Column(name = "img_link", nullable = false)
+    @Column(name = "img_link")
     private String imgLink;
 
     
+//    @NotNull
     @Lob
     @Column(name = "img")
     private byte[] img;

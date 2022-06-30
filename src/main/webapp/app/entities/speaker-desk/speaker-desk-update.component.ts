@@ -1,14 +1,13 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
-
-import { ISpeakerDesk, SpeakerDesk } from 'app/shared/model/speaker-desk.model';
-import { SpeakerDeskService } from './speaker-desk.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { ISpeakerDesk, SpeakerDesk } from 'app/shared/model/speaker-desk.model';
+import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { SpeakerDeskService } from './speaker-desk.service';
 
 @Component({
   selector: 'jhi-speaker-desk-update',
@@ -21,7 +20,7 @@ export class SpeakerDeskUpdateComponent implements OnInit {
     id: [],
     name: [null, [Validators.required]],
     note: [null, [Validators.required]],
-    imgLink: [null, [Validators.required]],
+    imgLink: [null, []],
     img: [null, []],
     imgContentType: [],
     tenantId: [],

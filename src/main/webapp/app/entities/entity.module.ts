@@ -113,6 +113,10 @@ import { RouterModule } from '@angular/router';
         path: 'vision-and-mission',
         loadChildren: () => import('./vision-and-mission/vision-and-mission.module').then(m => m.IgrscmsVisionAndMissionModule),
       },
+      {
+        path: 'blog',
+        loadChildren: () => import('./blog/blog.module').then(m => m.IgrscmsBlogModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

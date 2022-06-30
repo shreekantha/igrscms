@@ -17,7 +17,6 @@ public class NewsDTO implements Serializable {
     @Lob
     private String description;
 
-    @NotNull
     private String imgUrl;
 
     

@@ -1,14 +1,13 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
-
-import { ITestimonial, Testimonial } from 'app/shared/model/testimonial.model';
-import { TestimonialService } from './testimonial.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { ITestimonial, Testimonial } from 'app/shared/model/testimonial.model';
+import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { TestimonialService } from './testimonial.service';
 
 @Component({
   selector: 'jhi-testimonial-update',
@@ -20,7 +19,7 @@ export class TestimonialUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     name: [null, [Validators.required]],
-    img: [null, [Validators.required]],
+    img: [null, []],
     imgContentType: [],
     imgLink: [],
     batchYear: [null, [Validators.required]],

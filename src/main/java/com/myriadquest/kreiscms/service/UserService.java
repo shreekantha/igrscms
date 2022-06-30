@@ -1,6 +1,7 @@
 package com.myriadquest.kreiscms.service;
 
 import com.myriadquest.kreiscms.config.Constants;
+import com.myriadquest.kreiscms.config.TenantContext;
 import com.myriadquest.kreiscms.domain.Authority;
 import com.myriadquest.kreiscms.domain.User;
 import com.myriadquest.kreiscms.repository.AuthorityRepository;
@@ -143,7 +144,7 @@ public class UserService {
         InstituteDTO instituteDTO=new InstituteDTO();
         instituteDTO.setName(userDTO.getSchoolName());
         instituteDTO.setShortName(userDTO.getSchoolShortName());
-        instituteDTO.setTenantId(newUser.getTenantId());
+        TenantContext.setCurrentTenant(newUser.getTenantId());
         instituteDTO.setEmail(userDTO.getEmail());
         instituteService.save(instituteDTO);
         

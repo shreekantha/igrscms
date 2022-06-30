@@ -1,16 +1,15 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
-
-import { IGallery, Gallery } from 'app/shared/model/gallery.model';
-import { GalleryService } from './gallery.service';
+import { GalleryCatService } from 'app/entities/gallery-cat/gallery-cat.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IGalleryCat } from 'app/shared/model/gallery-cat.model';
-import { GalleryCatService } from 'app/entities/gallery-cat/gallery-cat.service';
+import { Gallery, IGallery } from 'app/shared/model/gallery.model';
+import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { GalleryService } from './gallery.service';
 
 @Component({
   selector: 'jhi-gallery-update',
@@ -22,7 +21,7 @@ export class GalleryUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    imgUrl: [null, [Validators.required]],
+    imgUrl: [null],
     img: [null, []],
     imgContentType: [],
     descritpion: [],

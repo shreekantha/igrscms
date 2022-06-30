@@ -34,11 +34,11 @@ public class GalleryCat implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @NotNull
-    @Column(name = "img_link", nullable = false)
+    @Column(name = "img_link")
     private String imgLink;
 
     
+//    @NotNull
     @Lob
     @Column(name = "img")
     private byte[] img;

@@ -41,6 +41,7 @@
     <include file="config/liquibase/changelog/20220508085828_added_entity_AlumniProfile.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220508085928_added_entity_Testimonial.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220510095539_added_entity_VisionAndMission.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220629063124_added_entity_Blog.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20220303052248_added_entity_constraints_Term.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220303052448_added_entity_constraints_Gallery.xml" relativeToChangelogFile="false"/>
@@ -49,6 +50,7 @@
     <include file="config/liquibase/changelog/20220305105949_added_entity_constraints_AcademicCalendar.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220305110349_added_entity_constraints_ClassTimeTable.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220305110449_added_entity_constraints_ExamTimeTable.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220629063124_added_entity_constraints_Blog.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

@@ -1,14 +1,13 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
-
-import { IGalleryCat, GalleryCat } from 'app/shared/model/gallery-cat.model';
-import { GalleryCatService } from './gallery-cat.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { GalleryCat, IGalleryCat } from 'app/shared/model/gallery-cat.model';
+import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { GalleryCatService } from './gallery-cat.service';
 
 @Component({
   selector: 'jhi-gallery-cat-update',
@@ -21,7 +20,7 @@ export class GalleryCatUpdateComponent implements OnInit {
     id: [],
     name: [null, [Validators.required]],
     description: [],
-    imgLink: [null, [Validators.required]],
+    imgLink: [null, []],
     img: [null, []],
     imgContentType: [],
     tenantId: [],

@@ -45,13 +45,13 @@ public class Institute implements Serializable {
     @Column(name = "contact", nullable = false)
     private String contact;
 
-//    @NotNull
-    @Column(name = "logo_link", nullable = false)
+    @Column(name = "logo_link")
     private String logoLink;
 
     
+    @NotNull
     @Lob
-    @Column(name = "logo")
+    @Column(name = "logo", nullable = false)
     private byte[] logo;
 
     @Column(name = "logo_content_type")

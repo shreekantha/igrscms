@@ -17,7 +17,6 @@ public class SpeakerDeskDTO implements Serializable {
     @NotNull
     private String note;
 
-    @NotNull
     private String imgLink;
 
     
