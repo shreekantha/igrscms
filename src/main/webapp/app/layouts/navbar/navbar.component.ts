@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
     { divider: true, icon: 'asterisk' },
     { link: 'testimonial', label: 'Testimonial', icon: 'asterisk' },
     { link: 'about-us', label: 'About Us', icon: 'asterisk' },
-    { link: 'Vision And Mission', label: 'Vision And Mission', icon: 'asterisk' },
+    { link: 'vision-and-mission', label: 'Vision And Mission', icon: 'asterisk' },
     { divider: true, icon: 'asterisk' },
     { link: 'news', label: 'News', icon: 'asterisk' },
     { link: 'contact-details', label: 'Contact Details', icon: 'asterisk' },
@@ -54,6 +54,8 @@ export class NavbarComponent implements OnInit {
     { divider: true, icon: 'asterisk' },
     { link: 'class-time-table-config', label: 'Class Time Table Config', icon: 'asterisk' },
     { link: 'class-time-table', label: 'Class Time Table', icon: 'asterisk' },
+    { divider: true, icon: 'asterisk' },
+    { link: 'blog', label: 'Blog', icon: 'asterisk' },
   ];
 
   constructor(

@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
-
-import { IBlog, Blog } from 'app/shared/model/blog.model';
-import { BlogService } from './blog.service';
-import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
+import { Blog, IBlog } from 'app/shared/model/blog.model';
+import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { BlogService } from './blog.service';
 
 @Component({
   selector: 'jhi-blog-update',
@@ -28,6 +27,10 @@ export class BlogUpdateComponent implements OnInit {
     tenantId: [],
     userId: [],
   });
+
+  public editorConfig = {
+    toolbar: [['Source'], ['Styles', 'Format', 'Font', 'FontSize'], ['Bold', 'Italic', 'Underline'], ['Undo', 'Redo'], ['About']],
+  };
 
   constructor(
     protected dataUtils: JhiDataUtils,
