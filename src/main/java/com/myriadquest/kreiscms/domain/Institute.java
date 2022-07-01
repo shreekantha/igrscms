@@ -49,9 +49,9 @@ public class Institute implements Serializable {
     private String logoLink;
 
     
-    @NotNull
+//    @NotNull
     @Lob
-    @Column(name = "logo", nullable = false)
+    @Column(name = "logo")
     private byte[] logo;
 
     @Column(name = "logo_content_type")

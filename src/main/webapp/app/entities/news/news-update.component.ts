@@ -1,14 +1,13 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
-
-import { INews, News } from 'app/shared/model/news.model';
-import { NewsService } from './news.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { INews, News } from 'app/shared/model/news.model';
+import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { NewsService } from './news.service';
 
 @Component({
   selector: 'jhi-news-update',
@@ -21,7 +20,7 @@ export class NewsUpdateComponent implements OnInit {
     id: [],
     title: [null, [Validators.required]],
     description: [],
-    imgUrl: [null, [Validators.required]],
+    imgUrl: [null, []],
     img: [null, []],
     imgContentType: [],
     tenantId: [],
