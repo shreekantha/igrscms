@@ -1,0 +1,25 @@
+{
+  "igrscmsApp": {
+    "sslcResult": {
+      "home": {
+        "title": "Sslc Results",
+        "createLabel": "Create a new Sslc Result",
+        "createOrEditLabel": "Create or edit a Sslc Result",
+        "notFound": "No Sslc Results found"
+      },
+      "created": "A new Sslc Result is created with identifier {{ param }}",
+      "updated": "A Sslc Result is updated with identifier {{ param }}",
+      "deleted": "A Sslc Result is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Sslc Result {{ id }}?"
+      },
+      "detail": {
+        "title": "Sslc Result"
+      },
+      "academicYear": "Academic Year",
+      "qualityResult": "Quality Result",
+      "topResult": "Top Result",
+      "tenantId": "Tenant Id"
+    }
+  }
+}

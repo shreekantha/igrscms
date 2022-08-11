@@ -35,6 +35,8 @@
         "testimonial": "Testimonial",
         "visionAndMission": "Vision And Mission",
         "blog": "Blog",
+        "sslcResult": "Sslc Result",
+        "pucResult": "Puc Result",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

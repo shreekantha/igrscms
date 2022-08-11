@@ -90,6 +90,8 @@ public class CacheConfiguration {
             createCache(cm, com.myriadquest.kreiscms.domain.Testimonial.class.getName());
             createCache(cm, com.myriadquest.kreiscms.domain.VisionAndMission.class.getName());
             createCache(cm, com.myriadquest.kreiscms.domain.Blog.class.getName());
+            createCache(cm, com.myriadquest.kreiscms.domain.SslcResult.class.getName());
+            createCache(cm, com.myriadquest.kreiscms.domain.PucResult.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

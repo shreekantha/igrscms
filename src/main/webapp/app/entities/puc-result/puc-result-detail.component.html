@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="pucResult">
+            <h2><span jhiTranslate="igrscmsApp.pucResult.detail.title">Puc Result</span> {{ pucResult.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="igrscmsApp.pucResult.academicYear">Academic Year</span></dt>
+                <dd>
+                    <span>{{ pucResult.academicYear }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.pucResult.qualityResult">Quality Result</span></dt>
+                <dd>
+                    <span>{{ pucResult.qualityResult }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.pucResult.topResult">Top Result</span></dt>
+                <dd>
+                    <span>{{ pucResult.topResult }}</span>
+                </dd>
+                <dt><span jhiTranslate="igrscmsApp.pucResult.tenantId">Tenant Id</span></dt>
+                <dd>
+                    <span>{{ pucResult.tenantId }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/puc-result', pucResult.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

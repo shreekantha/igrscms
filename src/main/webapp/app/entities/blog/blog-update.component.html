@@ -39,6 +39,7 @@
           <label class="form-control-label" jhiTranslate="igrscmsApp.blog.content" for="field_content">Content</label>
           <!-- <textarea class="form-control" name="content" id="field_content" formControlName="content"></textarea> -->
 
+          <!-- [config]="{ extraPlugins: 'divarea,uploadimage' }" -->
           <ckeditor name="content" id="field_content" formControlName="content"></ckeditor>
 
           <div *ngIf="editForm.get('content')!.invalid && (editForm.get('content')!.dirty || editForm.get('content')!.touched)">

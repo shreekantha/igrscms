@@ -117,6 +117,14 @@ import { RouterModule } from '@angular/router';
         path: 'blog',
         loadChildren: () => import('./blog/blog.module').then(m => m.IgrscmsBlogModule),
       },
+      {
+        path: 'sslc-result',
+        loadChildren: () => import('./sslc-result/sslc-result.module').then(m => m.IgrscmsSslcResultModule),
+      },
+      {
+        path: 'puc-result',
+        loadChildren: () => import('./puc-result/puc-result.module').then(m => m.IgrscmsPucResultModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

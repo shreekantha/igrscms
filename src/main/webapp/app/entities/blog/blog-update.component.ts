@@ -1,3 +1,4 @@
+// declare let CKEDITOR: any;
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -7,10 +8,10 @@ import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { Blog, IBlog } from 'app/shared/model/blog.model';
+// import { CKEditor4 } from 'ckeditor4-angular/ckeditor';
 import { JhiDataUtils, JhiEventManager, JhiEventWithContent, JhiFileLoadError } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { BlogService } from './blog.service';
-
 @Component({
   selector: 'jhi-blog-update',
   templateUrl: './blog-update.component.html',
@@ -48,6 +49,12 @@ export class BlogUpdateComponent implements OnInit {
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
   }
+
+  // public onNamespaceLoaded(event: CKEditor4.EventInfo): void {
+  //   // Add external `placeholder` plugin which will be available for each
+  //   // editor instance on the page.
+  //   CKEDITOR.plugins.addExternal('placeholder', '../../../content/base64image', 'plugin.js');
+  // }
 
   updateForm(blog: IBlog): void {
     this.editForm.patchValue({

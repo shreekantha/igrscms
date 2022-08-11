@@ -1,0 +1,25 @@
+{
+  "igrscmsApp": {
+    "pucResult": {
+      "home": {
+        "title": "Puc Results",
+        "createLabel": "Create a new Puc Result",
+        "createOrEditLabel": "Create or edit a Puc Result",
+        "notFound": "No Puc Results found"
+      },
+      "created": "A new Puc Result is created with identifier {{ param }}",
+      "updated": "A Puc Result is updated with identifier {{ param }}",
+      "deleted": "A Puc Result is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Puc Result {{ id }}?"
+      },
+      "detail": {
+        "title": "Puc Result"
+      },
+      "academicYear": "Academic Year",
+      "qualityResult": "Quality Result",
+      "topResult": "Top Result",
+      "tenantId": "Tenant Id"
+    }
+  }
+}
